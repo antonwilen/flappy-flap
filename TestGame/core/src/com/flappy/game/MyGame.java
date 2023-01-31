@@ -71,8 +71,6 @@ public class MyGame extends ApplicationAdapter {
 		}
 		batch.end();
 
-		Action test = Actions.rotateBy()
-
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			jump = 15;
 		}
