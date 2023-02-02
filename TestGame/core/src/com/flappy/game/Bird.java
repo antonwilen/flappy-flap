@@ -9,12 +9,12 @@ public class Bird {
     private Texture birdImage;
     Rectangle birdObject;
 
-    public Bird(Texture birdImage){
+    public Bird(Texture birdImage, int SCREEN_HEIGHT, int SCREEN_WIDTH){
         // Default test values
 
          birdObject = new Rectangle();
-         birdObject.y = 480 / 2 - 64 / 2;
-         birdObject.x = 800 / 2 - 64 / 2;
+         birdObject.y = SCREEN_HEIGHT / 2 - 64 / 2;
+         birdObject.x = SCREEN_WIDTH / 2 - 64 / 2;
          birdObject.width = 64;
          birdObject.height = 64;
          this.birdImage = birdImage;

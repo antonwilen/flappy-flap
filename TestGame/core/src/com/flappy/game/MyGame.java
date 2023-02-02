@@ -22,19 +22,19 @@ public class MyGame extends ApplicationAdapter {
 	private final int SCREEN_HEIGHT = 480;
 	private final int SCREEN_WIDTH = 800;
 	private Texture dropImage;
-	private Texture bucketImage;
+	private Texture birdImage;
 	private Sound dropSound;
 	private Music rainMusic;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Rectangle bucket;
+	private Bird bird;
 	private Array<Rectangle> raindrops;
 	private Long lastDropTime;
 	
 	@Override
 	public void create () {
 		dropImage = new Texture(Gdx.files.internal("pipe_top.png"));
-		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+		birdImage = new Texture(Gdx.files.internal("penguin.png"));
 
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
@@ -47,11 +47,8 @@ public class MyGame extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 
-		bucket = new Rectangle();
-		bucket.x = 800 / 2 - 64 / 2;
-		bucket.y = 480 / 2 - 64 / 2;
-		bucket.width = 64;
-		bucket.height = 64;
+		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
+
 
 		raindrops = new Array<Rectangle>();
 		spawnRaindrop();
@@ -67,7 +64,7 @@ public class MyGame extends ApplicationAdapter {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(bucketImage, bucket.x, bucket.y);
+		batch.draw(bird.getBirdImage(), bird.getBirdX(), bird.getBirdY());
 		for (Rectangle raindrop: raindrops) {
 			batch.draw(dropImage, raindrop.x, raindrop.y);
 		}
@@ -77,23 +74,23 @@ public class MyGame extends ApplicationAdapter {
 			jump = 15;
 		}
 		if(jump > 0) {
-			bucket.y += 1000 * Gdx.graphics.getDeltaTime();
+			bird.addToBirdY(1000 * Gdx.graphics.getDeltaTime());
 			jump--;
 		}
 
-		if(bucket.y < 0) bucket.y = 0;
-		if(bucket.y > 480 - 64) bucket.y = 480 - 64;
+		if(bird.getBirdY()< 0) bird.setBirdY(0);
+		if(bird.getBirdY() > 480 - 64) bird.setBirdY(480 - 64);
 
 		if(TimeUtils.nanoTime() - lastDropTime > 2050000000) spawnRaindrop();
 
-		bucket.y -= 600 * Gdx.graphics.getDeltaTime();
+		bird.addToBirdY(-600 * Gdx.graphics.getDeltaTime());
 
 		for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext();) {
 			Rectangle raindrop = iter.next();
 			raindrop.x -= 200 * Gdx.graphics.getDeltaTime();
 			if(raindrop.x + 64 < 0) iter.remove();
 
-			if(raindrop.overlaps(bucket)) {
+			if(raindrop.overlaps(bird.getBirdObject())) {
 				dropSound.play();
 				iter.remove();
 			}
@@ -113,7 +110,7 @@ public class MyGame extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		dropImage.dispose();
-		bucketImage.dispose();
+		birdImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
 		batch.dispose();
