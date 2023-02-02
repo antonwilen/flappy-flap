@@ -31,7 +31,7 @@ public class MyGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		dropImage = new Texture(Gdx.files.internal("droplet.png"));
+		dropImage = new Texture(Gdx.files.internal("pipe_top.png"));
 		bucketImage = new Texture(Gdx.files.internal("bucket.png"));
 
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -102,7 +102,7 @@ public class MyGame extends ApplicationAdapter {
 		Rectangle raindrop = new Rectangle();
 		raindrop.y = MathUtils.random(0, 480 - 64);
 		raindrop.x = 800;
-		raindrop.width = 64;
+		raindrop.width = 134;
 		raindrop.height = 64;
 		raindrops.add(raindrop);
 		lastDropTime = TimeUtils.nanoTime();
