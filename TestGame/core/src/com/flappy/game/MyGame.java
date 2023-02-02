@@ -49,7 +49,6 @@ public class MyGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
 
-
 		pipes = new Array<>();
 		spawnPipe();
 	}
