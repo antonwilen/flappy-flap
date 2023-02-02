@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.Iterator;
 
 public class MyGame extends ApplicationAdapter {
+	private final int SCREEN_HEIGHT = 480;
+	private final int SCREEN_WIDTH = 800;
 	private Texture dropImage;
 	private Texture bucketImage;
 	private Sound dropSound;
@@ -100,7 +102,7 @@ public class MyGame extends ApplicationAdapter {
 
 	private void spawnRaindrop() {
 		Rectangle raindrop = new Rectangle();
-		raindrop.y = MathUtils.random(0, 480 - 64);
+		raindrop.y = MathUtils.random(0, SCREEN_HEIGHT - 300);
 		raindrop.x = 800;
 		raindrop.width = 134;
 		raindrop.height = 64;
