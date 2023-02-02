@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -19,7 +18,6 @@ import java.util.Iterator;
 public class MyGame extends ApplicationAdapter {
 	private final int SCREEN_HEIGHT = 480;
 	private final int SCREEN_WIDTH = 800;
-	private Texture dropImage;
 	private Texture pipeTopImage;
 	private Texture pipeBottomImage;
 	private Texture pipeBodyImage;
@@ -30,11 +28,10 @@ public class MyGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Bird bird;
 	private Array<Pipe> pipes;
-	private Long lastDropTime;
+	private Long lastPipeImage;
 
 	@Override
 	public void create () {
-		dropImage = new Texture(Gdx.files.internal("pipe_top.png"));
 		birdImage = new Texture(Gdx.files.internal("penguin.png"));
 		pipeTopImage = new Texture(Gdx.files.internal("pipe_top.png"));
 		pipeBottomImage = new Texture(Gdx.files.internal("pipe_bottom.png"));
@@ -53,8 +50,8 @@ public class MyGame extends ApplicationAdapter {
 		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
-		pipes = new Array<Pipe>();
-		spawnRaindrop();
+		pipes = new Array<>();
+		spawnPipe();
 	}
 
 	int jump = 0;
@@ -84,7 +81,7 @@ public class MyGame extends ApplicationAdapter {
 		if(bird.getBirdY()< 0) bird.setBirdY(0);
 		if(bird.getBirdY() > 480 - 64) bird.setBirdY(480 - 64);
 
-		if(TimeUtils.nanoTime() - lastDropTime > 2050000000) spawnRaindrop();
+		if(TimeUtils.nanoTime() - lastPipeImage > 2050000000) spawnPipe();
 
 		bird.addToBirdY(-600 * Gdx.graphics.getDeltaTime());
 
@@ -95,12 +92,13 @@ public class MyGame extends ApplicationAdapter {
 
 			if(pipe.pipe.overlaps(bird.getBirdObject())) {
 				dropSound.play();
-				iter.remove();
+				bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
+				//iter.remove();
 			}
 		}
 	}
 
-	private void spawnRaindrop() {
+	private void spawnPipe() {
 		Pipe pipeTop = new Pipe(pipeTopImage);
 		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - 64);
 		pipeTop.pipe.x = SCREEN_WIDTH;
@@ -129,12 +127,14 @@ public class MyGame extends ApplicationAdapter {
 		pipes.add(pipeBottom);
 		pipes.add(pipeTopFill);
 		pipes.add(pipeBottomFill);
-		lastDropTime = TimeUtils.nanoTime();
+		lastPipeImage = TimeUtils.nanoTime();
 	}
 
 	@Override
 	public void dispose () {
-		dropImage.dispose();
+		pipeTopImage.dispose();
+		pipeBottomImage.dispose();
+		pipeBodyImage.dispose();
 		birdImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
