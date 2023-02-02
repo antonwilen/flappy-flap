@@ -101,12 +101,34 @@ public class MyGame extends ApplicationAdapter {
 	}
 
 	private void spawnRaindrop() {
-		Rectangle raindrop = new Rectangle();
-		raindrop.y = MathUtils.random(0, SCREEN_HEIGHT - 300);
-		raindrop.x = 800;
-		raindrop.width = 134;
-		raindrop.height = 64;
-		raindrops.add(raindrop);
+		Rectangle pipeTop = new Rectangle();
+		pipeTop.y = MathUtils.random(200, SCREEN_HEIGHT - 64);
+		pipeTop.x = SCREEN_WIDTH;
+		pipeTop.width = 134;
+		pipeTop.height = 64;
+
+		Rectangle pipeTopFill = new Rectangle();
+		pipeTopFill.y = pipeTop.y + 64;
+		pipeTopFill.x = SCREEN_WIDTH;
+		pipeTopFill.width = 100;
+		pipeTopFill.height = 200;
+
+		Rectangle pipeBottom = new Rectangle();
+		pipeBottom.y = pipeTop.y - 200;
+		pipeBottom.x = SCREEN_WIDTH;
+		pipeBottom.width = 134;
+		pipeBottom.height = 64;
+
+		Rectangle pipeBottomFill = new Rectangle();
+		pipeBottomFill.y = pipeBottom.y - 64;
+		pipeBottomFill.x = SCREEN_WIDTH;
+		pipeBottomFill.width = 134;
+		pipeBottomFill.height = 64;
+
+		raindrops.add(pipeTop);
+		raindrops.add(pipeBottom);
+		raindrops.add(pipeTopFill);
+		raindrops.add(pipeBottomFill);
 		lastDropTime = TimeUtils.nanoTime();
 	}
 	
