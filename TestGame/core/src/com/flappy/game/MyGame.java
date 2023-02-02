@@ -50,6 +50,7 @@ public class MyGame extends ApplicationAdapter {
 		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 		pipes = new Array<>();
+
 		spawnPipe();
 	}
 
@@ -73,7 +74,7 @@ public class MyGame extends ApplicationAdapter {
 			jump = 15;
 		}
 		if(jump > 0) {
-			bird.addToBirdY(1000 * Gdx.graphics.getDeltaTime());
+			bird.addToBirdY(450 * Gdx.graphics.getDeltaTime());
 			jump--;
 		}
 
@@ -82,44 +83,46 @@ public class MyGame extends ApplicationAdapter {
 
 		if(TimeUtils.nanoTime() - lastPipeImage > 2050000000) spawnPipe();
 
-		bird.addToBirdY(-600 * Gdx.graphics.getDeltaTime());
+		bird.addToBirdY(-250 * Gdx.graphics.getDeltaTime());
 
 		for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext();) {
 			Pipe pipe = iter.next();
 			pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
-			if(pipe.pipe.x + 64 < 0) iter.remove();
+			if(pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
 
 			if(pipe.pipe.overlaps(bird.getBirdObject())) {
 				dropSound.play();
-				bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
+				//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
 				//iter.remove();
 			}
 		}
 	}
 
 	private void spawnPipe() {
+		int PIPE_SPACE = 250;
+
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - 64);
+		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - pipeTopImage.getHeight());
 		pipeTop.pipe.x = SCREEN_WIDTH;
-		pipeTop.pipe.width = 134;
-		pipeTop.pipe.height = 64;
+		pipeTop.pipe.width = pipeTopImage.getWidth();
+		pipeTop.pipe.height = pipeTopImage.getHeight();
 
 		Pipe pipeTopFill = new Pipe(pipeBodyImage);
-		pipeTopFill.pipe.y = pipeTop.pipe.y + 64;
+		pipeTopFill.pipe.y = pipeTop.pipe.y + pipeTopImage.getHeight();
 		pipeTopFill.pipe.x = SCREEN_WIDTH;
-		pipeTopFill.pipe.width = 134;
+		pipeTopFill.pipe.width = pipeBodyImage.getWidth();
 		pipeTopFill.pipe.height = SCREEN_HEIGHT - (pipeTopFill.pipe.y - SCREEN_HEIGHT);
 
 		Pipe pipeBottom = new Pipe(pipeBottomImage);
-		pipeBottom.pipe.y = pipeTop.pipe.y - 200;
+		pipeBottom.pipe.y = pipeTop.pipe.y - PIPE_SPACE;
 		pipeBottom.pipe.x = SCREEN_WIDTH;
-		pipeBottom.pipe.width = 134;
-		pipeBottom.pipe.height = 64;
+		pipeBottom.pipe.width = pipeBottomImage.getWidth();
+		pipeBottom.pipe.height = pipeBottomImage.getHeight();
 
 		Pipe pipeBottomFill = new Pipe(pipeBodyImage);
 		pipeBottomFill.pipe.y = 0;
 		pipeBottomFill.pipe.x = SCREEN_WIDTH;
-		pipeBottomFill.pipe.width = 134;
+		pipeBottomFill.pipe.width = pipeBodyImage.getWidth();
 		pipeBottomFill.pipe.height = pipeBottom.pipe.y;
 
 		pipes.add(pipeTop);
