@@ -69,7 +69,7 @@ public class MyGame extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(bird.getBirdImage(), bird.getBirdX(), bird.getBirdY());
 		for (Pipe pipe: pipes) {
-			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y);
+			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 		}
 		batch.end();
 
@@ -110,8 +110,8 @@ public class MyGame extends ApplicationAdapter {
 		Pipe pipeTopFill = new Pipe(pipeBodyImage);
 		pipeTopFill.pipe.y = pipeTop.pipe.y + 64;
 		pipeTopFill.pipe.x = SCREEN_WIDTH;
-		pipeTopFill.pipe.width = 100;
-		pipeTopFill.pipe.height = 200;
+		pipeTopFill.pipe.width = 134;
+		pipeTopFill.pipe.height = SCREEN_HEIGHT - (pipeTopFill.pipe.y - SCREEN_HEIGHT);
 
 		Pipe pipeBottom = new Pipe(pipeBottomImage);
 		pipeBottom.pipe.y = pipeTop.pipe.y - 200;
@@ -120,10 +120,10 @@ public class MyGame extends ApplicationAdapter {
 		pipeBottom.pipe.height = 64;
 
 		Pipe pipeBottomFill = new Pipe(pipeBodyImage);
-		pipeBottomFill.pipe.y = pipeBottom.pipe.y - 64;
+		pipeBottomFill.pipe.y = 0;
 		pipeBottomFill.pipe.x = SCREEN_WIDTH;
 		pipeBottomFill.pipe.width = 134;
-		pipeBottomFill.pipe.height = 64;
+		pipeBottomFill.pipe.height = pipeBottom.pipe.y;
 
 		pipes.add(pipeTop);
 		pipes.add(pipeBottom);
