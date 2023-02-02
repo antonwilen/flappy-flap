@@ -9,11 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
@@ -22,19 +20,25 @@ public class MyGame extends ApplicationAdapter {
 	private final int SCREEN_HEIGHT = 480;
 	private final int SCREEN_WIDTH = 800;
 	private Texture dropImage;
+	private Texture pipeTopImage;
+	private Texture pipeBottomImage;
+	private Texture pipeBodyImage;
 	private Texture birdImage;
 	private Sound dropSound;
 	private Music rainMusic;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Bird bird;
-	private Array<Rectangle> raindrops;
+	private Array<Pipe> pipes;
 	private Long lastDropTime;
-	
+
 	@Override
 	public void create () {
 		dropImage = new Texture(Gdx.files.internal("pipe_top.png"));
 		birdImage = new Texture(Gdx.files.internal("penguin.png"));
+		pipeTopImage = new Texture(Gdx.files.internal("pipe_top.png"));
+		pipeBottomImage = new Texture(Gdx.files.internal("pipe_bottom.png"));
+		pipeBodyImage = new Texture(Gdx.files.internal("pipe_body.png"));
 
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
 		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
@@ -46,11 +50,10 @@ public class MyGame extends ApplicationAdapter {
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-
 		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
 
 
-		raindrops = new Array<Rectangle>();
+		pipes = new Array<Pipe>();
 		spawnRaindrop();
 	}
 
@@ -65,8 +68,8 @@ public class MyGame extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(bird.getBirdImage(), bird.getBirdX(), bird.getBirdY());
-		for (Rectangle raindrop: raindrops) {
-			batch.draw(dropImage, raindrop.x, raindrop.y);
+		for (Pipe pipe: pipes) {
+			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y);
 		}
 		batch.end();
 
@@ -85,12 +88,12 @@ public class MyGame extends ApplicationAdapter {
 
 		bird.addToBirdY(-600 * Gdx.graphics.getDeltaTime());
 
-		for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext();) {
-			Rectangle raindrop = iter.next();
-			raindrop.x -= 200 * Gdx.graphics.getDeltaTime();
-			if(raindrop.x + 64 < 0) iter.remove();
+		for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext();) {
+			Pipe pipe = iter.next();
+			pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
+			if(pipe.pipe.x + 64 < 0) iter.remove();
 
-			if(raindrop.overlaps(bird.getBirdObject())) {
+			if(pipe.pipe.overlaps(bird.getBirdObject())) {
 				dropSound.play();
 				iter.remove();
 			}
@@ -98,37 +101,37 @@ public class MyGame extends ApplicationAdapter {
 	}
 
 	private void spawnRaindrop() {
-		Rectangle pipeTop = new Rectangle();
-		pipeTop.y = MathUtils.random(200, SCREEN_HEIGHT - 64);
-		pipeTop.x = SCREEN_WIDTH;
-		pipeTop.width = 134;
-		pipeTop.height = 64;
+		Pipe pipeTop = new Pipe(pipeTopImage);
+		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - 64);
+		pipeTop.pipe.x = SCREEN_WIDTH;
+		pipeTop.pipe.width = 134;
+		pipeTop.pipe.height = 64;
 
-		Rectangle pipeTopFill = new Rectangle();
-		pipeTopFill.y = pipeTop.y + 64;
-		pipeTopFill.x = SCREEN_WIDTH;
-		pipeTopFill.width = 100;
-		pipeTopFill.height = 200;
+		Pipe pipeTopFill = new Pipe(pipeBodyImage);
+		pipeTopFill.pipe.y = pipeTop.pipe.y + 64;
+		pipeTopFill.pipe.x = SCREEN_WIDTH;
+		pipeTopFill.pipe.width = 100;
+		pipeTopFill.pipe.height = 200;
 
-		Rectangle pipeBottom = new Rectangle();
-		pipeBottom.y = pipeTop.y - 200;
-		pipeBottom.x = SCREEN_WIDTH;
-		pipeBottom.width = 134;
-		pipeBottom.height = 64;
+		Pipe pipeBottom = new Pipe(pipeBottomImage);
+		pipeBottom.pipe.y = pipeTop.pipe.y - 200;
+		pipeBottom.pipe.x = SCREEN_WIDTH;
+		pipeBottom.pipe.width = 134;
+		pipeBottom.pipe.height = 64;
 
-		Rectangle pipeBottomFill = new Rectangle();
-		pipeBottomFill.y = pipeBottom.y - 64;
-		pipeBottomFill.x = SCREEN_WIDTH;
-		pipeBottomFill.width = 134;
-		pipeBottomFill.height = 64;
+		Pipe pipeBottomFill = new Pipe(pipeBodyImage);
+		pipeBottomFill.pipe.y = pipeBottom.pipe.y - 64;
+		pipeBottomFill.pipe.x = SCREEN_WIDTH;
+		pipeBottomFill.pipe.width = 134;
+		pipeBottomFill.pipe.height = 64;
 
-		raindrops.add(pipeTop);
-		raindrops.add(pipeBottom);
-		raindrops.add(pipeTopFill);
-		raindrops.add(pipeBottomFill);
+		pipes.add(pipeTop);
+		pipes.add(pipeBottom);
+		pipes.add(pipeTopFill);
+		pipes.add(pipeBottomFill);
 		lastDropTime = TimeUtils.nanoTime();
 	}
-	
+
 	@Override
 	public void dispose () {
 		dropImage.dispose();
