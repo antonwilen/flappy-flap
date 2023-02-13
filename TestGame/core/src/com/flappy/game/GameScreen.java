@@ -101,7 +101,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0.3f, 0.2f, 1.2f, 1);
+		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
 
 		camera.update();
 
