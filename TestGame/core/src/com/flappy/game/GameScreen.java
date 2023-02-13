@@ -19,16 +19,16 @@ public class GameScreen implements Screen {
 	final Flap game;
 	private final int SCREEN_HEIGHT = 480;
 	private final int SCREEN_WIDTH = 800;
-	private Texture pipeTopImage;
-	private Texture pipeBottomImage;
-	private Texture pipeBodyImage;
-	private Texture birdImage;
-	private Sound dropSound;
-	private Music rainMusic;
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	private Bird bird;
-	private Array<Pipe> pipes;
+	private final Texture pipeTopImage;
+	private final Texture pipeBottomImage;
+	private final Texture pipeBodyImage;
+	private final Texture birdImage;
+	private final Sound thumpSound;
+	private final Music backgroundMusic;
+	private final OrthographicCamera camera;
+	private final SpriteBatch batch;
+	private final Bird bird;
+	private final Array<Pipe> pipes;
 	private Long lastPipeImage;
 
 
@@ -41,11 +41,11 @@ public class GameScreen implements Screen {
 		pipeBottomImage = new Texture(Gdx.files.internal("pipe_bottom.png"));
 		pipeBodyImage = new Texture(Gdx.files.internal("pipe_body.png"));
 
-		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
+		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
 
-		rainMusic.setLooping(true);
-		rainMusic.play();
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
 			if(pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
 
 			if(pipe.pipe.overlaps(bird.getBirdObject())) {
-				dropSound.play();
+				thumpSound.play();
 				game.setScreen(new MainMenuScreen(game));
 				//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
 				//iter.remove();
@@ -170,8 +170,8 @@ public class GameScreen implements Screen {
 		pipeBottomImage.dispose();
 		pipeBodyImage.dispose();
 		birdImage.dispose();
-		dropSound.dispose();
-		rainMusic.dispose();
+		thumpSound.dispose();
+		backgroundMusic.dispose();
 		batch.dispose();
 	}
 }
