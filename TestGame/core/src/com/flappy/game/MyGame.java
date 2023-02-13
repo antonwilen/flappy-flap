@@ -47,7 +47,7 @@ public class MyGame extends ApplicationAdapter {
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-		bird = new Bird(birdImage, SCREEN_HEIGHT, SCREEN_WIDTH);
+		bird = new Bird(SCREEN_HEIGHT, SCREEN_WIDTH);
 
 		pipes = new Array<>();
 
