@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.flappy.game.bird.Bird;
 
 import java.util.Iterator;
 
@@ -35,9 +36,9 @@ public class GameScreen implements Screen {
 	public GameScreen (final Flap game) {
 		this.game = game;
 
-		pipeTopImage = new Texture(Gdx.files.internal("pipe_top.png"));
-		pipeBottomImage = new Texture(Gdx.files.internal("pipe_bottom.png"));
-		pipeBodyImage = new Texture(Gdx.files.internal("pipe_body.png"));
+		pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
+		pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
+		pipeBodyImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_body.png"));
 
 		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
