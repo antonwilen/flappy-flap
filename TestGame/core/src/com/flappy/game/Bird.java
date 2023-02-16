@@ -18,20 +18,23 @@ public class Bird {
     public Bird(int SCREEN_HEIGHT, int SCREEN_WIDTH){
 
         texture = new Texture("penguins.png");
-        birdAnimation = new Animation(new TextureRegion(texture), 2, 0.5f);
+        birdAnimation = new Animation(new TextureRegion(texture), 4, 0.5f);
 
          birdObject = new Rectangle();
-         birdObject.y = SCREEN_HEIGHT / 2 - 57 / 2;
-         birdObject.x = SCREEN_WIDTH / 2 - 57 / 2;
-         birdObject.width = texture.getWidth();
-         birdObject.height = texture.getHeight() / 2;
+         birdObject.width = texture.getWidth() / 4;
+         birdObject.height = texture.getHeight();
 
-         position = new Vector2(birdObject.x, birdObject.y);
+         position = new Vector2(SCREEN_WIDTH / 2 - texture.getHeight() / 2, SCREEN_HEIGHT - texture.getWidth() / 4);
          velocity = new Vector2(0,0);
+
+
 
     }
 
     public void update(float dt) {
+        birdObject.y = position.y;
+        birdObject.x = position.x;
+
         birdAnimation.update(dt);
         if(position.y > 0) {
             velocity.add(0, GRAVITY);
@@ -52,10 +55,10 @@ public class Bird {
 
 
     public void setBirdY(int y){
-        birdObject.y = y;
+        position.y = y;
     }
     public void addToBirdY(float y){
-        birdObject.y += y;
+        position.y += y;
     }
 
     public Rectangle getBirdObject(){
@@ -66,10 +69,10 @@ public class Bird {
         return position;
     }
     public float getBirdY(){
-        return birdObject.y;
+        return position.y;
     }
     public float getBirdX(){
-        return birdObject.x;
+        return position.x;
     }
 
     public TextureRegion getBirdImage(){
