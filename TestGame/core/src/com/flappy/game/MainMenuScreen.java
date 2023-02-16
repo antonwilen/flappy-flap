@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MainMenuScreen implements Screen {
+    // TODO make a timer class
     private final int SCREEN_HEIGHT = 480;
     private final int SCREEN_WIDTH = 800;
     final Flap game;
