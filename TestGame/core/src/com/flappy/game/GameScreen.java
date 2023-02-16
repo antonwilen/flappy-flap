@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
-					game.setScreen(new MainMenuScreen(game));
+					game.setScreen(new GameOverScreen(game));
 					//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
 					//iter.remove();
 					backgroundMusic.stop();
