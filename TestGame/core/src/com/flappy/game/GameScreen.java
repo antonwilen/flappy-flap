@@ -57,7 +57,7 @@ public class GameScreen implements Screen {
 	}
 
 	private void spawnPipe() {
-		int PIPE_SPACE = 250;
+		int PIPE_SPACE = 200;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
 		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - pipeTopImage.getHeight());
@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
 			bird.jump();
 		}
 
-		bird.update(Gdx.graphics.getDeltaTime());
+		bird.update(Gdx.graphics.getDeltaTime(), SCREEN_HEIGHT);
 			//}
 			//if(jump > 0) {
 			//	bird.addToBirdY(450 * Gdx.graphics.getDeltaTime());
