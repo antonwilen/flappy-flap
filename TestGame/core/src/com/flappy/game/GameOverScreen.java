@@ -64,14 +64,12 @@ public class GameOverScreen implements Screen {
 
         // Checks if the user has clicked somewhere on the screen
         if(Gdx.input.justTouched()){
-            System.out.println("hello");
             Vector3 touch = camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
             Vector2 touch2 = new Vector2(touch.x,touch.y);
 
             // Checks if the user has clicked the play button
             if(playButton.getBoundingRectangle().contains(touch2)){
                 game.setScreen(new GameScreen(game));
-                System.out.println("hey");
             }
         }
 
