@@ -137,6 +137,7 @@ public class GameScreen implements Screen {
 					game.setScreen(new MainMenuScreen(game));
 					//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
 					//iter.remove();
+					backgroundMusic.stop();
 				}
 			}
 
