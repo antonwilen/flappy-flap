@@ -21,6 +21,8 @@ public class MainMenuScreen implements Screen {
     Sprite quitButton;
     Texture background;
     OrthographicCamera camera;
+    float pauseTime;
+    boolean startGame;
     public MainMenuScreen(final Flap game){
         this.game = game;
 
@@ -36,6 +38,10 @@ public class MainMenuScreen implements Screen {
 
         highscore = new Texture(Gdx.files.internal("highscore.png"));
         background = new Texture(Gdx.files.internal("wallpaper.jpg"));
+
+        pauseTime = 0.0f;
+
+        startGame = false;
     }
 
     @Override
@@ -65,6 +71,12 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
+
+
+        float endPauseTime =0.85f;
+        pauseTime += delta;
+
+
         // Checks if the user has clicked somewhere on the screen
         if(Gdx.input.justTouched()){
             System.out.println("hello");
@@ -72,11 +84,19 @@ public class MainMenuScreen implements Screen {
             Vector2 touch2 = new Vector2(touch.x,touch.y);
 
             // Checks if the user has clicked the play button
+
             if(playButton.getBoundingRectangle().contains(touch2)){
-                game.setScreen(new GameScreen(game));
-                System.out.println("hey");
+                playButton.setScale(1.2f);
+                startGame = true;
             }
         }
+            if(pauseTime>endPauseTime && startGame){
+                game.setScreen(new GameScreen(game));
+            }
+
+
+
+
 
     }
 
