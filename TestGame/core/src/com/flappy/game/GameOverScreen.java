@@ -9,33 +9,31 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class MainMenuScreen implements Screen {
+public class GameOverScreen implements Screen {
     private final int SCREEN_HEIGHT = 480;
     private final int SCREEN_WIDTH = 800;
     final Flap game;
     Texture play;
     Texture quit;
     Texture highscore;
-    Sprite playButton;
-    Sprite quitButton;
     Texture background;
+    Sprite playButton;
     OrthographicCamera camera;
-    public MainMenuScreen(final Flap game){
+    public GameOverScreen(final Flap game){
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,800,480);
 
-        play = new Texture(Gdx.files.internal("play.png"));
-        quit = new Texture(Gdx.files.internal("quit.png"));
-        playButton = new Sprite(play);
-        quitButton = new Sprite(quit);
-        playButton.setPosition(SCREEN_WIDTH/2-play.getWidth()/2,SCREEN_HEIGHT/2+50);
-        quitButton.setPosition(SCREEN_WIDTH/2-quit.getWidth()/2,SCREEN_HEIGHT/2-50);
 
-        highscore = new Texture(Gdx.files.internal("highscore.png"));
-        background = new Texture(Gdx.files.internal("wallpaper.jpg"));
+
+        play = new Texture(Gdx.files.internal("gameover/play.png"));
+        playButton = new Sprite(play);
+        playButton.setPosition(SCREEN_WIDTH/2-playButton.getWidth()/2,SCREEN_HEIGHT/2+50);
+
+        background = new Texture(Gdx.files.internal("gameover/wallpaper.png"));
     }
 
     @Override
@@ -49,12 +47,10 @@ public class MainMenuScreen implements Screen {
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
-
         game.batch.begin();
         game.batch.draw(background,0,0);
+
         playButton.draw(game.batch);
-        quitButton.draw(game.batch);
-        game.batch.draw(highscore,SCREEN_WIDTH/2-(highscore.getWidth()/2),420);
         game.batch.end();
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
@@ -65,6 +61,7 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
             Gdx.app.exit();
         }
+
         // Checks if the user has clicked somewhere on the screen
         if(Gdx.input.justTouched()){
             System.out.println("hello");

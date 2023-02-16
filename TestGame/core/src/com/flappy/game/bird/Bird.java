@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.bird;
 
 import com.badlogic.gdx.graphics.Texture;
 
@@ -17,14 +17,14 @@ public class Bird {
 
     public Bird(int SCREEN_HEIGHT, int SCREEN_WIDTH){
 
-        texture = new Texture("penguins.png");
+        texture = new Texture("gfx/bird/penguins.png");
         birdAnimation = new Animation(new TextureRegion(texture), 4, 0.5f);
 
          birdObject = new Rectangle();
          birdObject.width = texture.getWidth() / 4;
          birdObject.height = texture.getHeight();
 
-         position = new Vector2(SCREEN_WIDTH / 2 - texture.getHeight() / 2, SCREEN_HEIGHT / 2 - texture.getWidth() / 4);
+         position = new Vector2(SCREEN_WIDTH / 2 - texture.getHeight() / 2, SCREEN_HEIGHT /2 - texture.getWidth() / 4);
          velocity = new Vector2(0,0);
 
 
@@ -48,8 +48,8 @@ public class Bird {
             position.y = 0;
         }
 
-        if(position.y > (screenHeight - texture.getHeight()) + 30) {
-            position.y = screenHeight - texture.getHeight() + 30;
+        if(position.y > screenHeight) {
+            position.y = screenHeight;
         }
     }
 
