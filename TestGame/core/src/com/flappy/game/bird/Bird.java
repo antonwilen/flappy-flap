@@ -24,11 +24,8 @@ public class Bird {
          birdObject.width = texture.getWidth() / 4;
          birdObject.height = texture.getHeight();
 
-         position = new Vector2(SCREEN_WIDTH / 2 - texture.getHeight() / 2, SCREEN_HEIGHT /2 - texture.getWidth() / 4);
+         position = new Vector2(SCREEN_WIDTH / 2 - ((texture.getWidth() / 4) * 3), SCREEN_HEIGHT / 2 - texture.getHeight() / 2);
          velocity = new Vector2(0,0);
-
-
-
     }
 
     public void update(float dt, int screenHeight) {
@@ -48,15 +45,14 @@ public class Bird {
             position.y = 0;
         }
 
-        if(position.y > screenHeight) {
-            position.y = screenHeight;
+        if(position.y > screenHeight - texture.getHeight() + 30) {
+            position.y = screenHeight - texture.getHeight() + 30;
         }
     }
 
     public void jump() {
         velocity.y = 300;
     }
-
 
     public void setBirdY(int y){
         position.y = y;
