@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.flappy.game.util.Settings;
+
 
 public class Bird {
     private static final int GRAVITY = -15;
@@ -24,7 +26,8 @@ public class Bird {
          birdObject.width = texture.getWidth() / 4;
          birdObject.height = texture.getHeight();
 
-         position = new Vector2(SCREEN_WIDTH / 2 - ((texture.getWidth() / 4) * 3), SCREEN_HEIGHT / 2 - texture.getHeight() / 2);
+         //position = new Vector2(SCREEN_WIDTH / 2 - ((texture.getWidth() / 4) * 3), SCREEN_HEIGHT / 2 - texture.getHeight() / 2);
+         position = new Vector2(Settings.BIRD_STARTING_POSITION_X, Settings.BIRD_STARTING_POSITION_Y);
          velocity = new Vector2(0,0);
     }
 
