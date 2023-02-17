@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
 		scoreCount = new Rectangle();
 		scoreImage = new Texture("gfx/bird/penguins.png");
 
-		scoreCount.y = 0;
+		scoreCount.y = SCREEN_HEIGHT - 100;
 		scoreCount.x = SCREEN_WIDTH / 2 - 150;
 		scoreCount.height = SCREEN_HEIGHT;
 		scoreCount.width = 10;
