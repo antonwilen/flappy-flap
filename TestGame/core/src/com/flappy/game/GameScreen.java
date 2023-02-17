@@ -7,8 +7,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -30,8 +32,13 @@ public class GameScreen implements Screen {
 	private final Bird bird;
 	private final Array<Pipe> pipes;
 	private Long lastPipeImage;
+	// -- testing score count
+	public Rectangle scoreCount;
+	private Texture scoreImage;
+	private final Sound plingSound;
+	private int currentScore;
 
-
+	// -- testing score count
 
 	public GameScreen (final Flap game) {
 		this.game = game;
@@ -42,6 +49,7 @@ public class GameScreen implements Screen {
 
 		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		plingSound = Gdx.audio.newSound(Gdx.files.internal("sfx/pling.wav"));
 
 		backgroundMusic.setLooping(true);
 		backgroundMusic.play();
@@ -55,6 +63,19 @@ public class GameScreen implements Screen {
 		pipes = new Array<>();
 
 		spawnPipe();
+		scoreCount();
+	}
+
+	private void scoreCount() {
+		scoreCount = new Rectangle();
+		scoreImage = new Texture("gfx/bird/penguins.png");
+
+		scoreCount.y = SCREEN_HEIGHT - 100;
+		scoreCount.x = SCREEN_WIDTH / 2 - 150;
+		scoreCount.height = SCREEN_HEIGHT;
+		scoreCount.width = 10;
+
+		lastPipeImage = TimeUtils.nanoTime();
 	}
 
 	private void spawnPipe() {
@@ -101,10 +122,16 @@ public class GameScreen implements Screen {
 		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
 
 		camera.update();
+		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
+		batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
+
+		font.draw(batch, Integer.toString(currentScore), 40, 40);
+
 		for (Pipe pipe: pipes) {
 			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 		}
@@ -124,7 +151,10 @@ public class GameScreen implements Screen {
 			//if(bird.getBirdY()< 0) bird.setBirdY(0);
 			//if(bird.getBirdY() > 480 - 64) bird.setBirdY(480 - 64);
 
-			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) spawnPipe();
+			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) {
+				spawnPipe();
+				//scoreCount();
+			}
 
 			//bird.addToBirdY(-250 * Gdx.graphics.getDeltaTime());
 
@@ -132,6 +162,12 @@ public class GameScreen implements Screen {
 				Pipe pipe = iter.next();
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
 				if (pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
+
+				if (pipe.pipe.overlaps(scoreCount)) {
+					plingSound.play();
+					currentScore++;
+					iter.remove();
+				}
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
