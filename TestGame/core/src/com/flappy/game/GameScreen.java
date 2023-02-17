@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.flappy.game.bird.Bird;
+import com.flappy.game.util.Settings;
 
 import java.util.Iterator;
 
@@ -71,7 +72,7 @@ public class GameScreen implements Screen {
 		scoreImage = new Texture("gfx/bird/penguins.png");
 
 		scoreCount.y = SCREEN_HEIGHT - 100;
-		scoreCount.x = SCREEN_WIDTH / 2 - 150;
+		scoreCount.x = Settings.SCORE_COUNT_X;
 		scoreCount.height = SCREEN_HEIGHT;
 		scoreCount.width = 10;
 
@@ -124,17 +125,16 @@ public class GameScreen implements Screen {
 		camera.update();
 		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
 
-
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
 		batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
 
-		font.draw(batch, Integer.toString(currentScore), 40, 40);
-
 		for (Pipe pipe: pipes) {
 			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 		}
+
+		font.draw(batch, Integer.toString(currentScore), 40, 40);
 		batch.end();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -142,21 +142,10 @@ public class GameScreen implements Screen {
 		}
 
 		bird.update(Gdx.graphics.getDeltaTime(), SCREEN_HEIGHT);
-			//}
-			//if(jump > 0) {
-			//	bird.addToBirdY(450 * Gdx.graphics.getDeltaTime());
-			//	jump--;
-			//}
-
-			//if(bird.getBirdY()< 0) bird.setBirdY(0);
-			//if(bird.getBirdY() > 480 - 64) bird.setBirdY(480 - 64);
 
 			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) {
 				spawnPipe();
-				//scoreCount();
 			}
-
-			//bird.addToBirdY(-250 * Gdx.graphics.getDeltaTime());
 
 			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
 				Pipe pipe = iter.next();
@@ -172,37 +161,27 @@ public class GameScreen implements Screen {
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
 					game.setScreen(new GameOverScreen(game));
-					//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
-					//iter.remove();
+
 					backgroundMusic.stop();
 				}
 			}
-
-
 	}
-
-
 
 	@Override
 	public void resize(int width, int height) {
-
 	}
 
 	@Override
 	public void pause() {
-
 	}
 
 	@Override
 	public void resume() {
-
 	}
 
 	@Override
 	public void hide() {
-
 	}
-
 	@Override
 	public void dispose () {
 		pipeTopImage.dispose();
