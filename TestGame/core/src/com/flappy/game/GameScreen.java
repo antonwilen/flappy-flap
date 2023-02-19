@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
 		int PIPE_SPACE = 200;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - pipeTopImage.getHeight());
+		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, SCREEN_HEIGHT - pipeTopImage.getHeight());
 		pipeTop.pipe.x = SCREEN_WIDTH;
 		pipeTop.pipe.width = pipeTopImage.getWidth();
 		pipeTop.pipe.height = pipeTopImage.getHeight();
