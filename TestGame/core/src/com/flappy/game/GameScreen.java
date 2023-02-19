@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
 			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 		}
 
-		font.draw(batch, Integer.toString(currentScore), 40, 40);
+		font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
 		batch.end();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -160,7 +160,7 @@ public class GameScreen implements Screen {
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
-					game.setScreen(new GameOverScreen(game));
+					game.setScreen(new GameOverScreen(game, currentScore));
 
 					backgroundMusic.stop();
 				}
