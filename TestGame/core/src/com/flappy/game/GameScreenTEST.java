@@ -65,14 +65,12 @@ public class GameScreenTEST implements Screen {
 		mainTable.setFillParent(true);
 		mainTable.center();
 
-
 		pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
 		pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
 		pipeBodyImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_body.png"));
 		pipeTop = new Sprite(pipeTopImage);
 		pipeBody = new Sprite(pipeBodyImage);
 		pipeBottom = new Sprite(pipeBottomImage);
-
 
 		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
@@ -102,17 +100,16 @@ public class GameScreenTEST implements Screen {
 		label.setPosition(200,200);
 		stage.addActor(label);
 
-
 	}
 
 	private void scoreCount() {
 		scoreCount = new Rectangle();
 		scoreImage = new Texture("gfx/bird/penguins.png");
 
-		scoreCount.y = SCREEN_HEIGHT - 100;
+		scoreCount.y = SCREEN_HEIGHT;
 		scoreCount.x = Settings.SCORE_COUNT_X;
 		scoreCount.height = SCREEN_HEIGHT;
-		scoreCount.width = 10;
+		scoreCount.width = 4;
 
 		lastPipeImage = TimeUtils.nanoTime();
 	}
@@ -215,6 +212,8 @@ public class GameScreenTEST implements Screen {
 			}
 
 			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
+
+
 				Pipe pipe = iter.next();
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
 				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0 && pipe.pipe.x - pipeTopImage.getWidth() > -2){
@@ -222,18 +221,20 @@ public class GameScreenTEST implements Screen {
 					iter.next();
 				}*/
 
-				if (pipe.pipe.overlaps(scoreCount)) {
-					plingSound.play();
-					currentScore++;
-				}
-
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
 					game.setScreen(new GameOverScreen(game, currentScore));
 
 					backgroundMusic.stop();
 				}
+
+				if (pipe.pipe.overlaps(scoreCount) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
+						plingSound.play();
+						currentScore++;
+				}
 			}
+
+
 		stage.act(delta);
 		stage.draw();
 	}
