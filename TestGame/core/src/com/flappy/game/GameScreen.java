@@ -152,11 +152,15 @@ public class GameScreen implements Screen {
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
 				if (pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
 
-				if (pipe.pipe.overlaps(scoreCount)) {
-					plingSound.play();
+				if(pipe.pipe.x < Settings.SCORE_COUNT_X) {
 					currentScore++;
-					iter.remove();
 				}
+
+				//if (pipe.pipe.overlaps(scoreCount)) {
+				//	plingSound.play();
+				//	currentScore++;
+				//	iter.remove();
+				//}
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
