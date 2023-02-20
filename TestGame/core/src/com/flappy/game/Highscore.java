@@ -3,44 +3,49 @@ package com.flappy.game;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Highscore {
-    private static Map<Integer, String> highscore = new HashMap<>();
-    public static String getHighscore() {
-        StringBuilder sb = new StringBuilder();
+    public static String getHighscore(int currentScore) {
+        StringBuilder sbResult = new StringBuilder();
+        StringBuilder sbOutputFile = new StringBuilder();
+        List<String> output = new ArrayList<>();
 
         try {
-//            List highscoreFile = Files.readAllLines(Path.of("high.score"));
+            boolean inserted = false;
             Path path = Path.of("assets/highscore.txt");
             String infile = Files.readString(path);
 
-            String[] highscore = infile.split(",");
+            String[] allScores = infile.split(",");
 
-            for(int i = 0; i < highscore.length; i++) {
-                sb.append(highscore[i] + ": " + highscore[i+1] + "\n");
-                i++;
+            for(int i = 0; i < allScores.length; i += 2) {
+                if(currentScore > Integer.parseInt(allScores[i]) && !inserted) {
+                    sbResult.append(currentScore).append(": ").append("TESTNAME");
+                    output.add(Integer.toString(currentScore));
+                    output.add("TESTNAME");
+                    inserted = true;
+                    i -= 2;
+                }
+                else {
+                    sbResult.append(allScores[i]).append(": ").append(allScores[i + 1]);
+                    output.add(allScores[i]);
+                    output.add(allScores[i+1]);
+                }
+                sbResult.append("\n");
             }
 
-//            for(int i = 0; i < highscoreFile.size(); i++) {
-//                String line = highscoreFile.get(i).toString();
-//                String[] result = line.split(",");
-//
-//                highscore.put(Integer.getInteger(result[0]), result[1]);
-//
-//                for(Integer key : highscore.keySet()) {
-//                    sb.append(key + " : " + highscore.get(key));
-//                    sb.append("\n");
-//                }
-//            }
+            for(int i = 0; i < 10; i++) {
+                sbOutputFile.append(output.get(i)).append(",");
+            }
+
+            Files.writeString(path, sbOutputFile);
 
         } catch (IOException ex) {
             System.err.println("Something went wrong");
             ex.printStackTrace();
         }
 
-        return sb.toString();
+        return sbResult.toString();
     }
 }
