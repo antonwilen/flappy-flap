@@ -1,41 +1,68 @@
 package com.flappy.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class MainMenuScreen implements Screen {
-    private final int SCREEN_HEIGHT = 480;
-    private final int SCREEN_WIDTH = 800;
+    int SCREEN_WIDTH = 800;
+    int SCREEN_HEIGHT = 480;
     final Flap game;
-    Texture play;
-    Texture quit;
-    Texture highscore;
-    Sprite playButton;
-    Sprite quitButton;
-    Texture background;
-    OrthographicCamera camera;
+    private Stage stage;
+    Table table;
+    Button playButton;
+    Button quitButton;
+    Skin mySkin;
+    TextureAtlas atlas;
+
+
+
     public MainMenuScreen(final Flap game){
         this.game = game;
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+        table = new com.badlogic.gdx.scenes.scene2d.ui.Table();
+        table.setFillParent(true);
+        table.center();
 
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,800,480);
+        mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
 
-        play = new Texture(Gdx.files.internal("play.png"));
-        quit = new Texture(Gdx.files.internal("quit.png"));
-        playButton = new Sprite(play);
-        quitButton = new Sprite(quit);
-        playButton.setPosition(SCREEN_WIDTH/2-play.getWidth()/2,SCREEN_HEIGHT/2+50);
-        quitButton.setPosition(SCREEN_WIDTH/2-quit.getWidth()/2,SCREEN_HEIGHT/2-50);
+        playButton = new TextButton("Play",mySkin);
+        playButton.setSize(200,100);
+        playButton.setPosition(SCREEN_WIDTH/2-playButton.getWidth()/2,SCREEN_HEIGHT/2+50);
+        playButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+                game.setScreen(new GameScreen(game));
+                return true;
+            }
+        });
 
-        highscore = new Texture(Gdx.files.internal("highscore.png"));
-        background = new Texture(Gdx.files.internal("wallpaper.jpg"));
+
+
+        quitButton = new TextButton("Quit",mySkin);
+        quitButton.setSize(200,100);
+        quitButton.setPosition(SCREEN_WIDTH/2-quitButton.getWidth()/2,SCREEN_HEIGHT/2-50);
+        quitButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+                Gdx.app.exit();
+                return true;
+            }
+        });
+
+        table.add(playButton);
+        table.row();
+        table.add(quitButton);
+
+
+        stage.addActor(table);
     }
 
     @Override
@@ -44,45 +71,15 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void render(float delta){
-        ScreenUtils.clear(0,0,0.2f,1);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.batch.draw(background,0,0);
-        playButton.draw(game.batch);
-        quitButton.draw(game.batch);
-        game.batch.draw(highscore,SCREEN_WIDTH/2-(highscore.getWidth()/2),420);
-        game.batch.end();
-
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            Gdx.app.exit();
-        }
-        // Checks if the user has clicked somewhere on the screen
-        if(Gdx.input.justTouched()){
-            System.out.println("hello");
-            Vector3 touch = camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(),0));
-            Vector2 touch2 = new Vector2(touch.x,touch.y);
-
-            // Checks if the user has clicked the play button
-            if(playButton.getBoundingRectangle().contains(touch2)){
-                game.setScreen(new GameScreen(game));
-                System.out.println("hey");
-            }
-        }
-
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        stage.getViewport().update(width,height,true);
     }
 
     @Override
@@ -102,6 +99,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

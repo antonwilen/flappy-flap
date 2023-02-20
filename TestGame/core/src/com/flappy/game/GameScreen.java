@@ -7,12 +7,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.flappy.game.bird.Bird;
+import com.flappy.game.util.Settings;
 
 import java.util.Iterator;
 
@@ -30,8 +33,13 @@ public class GameScreen implements Screen {
 	private final Bird bird;
 	private final Array<Pipe> pipes;
 	private Long lastPipeImage;
+	// -- testing score count
+	public Rectangle scoreCount;
+	private Texture scoreImage;
+	private final Sound plingSound;
+	private int currentScore;
 
-
+	// -- testing score count
 
 	public GameScreen (final Flap game) {
 		this.game = game;
@@ -42,6 +50,7 @@ public class GameScreen implements Screen {
 
 		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
 		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		plingSound = Gdx.audio.newSound(Gdx.files.internal("sfx/pling.wav"));
 
 		backgroundMusic.setLooping(true);
 		backgroundMusic.play();
@@ -55,13 +64,26 @@ public class GameScreen implements Screen {
 		pipes = new Array<>();
 
 		spawnPipe();
+		scoreCount();
+	}
+
+	private void scoreCount() {
+		scoreCount = new Rectangle();
+		scoreImage = new Texture("gfx/bird/penguins.png");
+
+		scoreCount.y = SCREEN_HEIGHT - 100;
+		scoreCount.x = Settings.SCORE_COUNT_X;
+		scoreCount.height = SCREEN_HEIGHT;
+		scoreCount.width = 10;
+
+		lastPipeImage = TimeUtils.nanoTime();
 	}
 
 	private void spawnPipe() {
 		int PIPE_SPACE = 200;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(200, SCREEN_HEIGHT - pipeTopImage.getHeight());
+		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, SCREEN_HEIGHT - pipeTopImage.getHeight());
 		pipeTop.pipe.x = SCREEN_WIDTH;
 		pipeTop.pipe.width = pipeTopImage.getWidth();
 		pipeTop.pipe.height = pipeTopImage.getHeight();
@@ -101,13 +123,18 @@ public class GameScreen implements Screen {
 		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
 
 		camera.update();
+		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
+		batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
+
 		for (Pipe pipe: pipes) {
 			batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 		}
+
+		font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
 		batch.end();
 
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -115,58 +142,46 @@ public class GameScreen implements Screen {
 		}
 
 		bird.update(Gdx.graphics.getDeltaTime(), SCREEN_HEIGHT);
-			//}
-			//if(jump > 0) {
-			//	bird.addToBirdY(450 * Gdx.graphics.getDeltaTime());
-			//	jump--;
-			//}
 
-			//if(bird.getBirdY()< 0) bird.setBirdY(0);
-			//if(bird.getBirdY() > 480 - 64) bird.setBirdY(480 - 64);
-
-			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) spawnPipe();
-
-			//bird.addToBirdY(-250 * Gdx.graphics.getDeltaTime());
+			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) {
+				spawnPipe();
+			}
 
 			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
 				Pipe pipe = iter.next();
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
 				if (pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
 
+				if (pipe.pipe.overlaps(scoreCount)) {
+					plingSound.play();
+					currentScore++;
+					iter.remove();
+				}
+
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
-					game.setScreen(new GameOverScreen(game));
-					//bird.addToBirdY(-bird.getBirdY() * Gdx.graphics.getDeltaTime());
-					//iter.remove();
+					game.setScreen(new GameOverScreen(game, currentScore));
+
 					backgroundMusic.stop();
 				}
 			}
-
-
 	}
-
-
 
 	@Override
 	public void resize(int width, int height) {
-
 	}
 
 	@Override
 	public void pause() {
-
 	}
 
 	@Override
 	public void resume() {
-
 	}
 
 	@Override
 	public void hide() {
-
 	}
-
 	@Override
 	public void dispose () {
 		pipeTopImage.dispose();
