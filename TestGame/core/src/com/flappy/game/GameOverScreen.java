@@ -17,7 +17,7 @@ public class GameOverScreen implements Screen {
     private final int SCREEN_HEIGHT = 480;
     private final int SCREEN_WIDTH = 800;
     private final int score;
-    private int allTimeHighscore;
+    private String allTimeHighscore;
     final Flap game;
     Texture play;
     Texture quit;
@@ -28,10 +28,6 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(final Flap game, int score){
         this.score = score;
         this.game = game;
-
-        if(score > allTimeHighscore) {
-            this.allTimeHighscore = score;
-        }
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,800,480);
@@ -66,7 +62,7 @@ public class GameOverScreen implements Screen {
         font.draw(game.batch, "Highscore: " + allTimeHighscore, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2);
         font.draw(game.batch, "Score: " + score, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2 - 40);
 
-        font.draw(game.batch, "Highscores: \n" + Highscore.getHighscore(), 20, Settings.SCREEN_HEIGHT / 2 + 40);
+        font.draw(game.batch, "Highscores: \n" + Highscore.getHighscore(score), 20, Settings.SCREEN_HEIGHT / 2 + 40);
 
         game.batch.end();
 
