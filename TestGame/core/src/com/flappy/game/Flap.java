@@ -11,7 +11,7 @@ public class Flap extends Game {
     public void create(){
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new MainMenuScreenTEST());
     }
 
     public void render(){
