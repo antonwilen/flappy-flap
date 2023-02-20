@@ -69,7 +69,7 @@ public class GameOverScreen implements Screen {
         game.batch.end();
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreenTEST(game));
             dispose();
         }
 
@@ -84,7 +84,7 @@ public class GameOverScreen implements Screen {
 
             // Checks if the user has clicked the play button
             if(playButton.getBoundingRectangle().contains(touch2)){
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreenTEST(game));
             }
         }
 
