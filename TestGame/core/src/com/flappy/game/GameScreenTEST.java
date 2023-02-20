@@ -217,15 +217,14 @@ public class GameScreenTEST implements Screen {
 			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
 				Pipe pipe = iter.next();
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
-				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0){
+				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0 && pipe.pipe.x - pipeTopImage.getWidth() > -2){
 					currentScore++;
-					iter.remove();
+					iter.next();
 				}*/
 
 				if (pipe.pipe.overlaps(scoreCount)) {
 					plingSound.play();
 					currentScore++;
-
 				}
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
