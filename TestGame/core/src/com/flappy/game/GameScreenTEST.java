@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -51,6 +52,7 @@ public class GameScreenTEST implements Screen {
 	private final Sound plingSound;
 	private int currentScore;
 	Image birdImageTest;
+	Label label;
 
 	// -- testing score count
 
@@ -91,7 +93,14 @@ public class GameScreenTEST implements Screen {
 		stage.addActor(birdImageTest);
 
 		spawnPipe();
-		//scoreCount();
+		scoreCount();
+		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = font;
+		label = new Label(Integer.toString(currentScore),labelStyle);
+
+		label.setPosition(200,200);
+		stage.addActor(label);
 
 
 	}
@@ -170,13 +179,16 @@ public class GameScreenTEST implements Screen {
 		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
 
 		camera.update();
-		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+
+		label.setText(currentScore);
 
 		birdImageTest.setPosition(bird.getPosition().x, bird.getPosition().y);
 		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
 
 
 		//batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
+
+
 
 		for (Pipe pipe: pipes) {
 			//batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
@@ -185,6 +197,7 @@ public class GameScreenTEST implements Screen {
 			pipe.getPipeImage().setPosition(pipe.pipe.x,pipe.pipe.y);
 
 		}
+
 
 
 
@@ -204,13 +217,15 @@ public class GameScreenTEST implements Screen {
 			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
 				Pipe pipe = iter.next();
 				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
-				if (pipe.pipe.x + pipeTopImage.getWidth() < 0) iter.remove();
+				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0 && pipe.pipe.x - pipeTopImage.getWidth() > -2){
+					currentScore++;
+					iter.next();
+				}*/
 
-				/*if (pipe.pipe.overlaps(scoreCount)) {
+				if (pipe.pipe.overlaps(scoreCount)) {
 					plingSound.play();
 					currentScore++;
-					iter.remove();
-				}*/
+				}
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
