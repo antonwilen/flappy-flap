@@ -23,12 +23,14 @@ public class GameOverScreenTEST implements Screen {
     Button quitButton;
     Skin mySkin;
     TextureAtlas atlas;
+    private Difficulty currentDifficulty;
 
 
 
-    public GameOverScreenTEST(final Flap game, int score){
+    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty){
         this.game = game;
         this.score = score;
+        this.currentDifficulty = difficulty;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         table = new Table();
@@ -46,7 +48,7 @@ public class GameOverScreenTEST implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreenTEST(game));
+                game.setScreen(new GameScreenTEST(game, difficulty));
                 return true;
             }
         });

@@ -30,6 +30,7 @@ import java.util.Iterator;
 
 public class GameScreenTEST implements Screen {
 	final Flap game;
+	private Difficulty difficulty;
 	private Stage stage;
 	private Table mainTable;
 	private final int SCREEN_HEIGHT = 480;
@@ -58,8 +59,9 @@ public class GameScreenTEST implements Screen {
 
 	// -- testing score count
 
-	public GameScreenTEST(final Flap game) {
+	public GameScreenTEST(final Flap game, Difficulty difficulty) {
 		this.game = game;
+		this.difficulty = difficulty;
 
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -85,7 +87,7 @@ public class GameScreenTEST implements Screen {
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-		bird = new Bird(SCREEN_HEIGHT, SCREEN_WIDTH);
+		bird = new Bird(Settings.SCREEN_HEIGHT, Settings.SCREEN_WIDTH);
 
 		pipes = new Array<>();
 
@@ -108,9 +110,9 @@ public class GameScreenTEST implements Screen {
 		scoreCount = new Rectangle();
 		scoreImage = new Texture("gfx/bird/penguins.png");
 
-		scoreCount.y = SCREEN_HEIGHT;
+		scoreCount.y = Settings.SCREEN_HEIGHT;
 		scoreCount.x = Settings.SCORE_COUNT_X;
-		scoreCount.height = SCREEN_HEIGHT;
+		scoreCount.height = Settings.SCREEN_HEIGHT;
 		scoreCount.width = 4;
 
 		lastPipeImage = TimeUtils.nanoTime();
@@ -120,26 +122,26 @@ public class GameScreenTEST implements Screen {
 		int PIPE_SPACE = 300;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, SCREEN_HEIGHT - pipeTopImage.getHeight());
-		pipeTop.pipe.x = SCREEN_WIDTH;
+		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
+		pipeTop.pipe.x = Settings.SCREEN_WIDTH;
 		pipeTop.pipe.width = pipeTopImage.getWidth();
 		pipeTop.pipe.height = pipeTopImage.getHeight();
 
 		Pipe pipeTopFill = new Pipe(pipeBodyImage);
 		pipeTopFill.pipe.y = pipeTop.pipe.y + pipeTopImage.getHeight();
-		pipeTopFill.pipe.x = SCREEN_WIDTH;
+		pipeTopFill.pipe.x = Settings.SCREEN_WIDTH;
 		pipeTopFill.pipe.width = pipeBodyImage.getWidth();
-		pipeTopFill.pipe.height = SCREEN_HEIGHT - (pipeTopFill.pipe.y - SCREEN_HEIGHT);
+		pipeTopFill.pipe.height = Settings.SCREEN_HEIGHT - (pipeTopFill.pipe.y - Settings.SCREEN_HEIGHT);
 
 		Pipe pipeBottom = new Pipe(pipeBottomImage);
 		pipeBottom.pipe.y = pipeTop.pipe.y - PIPE_SPACE;
-		pipeBottom.pipe.x = SCREEN_WIDTH;
+		pipeBottom.pipe.x = Settings.SCREEN_WIDTH;
 		pipeBottom.pipe.width = pipeBottomImage.getWidth();
 		pipeBottom.pipe.height = pipeBottomImage.getHeight();
 
 		Pipe pipeBottomFill = new Pipe(pipeBodyImage);
 		pipeBottomFill.pipe.y = 0;
-		pipeBottomFill.pipe.x = SCREEN_WIDTH;
+		pipeBottomFill.pipe.x = Settings.SCREEN_WIDTH;
 		pipeBottomFill.pipe.width = pipeBodyImage.getWidth();
 		pipeBottomFill.pipe.height = pipeBottom.pipe.y;
 
@@ -209,7 +211,7 @@ public class GameScreenTEST implements Screen {
 			bird.jump();
 		}
 
-		bird.update(Gdx.graphics.getDeltaTime(), SCREEN_HEIGHT);
+		bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
 
 			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) {
 				spawnPipe();
@@ -227,7 +229,7 @@ public class GameScreenTEST implements Screen {
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
-					game.setScreen(new GameOverScreenTEST(game, currentScore));
+					game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty));
 
 					backgroundMusic.stop();
 				}
