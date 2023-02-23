@@ -223,7 +223,7 @@ public class GameScreenTEST implements Screen {
 
 				if (pipe.pipe.overlaps(bird.getBirdObject())) {
 					thumpSound.play();
-					game.setScreen(new GameOverScreen(game, currentScore));
+					game.setScreen(new GameOverScreenTEST(game, currentScore));
 
 					backgroundMusic.stop();
 				}
