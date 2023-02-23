@@ -19,7 +19,7 @@ public class Bird {
     private final Sprite birdSprite;
     Rectangle birdObject;
 
-    public Bird(int SCREEN_HEIGHT, int SCREEN_WIDTH){
+    public Bird(){
 
         texture = new Texture("gfx/bird/penguins.png");
         birdSprite = new Sprite(texture);

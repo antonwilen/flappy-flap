@@ -16,13 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.flappy.game.bird.Animation;
 import com.flappy.game.bird.Bird;
 import com.flappy.game.util.Settings;
 
@@ -85,7 +83,7 @@ public class GameScreenTEST implements Screen {
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-		bird = new Bird(Settings.SCREEN_HEIGHT, Settings.SCREEN_WIDTH);
+		bird = new Bird();
 
 		pipes = new Array<>();
 
