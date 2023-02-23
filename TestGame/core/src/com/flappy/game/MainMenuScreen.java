@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+
 public class MainMenuScreen implements Screen {
     int SCREEN_WIDTH = 800;
     int SCREEN_HEIGHT = 480;
@@ -18,7 +19,9 @@ public class MainMenuScreen implements Screen {
     Table table;
     Button playButton;
     Button quitButton;
+    Button difficultyButton;
     Skin mySkin;
+    Difficulty difficulty;
     TextureAtlas atlas;
 
 
@@ -56,8 +59,25 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+        difficulty = new Difficulty();
+        difficultyButton = new Button(mySkin);
+        difficultyButton.setSize(200,100);
+        difficultyButton.setPosition(SCREEN_WIDTH/2-difficultyButton.getWidth()/2,SCREEN_HEIGHT/2-150);
+        Label difficultyLabel = new Label(difficulty.getDifficulty(),mySkin,"textButton");
+
+        difficultyButton.add(difficultyLabel);
+        difficultyButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+                difficulty.next();
+                difficultyLabel.setText(difficulty.getDifficulty());
+                return true;
+            }
+        });
 
         table.add(playButton);
+        table.row();
+        table.add(difficultyButton);
         table.row();
         table.add(quitButton);
 
@@ -73,6 +93,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         stage.act(delta);
         stage.draw();
     }

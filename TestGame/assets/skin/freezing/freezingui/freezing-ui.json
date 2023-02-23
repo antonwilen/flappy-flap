@@ -106,6 +106,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	dark: {
 		font: font
 		fontColor: button
+	},
+	textButton: {
+		font: button
+		fontColor: button
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
