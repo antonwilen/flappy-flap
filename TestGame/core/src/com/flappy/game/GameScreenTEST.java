@@ -101,7 +101,7 @@ public class GameScreenTEST implements Screen {
 		labelStyle.font = font;
 		label = new Label(Integer.toString(currentScore),labelStyle);
 
-		label.setPosition(200,200);
+		label.setPosition(Settings.SCREEN_WIDTH /2,Settings.SCREEN_HEIGHT -33);
 		stage.addActor(label);
 
 	}
