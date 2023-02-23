@@ -18,6 +18,7 @@ public class Difficulty {
             case "Hard":
                 return 3;
         }
+        return 0;
     }
     public void next(){
         switch (difficulty){
