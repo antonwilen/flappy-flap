@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Highscore {
-    public static String getHighscore(int currentScore, int difficulty) {
-        StringBuilder sbResult = new StringBuilder();
-        StringBuilder sbOutputFile = new StringBuilder();
-        List<String> output = new ArrayList<>();
+    private int currentScore;
+    private Path path;
+    private String[] allScores;
+    private String results;
 
+    public Highscore(int currentScore, int difficulty) {
         try {
-            Path path = null;
-            boolean inserted = false;
+            String infile;
+            this.currentScore = currentScore;
+
             switch (difficulty) {
                 case 1:
                     path = Path.of("assets/highscore/1highscore.txt");
@@ -26,37 +28,53 @@ public class Highscore {
                     path = Path.of("assets/highscore/3highscore.txt");
                     break;
             }
-            String infile = Files.readString(path);
 
-            String[] allScores = infile.split(",");
+            infile = Files.readString(path);
+            allScores = infile.split(",");
 
-            for(int i = 0; i < allScores.length; i += 2) {
-                if(currentScore > Integer.parseInt(allScores[i]) && !inserted) {
-                    sbResult.append(currentScore).append(": ").append("TESTNAME");
-                    output.add(Integer.toString(currentScore));
-                    output.add("TESTNAME");
-                    inserted = true;
-                    i -= 2;
-                }
-                else {
-                    sbResult.append(allScores[i]).append(": ").append(allScores[i + 1]);
-                    output.add(allScores[i]);
-                    output.add(allScores[i+1]);
-                }
-                sbResult.append("\n");
-            }
-
-            for(int i = 0; i < 10; i++) {
-                sbOutputFile.append(output.get(i)).append(",");
-            }
-
-            Files.writeString(path, sbOutputFile);
+            saveHighscore();
 
         } catch (IOException ex) {
-            System.err.println("Something went wrong");
-            ex.printStackTrace();
+            System.err.println("Something went wrong with receiving the highscore list");
         }
+    }
 
-        return sbResult.toString();
+    public String receiveHighscore() {
+        return results;
+    }
+
+    public void saveHighscore() throws IOException {
+        try {
+            boolean inserted = false;
+            StringBuilder highscores = new StringBuilder();
+            StringBuilder result = new StringBuilder();
+            List<String> resultList = new ArrayList<>();
+
+            for (int i = 0; i < 10; i += 2) {
+                if (currentScore > Integer.parseInt(allScores[i]) && !inserted) {
+                    result.append(currentScore + ": " + "testnamn");
+                    resultList.add(Integer.toString(currentScore));
+                    resultList.add("testnamn");
+                    inserted = true;
+                    i -= 2;
+                } else {
+                    result.append(allScores[i] + ": " + allScores[i + 1]);
+                    resultList.add(allScores[i]);
+                    resultList.add(allScores[i + 1]);
+                }
+                result.append("\n");
+            }
+
+            for (int j = 0; j < 10; j++) {
+                highscores.append(resultList.get(j));
+                highscores.append(",");
+            }
+
+            results = result.toString();
+
+            Files.writeString(path, highscores);
+        } catch (IOException ex) {
+            System.err.println("Something went wrong with saving the highscores");
+        }
     }
 }
