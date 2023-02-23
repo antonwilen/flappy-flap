@@ -62,7 +62,7 @@ public class GameOverScreen implements Screen {
         font.draw(game.batch, "Highscore: " + allTimeHighscore, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2);
         font.draw(game.batch, "Score: " + score, Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT / 2 - 40);
 
-        font.draw(game.batch, "Highscores: \n" + Highscore.getHighscore(score), 20, Settings.SCREEN_HEIGHT / 2 + 40);
+        font.draw(game.batch, "Highscores: \n" + Highscore.getHighscore(score, 1), 20, Settings.SCREEN_HEIGHT / 2 + 40);
 
         game.batch.end();
 
