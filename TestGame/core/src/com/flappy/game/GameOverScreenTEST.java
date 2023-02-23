@@ -24,13 +24,14 @@ public class GameOverScreenTEST implements Screen {
     Skin mySkin;
     TextureAtlas atlas;
     private Difficulty currentDifficulty;
-
+    Highscore highscore;
 
 
     public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty){
         this.game = game;
         this.score = score;
         this.currentDifficulty = difficulty;
+        highscore = new Highscore(score, difficulty.getDifficultyNumber());
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         table = new Table();
@@ -66,7 +67,7 @@ public class GameOverScreenTEST implements Screen {
             }
         });
 
-        Label highScores = new Label("Highscores: \n" + Highscore.getHighscore(score, 1),mySkin);
+        Label highScores = new Label("Highscores: \n" + highscore.receiveHighscore(),mySkin);
         //highScores.setFontScale(1.5f);
         highScores.setPosition(0,Settings.SCREEN_HEIGHT/2+40);
 

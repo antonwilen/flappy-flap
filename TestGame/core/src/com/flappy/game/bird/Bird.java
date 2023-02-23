@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.flappy.game.util.Settings;
 
 
@@ -17,17 +19,18 @@ public class Bird {
     private final Animation birdAnimation;
     private final Texture texture;
     private final Sprite birdSprite;
+    private Image birdActor;
     Rectangle birdObject;
 
-    public Bird(int SCREEN_HEIGHT, int SCREEN_WIDTH){
+    public Bird(){
 
         texture = new Texture("gfx/bird/penguins.png");
         birdSprite = new Sprite(texture);
         birdAnimation = new Animation(new TextureRegion(texture), 4, 0.5f);
-
-         birdObject = new Rectangle();
-         birdObject.width = texture.getWidth() / 4;
-         birdObject.height = texture.getHeight();
+        birdActor = new Image(new TextureRegionDrawable(getBirdImage()));
+        birdObject = new Rectangle();
+        birdObject.width = texture.getWidth() / 4;
+        birdObject.height = texture.getHeight();
 
          //position = new Vector2(SCREEN_WIDTH / 2 - ((texture.getWidth() / 4) * 3), SCREEN_HEIGHT / 2 - texture.getHeight() / 2);
          position = new Vector2(Settings.BIRD_STARTING_POSITION_X, Settings.BIRD_STARTING_POSITION_Y);
@@ -56,6 +59,9 @@ public class Bird {
         }
     }
 
+    public Image getBirdActor(){
+        return birdActor;
+    }
     public void jump() {
         velocity.y = 300;
     }

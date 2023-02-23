@@ -16,13 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.flappy.game.bird.Animation;
 import com.flappy.game.bird.Bird;
 import com.flappy.game.util.Settings;
 
@@ -33,8 +31,6 @@ public class GameScreenTEST implements Screen {
 	private Difficulty difficulty;
 	private Stage stage;
 	private Table mainTable;
-	private final int SCREEN_HEIGHT = 480;
-	private final int SCREEN_WIDTH = 800;
 	private final Sprite pipeTop;
 	private final Sprite pipeBottom;
 	private final Sprite pipeBody;
@@ -87,12 +83,11 @@ public class GameScreenTEST implements Screen {
 		camera.setToOrtho(false, 800, 480);
 
 		batch = new SpriteBatch();
-		bird = new Bird(Settings.SCREEN_HEIGHT, Settings.SCREEN_WIDTH);
+		bird = new Bird();
 
 		pipes = new Array<>();
 
-		birdImageTest = new Image(new TextureRegionDrawable(bird.getBirdImage()));
-		stage.addActor(birdImageTest);
+		stage.addActor(bird.getBirdActor());
 
 		spawnPipe();
 		scoreCount();
@@ -119,10 +114,9 @@ public class GameScreenTEST implements Screen {
 	}
 
 	private void spawnPipe() {
-		int PIPE_SPACE = 300;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
+		pipeTop.pipe.y = MathUtils.random(Settings.PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
 		pipeTop.pipe.x = Settings.SCREEN_WIDTH;
 		pipeTop.pipe.width = pipeTopImage.getWidth();
 		pipeTop.pipe.height = pipeTopImage.getHeight();
@@ -134,7 +128,7 @@ public class GameScreenTEST implements Screen {
 		pipeTopFill.pipe.height = Settings.SCREEN_HEIGHT - (pipeTopFill.pipe.y - Settings.SCREEN_HEIGHT);
 
 		Pipe pipeBottom = new Pipe(pipeBottomImage);
-		pipeBottom.pipe.y = pipeTop.pipe.y - PIPE_SPACE;
+		pipeBottom.pipe.y = pipeTop.pipe.y - Settings.PIPE_SPACE;
 		pipeBottom.pipe.x = Settings.SCREEN_WIDTH;
 		pipeBottom.pipe.width = pipeBottomImage.getWidth();
 		pipeBottom.pipe.height = pipeBottomImage.getHeight();
@@ -184,7 +178,7 @@ public class GameScreenTEST implements Screen {
 		label.setText(currentScore);
 
 
-		birdImageTest.setPosition(bird.getPosition().x, bird.getPosition().y);
+		bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
 		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
 
 
@@ -201,7 +195,7 @@ public class GameScreenTEST implements Screen {
 		}
 
 
-		birdImageTest.setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
+		bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
 
 
 		//font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
