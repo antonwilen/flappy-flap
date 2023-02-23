@@ -64,7 +64,7 @@ public class GameOverScreenTEST implements Screen {
             }
         });
 
-        Label highScores = new Label("Highscores: \n" + Highscore.getHighscore(score),mySkin);
+        Label highScores = new Label("Highscores: \n" + Highscore.getHighscore(score, 1),mySkin);
         //highScores.setFontScale(1.5f);
         highScores.setPosition(0,Settings.SCREEN_HEIGHT/2+40);
 
