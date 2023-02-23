@@ -9,6 +9,16 @@ public class Difficulty {
     public String getDifficulty(){
         return difficulty;
     }
+    public int getDifficultyNumber(){
+        switch (difficulty){
+            case "Easy":
+                return 1;
+            case "Medium":
+                return 2;
+            case "Hard":
+                return 3;
+        }
+    }
     public void next(){
         switch (difficulty){
             case "Easy":
