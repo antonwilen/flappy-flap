@@ -33,8 +33,6 @@ public class GameScreenTEST implements Screen {
 	private Difficulty difficulty;
 	private Stage stage;
 	private Table mainTable;
-	private final int SCREEN_HEIGHT = 480;
-	private final int SCREEN_WIDTH = 800;
 	private final Sprite pipeTop;
 	private final Sprite pipeBottom;
 	private final Sprite pipeBody;
