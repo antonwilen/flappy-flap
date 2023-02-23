@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class Settings {
     private static final Texture birdTexture = new Texture("gfx/bird/penguins.png");
     private static final Texture pipeTexture = new Texture("gfx/pipes/pipe_bottom.png");
+    public static int PIPE_SPACE = 300;
     public static final int SCREEN_HEIGHT = 480;
     public static final int SCREEN_WIDTH = 800;
     public static final int BIRD_STARTING_POSITION_X = SCREEN_WIDTH / 2 - ((getBirdWidth() / 4) * 3);

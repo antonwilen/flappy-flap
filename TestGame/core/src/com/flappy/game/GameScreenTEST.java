@@ -114,10 +114,9 @@ public class GameScreenTEST implements Screen {
 	}
 
 	private void spawnPipe() {
-		int PIPE_SPACE = 300;
 
 		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
+		pipeTop.pipe.y = MathUtils.random(Settings.PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
 		pipeTop.pipe.x = Settings.SCREEN_WIDTH;
 		pipeTop.pipe.width = pipeTopImage.getWidth();
 		pipeTop.pipe.height = pipeTopImage.getHeight();
@@ -129,7 +128,7 @@ public class GameScreenTEST implements Screen {
 		pipeTopFill.pipe.height = Settings.SCREEN_HEIGHT - (pipeTopFill.pipe.y - Settings.SCREEN_HEIGHT);
 
 		Pipe pipeBottom = new Pipe(pipeBottomImage);
-		pipeBottom.pipe.y = pipeTop.pipe.y - PIPE_SPACE;
+		pipeBottom.pipe.y = pipeTop.pipe.y - Settings.PIPE_SPACE;
 		pipeBottom.pipe.x = Settings.SCREEN_WIDTH;
 		pipeBottom.pipe.width = pipeBottomImage.getWidth();
 		pipeBottom.pipe.height = pipeBottomImage.getHeight();
