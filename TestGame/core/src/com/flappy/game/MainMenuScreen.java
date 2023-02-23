@@ -42,7 +42,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreenTEST(game));
+                game.setScreen(new GameScreenTEST(game,difficulty));
                 return true;
             }
         });
