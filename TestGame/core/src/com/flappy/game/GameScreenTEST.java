@@ -87,8 +87,7 @@ public class GameScreenTEST implements Screen {
 
 		pipes = new Array<>();
 
-		birdImageTest = new Image(new TextureRegionDrawable(bird.getBirdImage()));
-		stage.addActor(birdImageTest);
+		stage.addActor(bird.getBirdActor());
 
 		spawnPipe();
 		scoreCount();
@@ -180,7 +179,7 @@ public class GameScreenTEST implements Screen {
 		label.setText(currentScore);
 
 
-		birdImageTest.setPosition(bird.getPosition().x, bird.getPosition().y);
+		bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
 		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
 
 
@@ -197,7 +196,7 @@ public class GameScreenTEST implements Screen {
 		}
 
 
-		birdImageTest.setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
+		bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
 
 
 		//font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
