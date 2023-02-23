@@ -3,6 +3,7 @@ package com.flappy.game.bird;
 import com.badlogic.gdx.graphics.Texture;
 
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,11 +16,13 @@ public class Bird {
     private final Vector2 velocity;
     private final Animation birdAnimation;
     private final Texture texture;
+    private final Sprite birdSprite;
     Rectangle birdObject;
 
     public Bird(int SCREEN_HEIGHT, int SCREEN_WIDTH){
 
         texture = new Texture("gfx/bird/penguins.png");
+        birdSprite = new Sprite(texture);
         birdAnimation = new Animation(new TextureRegion(texture), 4, 0.5f);
 
          birdObject = new Rectangle();
@@ -66,6 +69,10 @@ public class Bird {
 
     public Rectangle getBirdObject(){
         return birdObject;
+    }
+
+    public Sprite getBirdSprite(){
+        return birdSprite;
     }
 
     public Vector2 getPosition() {
