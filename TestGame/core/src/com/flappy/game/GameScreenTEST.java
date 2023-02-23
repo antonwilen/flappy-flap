@@ -17,10 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.flappy.game.bird.Animation;
 import com.flappy.game.bird.Bird;
 import com.flappy.game.util.Settings;
 
@@ -87,7 +89,7 @@ public class GameScreenTEST implements Screen {
 
 		pipes = new Array<>();
 
-		birdImageTest = new Image(bird.getBirdImage());
+		birdImageTest = new Image(new TextureRegionDrawable(bird.getBirdImage()));
 		stage.addActor(birdImageTest);
 
 		spawnPipe();
@@ -179,6 +181,7 @@ public class GameScreenTEST implements Screen {
 
 		label.setText(currentScore);
 
+
 		birdImageTest.setPosition(bird.getPosition().x, bird.getPosition().y);
 		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
 
@@ -196,6 +199,7 @@ public class GameScreenTEST implements Screen {
 		}
 
 
+		birdImageTest.setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
 
 
 		//font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
