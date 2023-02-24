@@ -23,4 +23,20 @@ public class Settings {
     public static int getPipeWidth() {
         return pipeTexture.getWidth();
     }
+
+    public static int getPipeSpace() {
+        return PIPE_SPACE;
+    }
+
+    public static void setPipeSpace(int pipeSpace) {
+        if(pipeSpace == 1) {
+            PIPE_SPACE = 300;
+        }
+        if(pipeSpace == 2) {
+            PIPE_SPACE = 250;
+        }
+        if(pipeSpace == 3) {
+            PIPE_SPACE = 200;
+        }
+    }
 }
