@@ -58,7 +58,7 @@ public class GameScreenTEST implements Screen {
 	public GameScreenTEST(final Flap game, Difficulty difficulty) {
 		this.game = game;
 		this.difficulty = difficulty;
-		Settings.setPipeSpace(difficulty.getDifficultyNumber());
+		Settings.setDifficultySettings(difficulty.getDifficultyNumber());
 
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -208,7 +208,7 @@ public class GameScreenTEST implements Screen {
 
 		bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
 
-			if (TimeUtils.nanoTime() - lastPipeImage > 2050000000) {
+			if (TimeUtils.nanoTime() - lastPipeImage > Settings.getSpawnTime()) {
 				spawnPipe();
 			}
 
@@ -216,7 +216,7 @@ public class GameScreenTEST implements Screen {
 
 
 				Pipe pipe = iter.next();
-				pipe.pipe.x -= 200 * Gdx.graphics.getDeltaTime();
+				pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
 				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0 && pipe.pipe.x - pipeTopImage.getWidth() > -2){
 					currentScore++;
 					iter.next();
