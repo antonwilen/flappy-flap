@@ -19,13 +19,13 @@ public class Highscore {
 
             switch (difficulty) {
                 case 1:
-                    path = Path.of("assets/highscore/1highscore.txt");
+                    path = Path.of("highscore/1highscore.txt");
                     break;
                 case 2:
-                    path = Path.of("assets/highscore/2highscore.txt");
+                    path = Path.of("highscore/2highscore.txt");
                     break;
                 case 3:
-                    path = Path.of("assets/highscore/3highscore.txt");
+                    path = Path.of("highscore/3highscore.txt");
                     break;
             }
 

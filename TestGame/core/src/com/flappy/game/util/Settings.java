@@ -3,11 +3,15 @@ package com.flappy.game.util;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Settings {
-    private static final Texture birdTexture = new Texture("gfx/bird/penguins.png");
+    public static final Texture birdTexture = new Texture("gfx/bird/penguins.png");
     private static final Texture pipeTexture = new Texture("gfx/pipes/pipe_bottom.png");
     public static int PIPE_SPACE = 300;
+    public static int SPEED = 200;
+    public static long SPAWNTIME = 2050000000;
     public static final int SCREEN_HEIGHT = 480;
     public static final int SCREEN_WIDTH = 800;
+    public static int BIRDGRAVITY = -15;
+    public static int BIRDVELOCITY = 300;
     public static final int BIRD_STARTING_POSITION_X = SCREEN_WIDTH / 2 - ((getBirdWidth() / 4) * 3);
     public static final int BIRD_STARTING_POSITION_Y = SCREEN_HEIGHT / 2 - getBirdHeight() / 2;
     public static final int SCORE_COUNT_X = BIRD_STARTING_POSITION_X - getPipeWidth();
@@ -22,5 +26,47 @@ public class Settings {
 
     public static int getPipeWidth() {
         return pipeTexture.getWidth();
+    }
+
+    public static Texture getBirdTexture() {
+        return birdTexture;
+    }
+
+    public static int getPipeSpace() {
+        return PIPE_SPACE;
+    }
+
+    public static int getSPEED() {
+        return SPEED;
+    }
+
+    public static long getSpawnTime() {
+        return SPAWNTIME;
+    }
+
+    public static void setDifficultySettings(int difficulty) {
+        switch (difficulty) {
+            case 1:
+                PIPE_SPACE = 300;
+                SPEED = 200;
+                SPAWNTIME = 2050000000;
+                BIRDGRAVITY = -15;
+                BIRDVELOCITY = 300;
+                break;
+            case 2:
+                PIPE_SPACE = 260;
+                SPEED = 250;
+                SPAWNTIME = 1900000000;
+                BIRDGRAVITY = -17;
+                BIRDVELOCITY = 325;
+                break;
+            case 3:
+                PIPE_SPACE = 220;
+                SPEED = 300;
+                SPAWNTIME = 1200000000;
+                BIRDGRAVITY = -20;
+                BIRDVELOCITY = 350;
+                break;
+        }
     }
 }

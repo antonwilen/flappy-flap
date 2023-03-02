@@ -13,7 +13,7 @@ import com.flappy.game.util.Settings;
 
 
 public class Bird {
-    private static final int GRAVITY = -15;
+    private static final int GRAVITY = Settings.BIRDGRAVITY;
     private final Vector2 position;
     private final Vector2 velocity;
     private final Animation birdAnimation;
@@ -24,7 +24,7 @@ public class Bird {
 
     public Bird(){
 
-        texture = new Texture("gfx/bird/penguins.png");
+        texture = Settings.getBirdTexture();
         birdSprite = new Sprite(texture);
         birdAnimation = new Animation(new TextureRegion(texture), 4, 0.5f);
         birdActor = new Image(new TextureRegionDrawable(getBirdImage()));
@@ -63,7 +63,7 @@ public class Bird {
         return birdActor;
     }
     public void jump() {
-        velocity.y = 300;
+        velocity.y = Settings.BIRDVELOCITY;
     }
 
     public void setBirdY(int y){

@@ -56,13 +56,13 @@ public class GameOverScreenTEST implements Screen {
 
 
 
-        quitButton = new TextButton("Quit",mySkin);
+        quitButton = new TextButton("Exit",mySkin);
         quitButton.setSize(200,100);
         quitButton.setPosition(Settings.SCREEN_WIDTH/2-quitButton.getWidth()/2,Settings.SCREEN_HEIGHT/2-50);
         quitButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                Gdx.app.exit();
+                game.setScreen(new MainMenuScreen(game));
                 return true;
             }
         });
