@@ -1,6 +1,7 @@
 package com.flappy.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -49,7 +50,7 @@ public class GameOverScreenTEST implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreenTEST(game, difficulty));
+                newGame();
                 return true;
             }
         });
@@ -97,14 +98,23 @@ public class GameOverScreenTEST implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            newGame();
+        }
         stage.act(delta);
         stage.draw();
+    }
+
+    private void newGame(){
+        game.setScreen(new GameScreenTEST(game, currentDifficulty));
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width,height,true);
     }
+
+
 
     @Override
     public void pause() {
