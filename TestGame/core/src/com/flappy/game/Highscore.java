@@ -12,7 +12,7 @@ public class Highscore {
 
     public Highscore() {
         try {
-            highscoreList = Files.readAllLines(Path.of("highscore/highscore"));
+            highscoreList = Files.readAllLines(Path.of("assets/highscore/highscore"));
             generateDifficultyMap();
 
         } catch (IOException ex) {
@@ -38,8 +38,8 @@ public class Highscore {
         return players;
     }
 
-    public List<Player> getHighscore(int difficulty) {
-        return difficultyMap.get(difficulty);
+    public String getHighscore(int difficulty) {
+        return formatHighscore(difficultyMap.get(difficulty));
     }
 
     public boolean checkIfNewHighscore(int difficulty, Player player) {
@@ -75,11 +75,21 @@ public class Highscore {
                 }
             }
 
-            Files.writeString(Path.of("highscore/highscore"), outputFile);
+            Files.writeString(Path.of("assets/highscore/highscore"), outputFile);
 
         } catch (IOException ex) {
             System.err.println("Something went wrong with writing the highscore file");
         }
     }
 
+    private static String formatHighscore(List<Player> highscore) {
+        StringBuilder sb = new StringBuilder();
+
+        for (Player p : highscore) {
+            sb.append(p.getScore() + ": " + p.getName());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

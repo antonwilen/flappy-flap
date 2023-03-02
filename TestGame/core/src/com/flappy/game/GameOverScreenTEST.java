@@ -70,7 +70,7 @@ public class GameOverScreenTEST implements Screen {
             }
         });
 
-        Label highScores = new Label("Highscores: \n" + formatHighscore(highscore.getHighscore(currentDifficulty.getDifficultyNumber())), mySkin);
+        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
         //highScores.setFontScale(1.5f);
         highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2 + 40);
 
@@ -129,14 +129,5 @@ public class GameOverScreenTEST implements Screen {
     }
 
 
-    private static String formatHighscore(List<Player> highscore) {
-        StringBuilder sb = new StringBuilder();
 
-        for (Player p : highscore) {
-            sb.append(p.getScore() + ": " + p.getName());
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
 }
