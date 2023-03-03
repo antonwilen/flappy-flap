@@ -54,6 +54,7 @@ public class GameOverScreenTEST implements Screen {
                 return true;
             }
         });
+        playButton.addListener(new ButtonHoverListener(playButton));
 
 
 
@@ -67,6 +68,7 @@ public class GameOverScreenTEST implements Screen {
                 return true;
             }
         });
+        quitButton.addListener(new ButtonHoverListener(quitButton));
 
         Label highScores = new Label("Highscores: \n" + highscore.receiveHighscore(),mySkin);
         //highScores.setFontScale(1.5f);
