@@ -1,6 +1,7 @@
 package com.flappy.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -52,11 +53,14 @@ public class GameOverScreenTEST implements Screen {
         playButton.setPosition(Settings.SCREEN_WIDTH / 2 - playButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2 + 50);
         playButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreenTEST(game, difficulty));
+
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+                newGame();
+
                 return true;
             }
         });
+        playButton.addListener(new ButtonHoverListener(playButton));
 
 
         quitButton = new TextButton("Exit", mySkin);
@@ -69,6 +73,7 @@ public class GameOverScreenTEST implements Screen {
                 return true;
             }
         });
+        quitButton.addListener(new ButtonHoverListener(quitButton));
 
         Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
         //highScores.setFontScale(1.5f);
@@ -99,14 +104,23 @@ public class GameOverScreenTEST implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            newGame();
+        }
         stage.act(delta);
         stage.draw();
+    }
+
+    private void newGame(){
+        game.setScreen(new GameScreenTEST(game, currentDifficulty));
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
+
 
     @Override
     public void pause() {

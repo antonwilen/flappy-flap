@@ -1,13 +1,18 @@
 package com.flappy.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.util.Settings;
 
@@ -45,6 +50,7 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+        playButton.addListener(new ButtonHoverListener(playButton));
 
 
 
@@ -58,6 +64,8 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+        quitButton.addListener(new ButtonHoverListener(quitButton));
+
         difficulty = new Difficulty();
         difficultyButton = new Button(mySkin);
         difficultyButton.setSize(200,100);
@@ -73,6 +81,8 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+        difficultyButton.addListener(new ButtonHoverListener(difficultyButton));
+
 
         table.add(playButton);
         table.row();
@@ -93,10 +103,16 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            game.setScreen(new GameScreenTEST(game,difficulty));
+        }
         stage.act(delta);
         stage.draw();
     }
 
+    private void newGame(){
+        game.setScreen(new GameScreenTEST(game, difficulty));
+    }
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width,height,true);

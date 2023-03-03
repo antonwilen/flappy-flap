@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -52,6 +53,8 @@ public class GameScreenTEST implements Screen {
 	private int currentScore;
 	Image birdImageTest;
 	Label label;
+	Group foreGround;
+	Group backGround;
 
 	// -- testing score count
 
@@ -59,6 +62,9 @@ public class GameScreenTEST implements Screen {
 		this.game = game;
 		this.difficulty = difficulty;
 		Settings.setDifficultySettings(difficulty.getDifficultyNumber());
+
+		backGround = new Group();
+		foreGround = new Group();
 
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
@@ -87,8 +93,8 @@ public class GameScreenTEST implements Screen {
 		bird = new Bird();
 
 		pipes = new Array<>();
+		foreGround.addActor(bird.getBirdActor());
 
-		stage.addActor(bird.getBirdActor());
 
 		spawnPipe();
 		scoreCount();
@@ -98,7 +104,9 @@ public class GameScreenTEST implements Screen {
 		label = new Label(Integer.toString(currentScore),labelStyle);
 
 		label.setPosition(Settings.SCREEN_WIDTH /2,Settings.SCREEN_HEIGHT -33);
-		stage.addActor(label);
+		foreGround.addActor(label);
+		stage.addActor(backGround);
+		stage.addActor(foreGround);
 
 	}
 
@@ -148,13 +156,17 @@ public class GameScreenTEST implements Screen {
 
 
 
-		stage.addActor(pipeTop.getPipeImage());
+		//stage.addActor(pipeTop.getPipeImage());
+		backGround.addActor(pipeTop.getPipeImage());
 		pipeTop.getPipeImage().setPosition(pipeTop.pipe.x,pipeTop.pipe.y);
-		stage.addActor(pipeBottom.getPipeImage());
+		//stage.addActor(pipeBottom.getPipeImage());
+		backGround.addActor(pipeBottom.getPipeImage());
 		pipeBottom.getPipeImage().setPosition(pipeBottom.pipe.x,pipeBottom.pipe.y);
-		stage.addActor(pipeTopFill.getPipeImage());
+		//stage.addActor(pipeTopFill.getPipeImage());
+		backGround.addActor(pipeTopFill.getPipeImage());
 		pipeTopFill.getPipeImage().setPosition(pipeTopFill.pipe.x,pipeTopFill.pipe.y);
-		stage.addActor(pipeBottomFill.getPipeImage());
+		//stage.addActor(pipeBottomFill.getPipeImage());
+		backGround.addActor(pipeBottomFill.getPipeImage());
 		pipeBottomFill.getPipeImage().setPosition(pipeBottomFill.pipe.x,pipeBottomFill.pipe.y);
 
 
@@ -176,7 +188,7 @@ public class GameScreenTEST implements Screen {
 
 		camera.update();
 
-		label.setText(currentScore);
+
 
 
 		bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
@@ -235,7 +247,7 @@ public class GameScreenTEST implements Screen {
 				}
 			}
 
-
+		label.setText(currentScore);
 		stage.act(delta);
 		stage.draw();
 	}
