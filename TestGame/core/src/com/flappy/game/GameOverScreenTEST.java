@@ -12,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.util.Settings;
 
-import java.util.Set;
-
 public class GameOverScreenTEST implements Screen {
     final Flap game;
     private int score;
@@ -28,11 +26,17 @@ public class GameOverScreenTEST implements Screen {
     Highscore highscore;
 
 
-    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty){
+    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty) {
         this.game = game;
         this.score = score;
         this.currentDifficulty = difficulty;
-        highscore = new Highscore(score, difficulty.getDifficultyNumber());
+        Highscore highscore = new Highscore();
+        Player player = new Player(score, "Player");
+
+        if (highscore.checkIfNewHighscore(currentDifficulty.getDifficultyNumber(), player)) {
+            highscore.saveHighscore(currentDifficulty.getDifficultyNumber(), player);
+        }
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         table = new Table();
@@ -40,41 +44,42 @@ public class GameOverScreenTEST implements Screen {
         table.center();
         scoreTable = new Table();
         scoreTable.setFillParent(true);
-        scoreTable.padLeft(Settings.SCREEN_WIDTH/-2f);
+        scoreTable.padLeft(Settings.SCREEN_WIDTH / -2f);
 
         mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
 
-        playButton = new TextButton("Play",mySkin);
-        playButton.setSize(200,100);
-        playButton.setPosition(Settings.SCREEN_WIDTH/2-playButton.getWidth()/2,Settings.SCREEN_HEIGHT/2+50);
-        playButton.addListener(new InputListener(){
+        playButton = new TextButton("Play", mySkin);
+        playButton.setSize(200, 100);
+        playButton.setPosition(Settings.SCREEN_WIDTH / 2 - playButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2 + 50);
+        playButton.addListener(new InputListener() {
             @Override
+
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
                 newGame();
+
                 return true;
             }
         });
         playButton.addListener(new ButtonHoverListener(playButton));
 
 
-
-        quitButton = new TextButton("Exit",mySkin);
-        quitButton.setSize(200,100);
-        quitButton.setPosition(Settings.SCREEN_WIDTH/2-quitButton.getWidth()/2,Settings.SCREEN_HEIGHT/2-50);
-        quitButton.addListener(new InputListener(){
+        quitButton = new TextButton("Exit", mySkin);
+        quitButton.setSize(200, 100);
+        quitButton.setPosition(Settings.SCREEN_WIDTH / 2 - quitButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2 - 50);
+        quitButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new MainMenuScreen(game));
                 return true;
             }
         });
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
-        Label highScores = new Label("Highscores: \n" + highscore.receiveHighscore(),mySkin);
+        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
         //highScores.setFontScale(1.5f);
-        highScores.setPosition(0,Settings.SCREEN_HEIGHT/2+40);
+        highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2 + 40);
 
-        Label currentScore = new Label("Your score: " + score,mySkin);
+        Label currentScore = new Label("Your score: " + score, mySkin);
         //currentScore.setFontScale(2f);
         //currentScore.setPosition(Settings.SCREEN_WIDTH/2-currentScore.getWidth()/2,0);
 
@@ -85,7 +90,6 @@ public class GameOverScreenTEST implements Screen {
         scoreTable.add(currentScore);
         scoreTable.row();
         scoreTable.add(highScores);
-
 
 
         stage.addActor(table);
@@ -113,7 +117,7 @@ public class GameOverScreenTEST implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width,height,true);
+        stage.getViewport().update(width, height, true);
     }
 
 
@@ -137,4 +141,7 @@ public class GameOverScreenTEST implements Screen {
     public void dispose() {
         stage.dispose();
     }
+
+
+
 }
