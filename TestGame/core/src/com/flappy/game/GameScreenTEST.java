@@ -52,6 +52,7 @@ public class GameScreenTEST implements Screen {
 	private final Sound plingSound;
 	private int currentScore;
 	Image birdImageTest;
+	Background background;
 	Label label;
 	Group foreGround;
 	Group backGround;
@@ -71,6 +72,11 @@ public class GameScreenTEST implements Screen {
 		mainTable = new Table();
 		mainTable.setFillParent(true);
 		mainTable.center();
+
+		background = new Background();
+		backGround.addActor(background.getBackground1());
+		backGround.addActor(background.getBackground2());
+
 
 		pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
 		pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
@@ -187,18 +193,11 @@ public class GameScreenTEST implements Screen {
 		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
 
 		camera.update();
-
-
-
+		background.update();
 
 		bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
 		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
-
-
 		//batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
-
-
-
 		for (Pipe pipe: pipes) {
 			//batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
 			pipe.getPipeImage().setWidth(pipe.pipe.width);
@@ -206,14 +205,9 @@ public class GameScreenTEST implements Screen {
 			pipe.getPipeImage().setPosition(pipe.pipe.x,pipe.pipe.y);
 
 		}
-
-
 		bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
-
-
 		//font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
 		//batch.end();
-
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			bird.jump();
 		}

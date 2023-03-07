@@ -7,6 +7,7 @@ public class Settings {
     private static final Texture pipeTexture = new Texture("gfx/pipes/pipe_bottom.png");
     public static int PIPE_SPACE = 300;
     public static int SPEED = 200;
+    public static float BACKGROUND_SPEED = 25f;
     public static long SPAWNTIME = 2050000000;
     public static final int SCREEN_HEIGHT = 480;
     public static final int SCREEN_WIDTH = 800;
