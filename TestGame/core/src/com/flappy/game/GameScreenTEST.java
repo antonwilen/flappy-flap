@@ -28,251 +28,223 @@ import com.flappy.game.util.Settings;
 import java.util.Iterator;
 
 public class GameScreenTEST implements Screen {
-	final Flap game;
-	private Difficulty difficulty;
-	private Stage stage;
-	private Table mainTable;
-	private final Sprite pipeTop;
-	private final Sprite pipeBottom;
-	private final Sprite pipeBody;
-	private final Texture pipeTopImage;
-	private final Texture pipeBottomImage;
-	private final Texture pipeBodyImage;
-	private Image birdImage;
-	private final Sound thumpSound;
-	private final Music backgroundMusic;
-	private final OrthographicCamera camera;
-	private final SpriteBatch batch;
-	private final Bird bird;
-	private final Array<Pipe> pipes;
-	private Long lastPipeImage;
-	// -- testing score count
-	public Rectangle scoreCount;
-	private Texture scoreImage;
-	private final Sound plingSound;
-	private int currentScore;
-	Image birdImageTest;
-	Background background;
-	Label label;
-	Group foreGround;
-	Group backGround;
-
-	// -- testing score count
-
-	public GameScreenTEST(final Flap game, Difficulty difficulty) {
-		this.game = game;
-		this.difficulty = difficulty;
-		Settings.setDifficultySettings(difficulty.getDifficultyNumber());
-
-		backGround = new Group();
-		foreGround = new Group();
-
-		stage = new Stage(new ScreenViewport());
-		Gdx.input.setInputProcessor(stage);
-		mainTable = new Table();
-		mainTable.setFillParent(true);
-		mainTable.center();
-
-		background = new Background();
-		backGround.addActor(background.getBackground1());
-		backGround.addActor(background.getBackground2());
+    final Flap game;
+    private final Difficulty difficulty;
+    private final Stage stage;
+    private Texture pipeTopImage;
+    private Texture pipeBottomImage;
+    private Texture pipeBodyImage;
+    private Sound thumpSound;
+    private Music backgroundMusic;
+    private final OrthographicCamera camera;
+    private final Bird bird;
+    private final Array<Pipe> pipes;
+    private Long lastPipeImage;
+    public Rectangle scoreCount;
+    private Sound plingSound;
+    private int currentScore;
+    Background background;
+    Label label;
+    Group foreGround;
+    Group backGround;
 
 
-		pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
-		pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
-		pipeBodyImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_body.png"));
-		pipeTop = new Sprite(pipeTopImage);
-		pipeBody = new Sprite(pipeBodyImage);
-		pipeBottom = new Sprite(pipeBottomImage);
+    public GameScreenTEST(final Flap game, Difficulty difficulty) {
+        this.game = game;
+        this.difficulty = difficulty;
+        Settings.setDifficultySettings(difficulty.getDifficultyNumber());
 
-		thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
-		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		plingSound = Gdx.audio.newSound(Gdx.files.internal("sfx/pling.wav"));
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 480);
 
-		backgroundMusic.setLooping(true);
-		backgroundMusic.play();
+        backGround = new Group();
+        foreGround = new Group();
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+        createBackground();
+        initializePipeTextures();
+        initializeSounds();
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
 
-		batch = new SpriteBatch();
-		bird = new Bird();
+        bird = new Bird();
+        pipes = new Array<>();
 
-		pipes = new Array<>();
-		foreGround.addActor(bird.getBirdActor());
+        spawnPipe();
+        scoreCount();
+        makeScoreLabel();
 
+        foreGround.addActor(bird.getBirdActor());
+        foreGround.addActor(label);
+        stage.addActor(backGround);
+        stage.addActor(foreGround);
+    }
 
-		spawnPipe();
-		scoreCount();
-		BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
-		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = font;
-		label = new Label(Integer.toString(currentScore),labelStyle);
+    private void createBackground() {
+        background = new Background();
+        backGround.addActor(background.getBackground1());
+        backGround.addActor(background.getBackground2());
+    }
+    private void initializePipeTextures(){
+        pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
+        pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
+        pipeBodyImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_body.png"));
+    }
+    private void initializeSounds(){
+        thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        plingSound = Gdx.audio.newSound(Gdx.files.internal("sfx/pling.wav"));
+    }
+    private void makeScoreLabel(){
+        BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        label = new Label(Integer.toString(currentScore), labelStyle);
+        label.setPosition(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 33);
+    }
 
-		label.setPosition(Settings.SCREEN_WIDTH /2,Settings.SCREEN_HEIGHT -33);
-		foreGround.addActor(label);
-		stage.addActor(backGround);
-		stage.addActor(foreGround);
+    @Override
+    public void render(float delta) {
+        // Game engine stuff
+        ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
+        camera.update();
 
-	}
+        // Updating various game objects
+        background.update();
+        handleInput();
+        updatePipes();
+        updateBird();
+        newPipe();
+        checkCollision();
+        label.setText(currentScore);
 
-	private void scoreCount() {
-		scoreCount = new Rectangle();
-		scoreImage = new Texture("gfx/bird/penguins.png");
+        // "Finalizing"
+        stage.act(delta);
+        stage.draw();
+    }
+    private void handleInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            bird.jump();
+        }
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            bird.jump();
+        }
+    }
+    private void updatePipes(){
+        for (Pipe pipe : pipes) {
+            updatePipe(pipe);
+        }
+    }
+    private void updatePipe(Pipe pipe) {
+        pipe.getPipeImage().setWidth(pipe.pipe.width);
+        pipe.getPipeImage().setHeight(pipe.pipe.height);
+        pipe.getPipeImage().setPosition(pipe.pipe.x, pipe.pipe.y);
+    }
+    private void updateBird(){
+        bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
+        bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
+        bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
+    }
+    private void newPipe(){
+        if (TimeUtils.nanoTime() - lastPipeImage > Settings.getSpawnTime()) {
+            spawnPipe();
+        }
+    }
+    private void checkCollision(){
+        for (Pipe pipe : pipes) {
+            pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
+            if (pipe.pipe.overlaps(bird.getBirdObject())) {
+                thumpSound.play();
+                game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty));
+                backgroundMusic.stop();
+            }
+            if (pipe.pipe.overlaps(scoreCount) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
+                plingSound.play();
+                currentScore++;
+            }
+        }
+    }
 
-		scoreCount.y = Settings.SCREEN_HEIGHT;
-		scoreCount.x = Settings.SCORE_COUNT_X;
-		scoreCount.height = Settings.SCREEN_HEIGHT;
-		scoreCount.width = 4;
+    private void scoreCount() {
+        scoreCount = new Rectangle();
+        scoreCount.y = Settings.SCREEN_HEIGHT;
+        scoreCount.x = Settings.SCORE_COUNT_X;
+        scoreCount.height = Settings.SCREEN_HEIGHT;
+        scoreCount.width = 4;
+        lastPipeImage = TimeUtils.nanoTime();
+    }
 
-		lastPipeImage = TimeUtils.nanoTime();
-	}
+    private void spawnPipe() {
+        Pipe pipeTop = new Pipe(pipeTopImage);
+        pipeTop.pipe.y = MathUtils.random(Settings.PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
+        pipeTop.pipe.x = Settings.SCREEN_WIDTH;
+        pipeTop.pipe.width = pipeTopImage.getWidth();
+        pipeTop.pipe.height = pipeTopImage.getHeight();
 
-	private void spawnPipe() {
+        Pipe pipeTopFill = new Pipe(pipeBodyImage);
+        pipeTopFill.pipe.y = pipeTop.pipe.y + pipeTopImage.getHeight();
+        pipeTopFill.pipe.x = Settings.SCREEN_WIDTH;
+        pipeTopFill.pipe.width = pipeBodyImage.getWidth();
+        pipeTopFill.pipe.height = Settings.SCREEN_HEIGHT - (pipeTopFill.pipe.y - Settings.SCREEN_HEIGHT);
 
-		Pipe pipeTop = new Pipe(pipeTopImage);
-		pipeTop.pipe.y = MathUtils.random(Settings.PIPE_SPACE, Settings.SCREEN_HEIGHT - pipeTopImage.getHeight());
-		pipeTop.pipe.x = Settings.SCREEN_WIDTH;
-		pipeTop.pipe.width = pipeTopImage.getWidth();
-		pipeTop.pipe.height = pipeTopImage.getHeight();
+        Pipe pipeBottom = new Pipe(pipeBottomImage);
+        pipeBottom.pipe.y = pipeTop.pipe.y - Settings.getPipeSpace();
+        pipeBottom.pipe.x = Settings.SCREEN_WIDTH;
+        pipeBottom.pipe.width = pipeBottomImage.getWidth();
+        pipeBottom.pipe.height = pipeBottomImage.getHeight();
 
-		Pipe pipeTopFill = new Pipe(pipeBodyImage);
-		pipeTopFill.pipe.y = pipeTop.pipe.y + pipeTopImage.getHeight();
-		pipeTopFill.pipe.x = Settings.SCREEN_WIDTH;
-		pipeTopFill.pipe.width = pipeBodyImage.getWidth();
-		pipeTopFill.pipe.height = Settings.SCREEN_HEIGHT - (pipeTopFill.pipe.y - Settings.SCREEN_HEIGHT);
+        Pipe pipeBottomFill = new Pipe(pipeBodyImage);
+        pipeBottomFill.pipe.y = 0;
+        pipeBottomFill.pipe.x = Settings.SCREEN_WIDTH;
+        pipeBottomFill.pipe.width = pipeBodyImage.getWidth();
+        pipeBottomFill.pipe.height = pipeBottom.pipe.y;
 
-		Pipe pipeBottom = new Pipe(pipeBottomImage);
-		pipeBottom.pipe.y = pipeTop.pipe.y - Settings.getPipeSpace();
-		pipeBottom.pipe.x = Settings.SCREEN_WIDTH;
-		pipeBottom.pipe.width = pipeBottomImage.getWidth();
-		pipeBottom.pipe.height = pipeBottomImage.getHeight();
+        pipes.add(pipeTop);
+        pipes.add(pipeBottom);
+        pipes.add(pipeTopFill);
+        pipes.add(pipeBottomFill);
 
-		Pipe pipeBottomFill = new Pipe(pipeBodyImage);
-		pipeBottomFill.pipe.y = 0;
-		pipeBottomFill.pipe.x = Settings.SCREEN_WIDTH;
-		pipeBottomFill.pipe.width = pipeBodyImage.getWidth();
-		pipeBottomFill.pipe.height = pipeBottom.pipe.y;
+        backGround.addActor(pipeTop.getPipeImage());
+        pipeTop.getPipeImage().setPosition(pipeTop.pipe.x, pipeTop.pipe.y);
+        backGround.addActor(pipeBottom.getPipeImage());
+        pipeBottom.getPipeImage().setPosition(pipeBottom.pipe.x, pipeBottom.pipe.y);
+        backGround.addActor(pipeTopFill.getPipeImage());
+        pipeTopFill.getPipeImage().setPosition(pipeTopFill.pipe.x, pipeTopFill.pipe.y);
+        backGround.addActor(pipeBottomFill.getPipeImage());
+        pipeBottomFill.getPipeImage().setPosition(pipeBottomFill.pipe.x, pipeBottomFill.pipe.y);
 
-		pipes.add(pipeTop);
-		pipes.add(pipeBottom);
-		pipes.add(pipeTopFill);
-		pipes.add(pipeBottomFill);
+        lastPipeImage = TimeUtils.nanoTime();
+    }
 
+    @Override
+    public void show() {
 
+    }
 
+    @Override
+    public void resize(int width, int height) {
+    }
 
-		//stage.addActor(pipeTop.getPipeImage());
-		backGround.addActor(pipeTop.getPipeImage());
-		pipeTop.getPipeImage().setPosition(pipeTop.pipe.x,pipeTop.pipe.y);
-		//stage.addActor(pipeBottom.getPipeImage());
-		backGround.addActor(pipeBottom.getPipeImage());
-		pipeBottom.getPipeImage().setPosition(pipeBottom.pipe.x,pipeBottom.pipe.y);
-		//stage.addActor(pipeTopFill.getPipeImage());
-		backGround.addActor(pipeTopFill.getPipeImage());
-		pipeTopFill.getPipeImage().setPosition(pipeTopFill.pipe.x,pipeTopFill.pipe.y);
-		//stage.addActor(pipeBottomFill.getPipeImage());
-		backGround.addActor(pipeBottomFill.getPipeImage());
-		pipeBottomFill.getPipeImage().setPosition(pipeBottomFill.pipe.x,pipeBottomFill.pipe.y);
+    @Override
+    public void pause() {
+    }
 
+    @Override
+    public void resume() {
+    }
 
+    @Override
+    public void hide() {
+    }
 
-		lastPipeImage = TimeUtils.nanoTime();
-
-
-	}
-
-	@Override
-	public void show() {
-
-	}
-
-	@Override
-	public void render(float delta) {
-
-		ScreenUtils.clear(0.3f, 0.2f, 1.21f, 1);
-
-		camera.update();
-		background.update();
-
-		bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
-		//batch.draw(bird.getBirdImage(), bird.getPosition().x, bird.getPosition().y);
-		//batch.draw(scoreImage, scoreCount.x, scoreCount.y, scoreCount.width, scoreCount.height);
-		for (Pipe pipe: pipes) {
-			//batch.draw(pipe.getPipeTexture(), pipe.pipe.x, pipe.pipe.y, pipe.pipe.width, pipe.pipe.height);
-			pipe.getPipeImage().setWidth(pipe.pipe.width);
-			pipe.getPipeImage().setHeight(pipe.pipe.height);
-			pipe.getPipeImage().setPosition(pipe.pipe.x,pipe.pipe.y);
-
-		}
-		bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
-		//font.draw(batch, Integer.toString(currentScore), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 20);
-		//batch.end();
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-			bird.jump();
-		}
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-			bird.jump();
-		}
-
-		bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
-
-			if (TimeUtils.nanoTime() - lastPipeImage > Settings.getSpawnTime()) {
-				spawnPipe();
-			}
-
-			for (Iterator<Pipe> iter = pipes.iterator(); iter.hasNext(); ) {
-
-
-				Pipe pipe = iter.next();
-				pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
-				/*if (pipe.pipe.x - pipeTopImage.getWidth() < 0 && pipe.pipe.x - pipeTopImage.getWidth() > -2){
-					currentScore++;
-					iter.next();
-				}*/
-
-				if (pipe.pipe.overlaps(bird.getBirdObject())) {
-					thumpSound.play();
-					game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty));
-
-					backgroundMusic.stop();
-				}
-
-				if (pipe.pipe.overlaps(scoreCount) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
-						plingSound.play();
-						currentScore++;
-				}
-			}
-
-		label.setText(currentScore);
-		stage.act(delta);
-		stage.draw();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void hide() {
-	}
-	@Override
-	public void dispose () {
-		pipeTopImage.dispose();
-		pipeBottomImage.dispose();
-		pipeBodyImage.dispose();
-		//bird. dispose??
-		thumpSound.dispose();
-		backgroundMusic.dispose();
-		stage.dispose();
-		//batch.dispose();
-	}
+    @Override
+    public void dispose() {
+        pipeTopImage.dispose();
+        pipeBottomImage.dispose();
+        pipeBodyImage.dispose();
+        thumpSound.dispose();
+        backgroundMusic.dispose();
+        stage.dispose();
+    }
 }
