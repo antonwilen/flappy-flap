@@ -211,6 +211,9 @@ public class GameScreenTEST implements Screen {
 		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 			bird.jump();
 		}
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+			bird.jump();
+		}
 
 		bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
 
