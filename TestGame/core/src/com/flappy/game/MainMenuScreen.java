@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.util.Settings;
 
@@ -27,6 +29,8 @@ public class MainMenuScreen implements Screen {
     Skin mySkin;
     Difficulty difficulty;
     TextureAtlas atlas;
+    Image background;
+    Image logo;
 
 
 
@@ -39,6 +43,15 @@ public class MainMenuScreen implements Screen {
         table.center();
 
         mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
+
+        background = new Image(new Texture("gfx/background.png"));
+        background.setScaling(Scaling.fill);
+        stage.addActor(background);
+
+        logo = new Image(new Texture("gfx/logo.png"));
+        logo.setSize(100,200);
+        table.add(logo).width(262).height(175);
+        table.row();
 
         playButton = new TextButton("Play",mySkin);
         playButton.setSize(200,100);
@@ -102,6 +115,9 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        background.setWidth(Gdx.graphics.getWidth());
+        background.setHeight(Gdx.graphics.getHeight());
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             game.setScreen(new GameScreenTEST(game,difficulty));

@@ -3,6 +3,7 @@ package com.flappy.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Scaling;
 import com.flappy.game.util.Settings;
 
 public class Background {
@@ -20,6 +21,8 @@ public class Background {
     public Background() {
         background1 = new Image(new Texture("gfx/background.png"));
         background2 = new Image(new Texture("gfx/background.png"));
+        background1.setScaling(Scaling.fill);
+        background2.setScaling(Scaling.fill);
     }
 
     public void update() {

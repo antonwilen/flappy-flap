@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.util.Settings;
 
@@ -24,6 +26,7 @@ public class GameOverScreenTEST implements Screen {
     TextureAtlas atlas;
     private Difficulty currentDifficulty;
     Highscore highscore;
+    Image background;
 
 
     public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty) {
@@ -45,6 +48,10 @@ public class GameOverScreenTEST implements Screen {
         scoreTable = new Table();
         scoreTable.setFillParent(true);
         scoreTable.padLeft(Settings.SCREEN_WIDTH / -2f);
+
+        background = new Image(new Texture("gfx/background.png"));
+        background.setScaling(Scaling.fill);
+        stage.addActor(background);
 
         mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
 
@@ -104,6 +111,8 @@ public class GameOverScreenTEST implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        background.setWidth(Gdx.graphics.getWidth());
+        background.setHeight(Gdx.graphics.getHeight());
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             newGame();
         }
