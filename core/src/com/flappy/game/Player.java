@@ -9,6 +9,11 @@ public class Player implements Comparable<Player> {
         this.score = 0;
     }
 
+    public  Player(int score, String name) {
+        this.name = name;
+        this.score = score;
+    }
+
     public String getName() {
         return name;
     }
