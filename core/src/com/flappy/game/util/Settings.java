@@ -1,10 +1,13 @@
 package com.flappy.game.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Settings {
     public static final Texture birdTexture = new Texture("gfx/bird/penguins.png");
     private static final Texture pipeTexture = new Texture("gfx/pipes/pipe_bottom.png");
+    public static Skin mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
     public static int PIPE_SPACE = 300;
     public static int SPEED = 200;
     public static float BACKGROUND_SPEED = 25f;

@@ -29,11 +29,11 @@ public class GameOverScreenTEST implements Screen {
     Image background;
 
 
-    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty) {
+    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty, Highscore highscore) {
         this.game = game;
         this.score = score;
         this.currentDifficulty = difficulty;
-        Highscore highscore = new Highscore();
+        this.highscore = highscore;
         Player player = new Player(score, "TEST PLAYER");
 
         if (highscore.checkIfNewHighscore(currentDifficulty.getDifficultyNumber(), player)) {
@@ -121,7 +121,7 @@ public class GameOverScreenTEST implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreenTEST(game, currentDifficulty));
+        game.setScreen(new GameScreenTEST(game, currentDifficulty, highscore));
     }
 
     @Override
