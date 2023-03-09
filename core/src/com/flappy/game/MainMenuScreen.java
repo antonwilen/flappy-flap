@@ -31,6 +31,7 @@ public class MainMenuScreen implements Screen {
     TextureAtlas atlas;
     Image background;
     Image logo;
+    Highscore highscore;
 
 
 
@@ -43,6 +44,7 @@ public class MainMenuScreen implements Screen {
         table.center();
 
         mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
+        highscore = new Highscore();
 
         background = new Image(new Texture("gfx/background.png"));
         background.setScaling(Scaling.fill);
@@ -59,7 +61,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreenTEST(game,difficulty));
+                game.setScreen(new GameScreenTEST(game,difficulty, highscore));
                 return true;
             }
         });
@@ -120,14 +122,14 @@ public class MainMenuScreen implements Screen {
         background.setHeight(Gdx.graphics.getHeight());
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreenTEST(game,difficulty));
+            game.setScreen(new GameScreenTEST(game,difficulty, highscore));
         }
         stage.act(delta);
         stage.draw();
     }
 
     private void newGame(){
-        game.setScreen(new GameScreenTEST(game, difficulty));
+        game.setScreen(new GameScreenTEST(game, difficulty, highscore));
     }
     @Override
     public void resize(int width, int height) {

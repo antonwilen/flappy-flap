@@ -13,10 +13,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -26,6 +26,8 @@ import com.flappy.game.bird.Bird;
 import com.flappy.game.util.Settings;
 
 import java.util.Iterator;
+
+import static com.flappy.game.util.Settings.*;
 
 public class GameScreenTEST implements Screen {
     final Flap game;
@@ -47,17 +49,57 @@ public class GameScreenTEST implements Screen {
     Label label;
     Group foreGround;
     Group backGround;
+    Window popUp;
+    Highscore highscore;
+    TextButton submitButton;
+    Player player;
 
 
-    public GameScreenTEST(final Flap game, Difficulty difficulty) {
+    public GameScreenTEST(final Flap game, Difficulty difficulty, Highscore highscore) {
         this.game = game;
         this.difficulty = difficulty;
+        this.highscore = highscore;
+        player = new Player(50,"Player");
         Settings.setDifficultySettings(difficulty.getDifficultyNumber());
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
+
+        popUp = new Window("Dead", mySkin);
+
+        Label newHighscoreText = new Label("Grattis! Skriv in ditt namn:", mySkin);
+        popUp.add(newHighscoreText);
+        popUp.row();
+
+        TextField playerNameInput = new TextField("", mySkin);
+        playerNameInput.setText("player");
+        playerNameInput.setPosition(25, 75);
+        playerNameInput.setSize(90, 30);
+        popUp.add(playerNameInput);
+        popUp.row();
+
+        submitButton = new TextButton("OK",mySkin);
+        submitButton.setSize(popUp.getWidth()/2,popUp.getHeight()/4);
+        submitButton.addListener(new InputListener(){
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+                player.setName(playerNameInput.getText());
+                System.out.println(player.getName());
+                highscore.saveHighscore(difficulty.getDifficultyNumber(),player);
+                game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty, highscore));
+                return true;
+            }
+        });
+        popUp.add(submitButton);
+
+
+
+        popUp.setSize(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+        popUp.setPosition(SCREEN_WIDTH/2-popUp.getWidth()/2, SCREEN_HEIGHT/2-popUp.getHeight()/2);
+
+
 
         backGround = new Group();
         foreGround = new Group();
@@ -119,6 +161,9 @@ public class GameScreenTEST implements Screen {
         checkCollision();
         label.setText(currentScore);
 
+
+
+
         // "Finalizing"
         stage.act(delta);
         stage.draw();
@@ -155,8 +200,18 @@ public class GameScreenTEST implements Screen {
         for (Pipe pipe : pipes) {
             pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
             if (pipe.pipe.overlaps(bird.getBirdObject())) {
+                if(highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(),player)){
+                    stage.addActor(popUp);
+                    Settings.BACKGROUND_SPEED = 0;
+                    Settings.SPEED = 0;
+
+                }
+                else{
+                    game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty, highscore));
+
+                }
+
                 thumpSound.play();
-                game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty));
                 backgroundMusic.stop();
             }
             if (pipe.pipe.overlaps(scoreCount) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
