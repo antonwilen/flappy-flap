@@ -34,7 +34,7 @@ public class GameOverScreenTEST implements Screen {
         this.score = score;
         this.currentDifficulty = difficulty;
         Highscore highscore = new Highscore();
-        Player player = new Player(score, "Player");
+        Player player = new Player(score, "TEST PLAYER");
 
         if (highscore.checkIfNewHighscore(currentDifficulty.getDifficultyNumber(), player)) {
             highscore.saveHighscore(currentDifficulty.getDifficultyNumber(), player);

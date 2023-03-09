@@ -31,7 +31,7 @@ public class Highscore {
         String[] highscore = highscoreList.get(difficulty - 1).split(",");
         List<Player> players = new ArrayList<>();
 
-        for (int j = 0; j < 10; j += 2) {
+        for (int j = 0; j < 20; j += 2) {
             players.add(new Player(Integer.parseInt(highscore[j]), highscore[j + 1]));
         }
 
@@ -65,7 +65,7 @@ public class Highscore {
 
             for (int i = 0; i < 3; i++) {
                 if (i == difficulty - 1) {
-                    for (int j = 0; j < 5; j++) {
+                    for (int j = 0; j < 10; j++) {
                         outputFile.append(players.get(j).getScore() + "," + players.get(j).getName() + ",");
                     }
                     outputFile.append("\n");
