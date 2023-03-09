@@ -4,22 +4,23 @@ public class Player implements Comparable<Player> {
     private String name;
     private int score;
 
-    public Player(int score, String name) {
-        this.name = name;
-        this.score = score;
+    public Player() {
+        this.name = "player";
+        this.score = 0;
     }
 
     public String getName() {
         return name;
     }
 
+    public int getScore() {
+        return score;
+    }
     public void setName(String name) {
         this.name = name;
     }
 
-    public int getScore() {
-        return score;
-    }
+    public void setScore(int score) { this.score = score; }
 
     @Override
     public int compareTo(Player o) {
