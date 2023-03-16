@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.player;
 
 
 import java.io.IOException;

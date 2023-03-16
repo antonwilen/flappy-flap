@@ -1,26 +1,26 @@
-package com.flappy.game;
+package com.flappy.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.flappy.game.util.Difficulty;
+import com.flappy.game.Game;
+import com.flappy.game.player.Highscore;
+import com.flappy.game.util.ButtonHoverListener;
 import com.flappy.game.util.Settings;
 
 
 public class MainMenuScreen implements Screen {
-    final Flap game;
+    final Game game;
     private Stage stage;
     Table table;
     Button playButton;
@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
 
 
 
-    public MainMenuScreen(final Flap game){
+    public MainMenuScreen(final Game game){
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -62,7 +62,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreenTEST(game,difficulty, highscore));
+                game.setScreen(new GameScreen(game,difficulty, highscore));
                 return true;
             }
         });
@@ -123,7 +123,7 @@ public class MainMenuScreen implements Screen {
         background.setHeight(Gdx.graphics.getHeight());
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreenTEST(game,difficulty, highscore));
+            game.setScreen(new GameScreen(game,difficulty, highscore));
         }
 
         // Difficulty
@@ -143,7 +143,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreenTEST(game, difficulty, highscore));
+        game.setScreen(new GameScreen(game, difficulty, highscore));
     }
     @Override
     public void resize(int width, int height) {

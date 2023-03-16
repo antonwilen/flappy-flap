@@ -12,7 +12,7 @@ public class Settings {
     public static int SPEED = 200;
     public static float BACKGROUND_SPEED = 25f;
     public static long SPAWNTIME = 2050000000;
-    public static final int SCREEN_HEIGHT = 480;
+    public static final int SCREEN_HEIGHT = 600;
     public static final int SCREEN_WIDTH = 800;
     public static int BIRDGRAVITY = -15;
     public static int BIRDVELOCITY = 300;
