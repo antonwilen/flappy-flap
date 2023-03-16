@@ -32,6 +32,7 @@ public class MainMenuScreen implements Screen {
     Image background;
     Image logo;
     Highscore highscore;
+    Label difficultyLabel;
 
 
 
@@ -85,7 +86,7 @@ public class MainMenuScreen implements Screen {
         difficultyButton = new Button(mySkin);
         difficultyButton.setSize(200,100);
         difficultyButton.setPosition(Settings.SCREEN_WIDTH/2-difficultyButton.getWidth()/2,Settings.SCREEN_HEIGHT/2-150);
-        Label difficultyLabel = new Label(difficulty.getDifficulty(),mySkin,"textButton");
+        difficultyLabel = new Label(difficulty.getDifficulty(),mySkin,"textButton");
 
         difficultyButton.add(difficultyLabel);
         difficultyButton.addListener(new InputListener(){
@@ -124,6 +125,19 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             game.setScreen(new GameScreenTEST(game,difficulty, highscore));
         }
+
+        // Difficulty
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+            difficulty.setDifficulty(1);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+            difficulty.setDifficulty(2);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+            difficulty.setDifficulty(3);
+        }
+        difficultyLabel.setText(difficulty.getDifficulty());
+
         stage.act(delta);
         stage.draw();
     }
