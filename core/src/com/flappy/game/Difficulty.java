@@ -20,6 +20,19 @@ public class Difficulty {
         }
         return 0;
     }
+    public void setDifficulty(int difficultyNumber){
+        switch (difficultyNumber){
+            case 1:
+                difficulty = "Easy";
+                break;
+            case 2:
+                difficulty = "Medium";
+                break;
+            case 3:
+                difficulty = "Hard";
+                break;
+        }
+    }
     public void next(){
         switch (difficulty){
             case "Easy":
