@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,10 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.flappy.game.util.Difficulty;
+import com.flappy.game.Game;
+import com.flappy.game.player.Highscore;
+import com.flappy.game.player.Player;
+import com.flappy.game.util.ButtonHoverListener;
 import com.flappy.game.util.Settings;
 
-public class GameOverScreenTEST implements Screen {
-    final Flap game;
+public class GameOverScreen implements Screen {
+    final Game game;
     private int score;
     private Stage stage;
     Table table;
@@ -29,7 +34,7 @@ public class GameOverScreenTEST implements Screen {
     Image background;
 
 
-    public GameOverScreenTEST(final Flap game, int score, Difficulty difficulty, Highscore highscore) {
+    public GameOverScreen(final Game game, int score, Difficulty difficulty, Highscore highscore) {
         this.game = game;
         this.score = score;
         this.currentDifficulty = difficulty;
@@ -121,7 +126,7 @@ public class GameOverScreenTEST implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreenTEST(game, currentDifficulty, highscore));
+        game.setScreen(new GameScreen(game, currentDifficulty, highscore));
     }
 
     @Override

@@ -1,22 +1,25 @@
 package com.flappy.game;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.flappy.game.util.Settings;
-import org.w3c.dom.Text;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.flappy.game.screens.MainMenuScreen;
 
-public class Game {
-    private Texture birdTexture;
-    private Texture pipeTopTexture;
-    private Texture pipeBottomTexture;
-    private Texture pipeFillTexture;
+public class Game extends com.badlogic.gdx.Game {
+    public SpriteBatch batch;
+    public BitmapFont font;
 
-    private final float pipeSpaceWidth = 4 * Settings.SCREEN_WIDTH / 6;
-    private final float pipeSpaceHeight = Settings.SCREEN_HEIGHT / 3;
+    public void create(){
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        this.setScreen(new MainMenuScreen(this));
+    }
 
-    private Vector2 pipes[];
+    public void render(){
+        super.render();
+    }
 
-
-
+    public void dispose(){
+        batch.dispose();
+        font.dispose();
+    }
 }

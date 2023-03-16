@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.util;
 
 public class Difficulty {
     private String difficulty;

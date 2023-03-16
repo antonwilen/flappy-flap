@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.util;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

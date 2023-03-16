@@ -1,4 +1,4 @@
-package com.flappy.game.bird;
+package com.flappy.game.objects.bird;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;

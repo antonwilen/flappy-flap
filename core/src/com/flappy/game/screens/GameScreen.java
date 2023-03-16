@@ -1,4 +1,4 @@
-package com.flappy.game;
+package com.flappy.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,8 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -22,15 +20,18 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.flappy.game.bird.Bird;
+import com.flappy.game.*;
+import com.flappy.game.objects.bird.Bird;
+import com.flappy.game.objects.bird.Pipe;
+import com.flappy.game.player.Highscore;
+import com.flappy.game.player.Player;
+import com.flappy.game.util.Difficulty;
 import com.flappy.game.util.Settings;
-
-import java.util.Iterator;
 
 import static com.flappy.game.util.Settings.*;
 
-public class GameScreenTEST implements Screen {
-    final Flap game;
+public class GameScreen implements Screen {
+    final Game game;
     private final Difficulty difficulty;
     private final Stage stage;
     private Texture pipeTopImage;
@@ -55,7 +56,7 @@ public class GameScreenTEST implements Screen {
     Player player;
 
 
-    public GameScreenTEST(final Flap game, Difficulty difficulty, Highscore highscore) {
+    public GameScreen(final Game game, Difficulty difficulty, Highscore highscore) {
         this.game = game;
         this.difficulty = difficulty;
         this.highscore = highscore;
@@ -89,7 +90,7 @@ public class GameScreenTEST implements Screen {
 
                 System.out.println(player.getName());
                 highscore.saveHighscore(difficulty.getDifficultyNumber(),player);
-                game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty, highscore));
+                game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore));
                 return true;
             }
         });
@@ -209,7 +210,7 @@ public class GameScreenTEST implements Screen {
 
                 }
                 else{
-                    game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty, highscore));
+                    game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore));
 
                 }
 
