@@ -59,7 +59,7 @@ public class GameScreenTEST implements Screen {
         this.game = game;
         this.difficulty = difficulty;
         this.highscore = highscore;
-        player = new Player(50,"Player");
+        player = new Player();
         Settings.setDifficultySettings(difficulty.getDifficultyNumber());
 
         stage = new Stage(new ScreenViewport());
@@ -86,6 +86,7 @@ public class GameScreenTEST implements Screen {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
                 player.setName(playerNameInput.getText());
+
                 System.out.println(player.getName());
                 highscore.saveHighscore(difficulty.getDifficultyNumber(),player);
                 game.setScreen(new GameOverScreenTEST(game, currentScore, difficulty, highscore));
@@ -200,6 +201,7 @@ public class GameScreenTEST implements Screen {
         for (Pipe pipe : pipes) {
             pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
             if (pipe.pipe.overlaps(bird.getBirdObject())) {
+                player.setScore(currentScore);
                 if(highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(),player)){
                     stage.addActor(popUp);
                     Settings.BACKGROUND_SPEED = 0;
@@ -214,9 +216,10 @@ public class GameScreenTEST implements Screen {
                 thumpSound.play();
                 backgroundMusic.stop();
             }
-            if (pipe.pipe.overlaps(scoreCount) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
+            if (pipe.pipe.overlaps(scoreCount) && !(pipe.isScored()) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
                 plingSound.play();
                 currentScore++;
+                pipe.score();
             }
         }
     }
@@ -226,7 +229,7 @@ public class GameScreenTEST implements Screen {
         scoreCount.y = Settings.SCREEN_HEIGHT;
         scoreCount.x = Settings.SCORE_COUNT_X;
         scoreCount.height = Settings.SCREEN_HEIGHT;
-        scoreCount.width = 4;
+        scoreCount.width = 50;
         lastPipeImage = TimeUtils.nanoTime();
     }
 
