@@ -171,8 +171,12 @@ public class GameScreen implements Screen {
         label.setText(currentScore);
 
         action = new RotateToAction();
-        action.setRotation(bird.getVelocity().y/15);
-        action.setDuration(0.1f);
+        float actionRotateFactor = 15;
+        if(bird.getVelocity().y > 0){
+            actionRotateFactor = 10;
+        }
+        action.setRotation(bird.getVelocity().y/actionRotateFactor);
+        action.setDuration(actionRotateFactor/20);
         bird.getBirdActor().addAction(action);
 
 
