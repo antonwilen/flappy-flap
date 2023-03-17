@@ -62,6 +62,9 @@ public class Bird {
     public Image getBirdActor(){
         return birdActor;
     }
+    public Vector2 getVelocity(){
+        return velocity;
+    }
     public void jump() {
         velocity.y = Settings.BIRDVELOCITY;
     }
