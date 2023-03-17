@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.*;
 import com.flappy.game.objects.bird.Bird;
-import com.flappy.game.objects.bird.Pipe;
+import com.flappy.game.objects.Pipe;
 import com.flappy.game.player.Highscore;
 import com.flappy.game.player.Player;
 import com.flappy.game.util.Difficulty;

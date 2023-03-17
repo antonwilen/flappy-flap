@@ -1,6 +1,5 @@
 package com.flappy.game.player;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,15 +7,34 @@ import java.util.*;
 
 public class Highscore {
     private List<String> highscoreList;
-    private Map<Integer, List<Player>> difficultyMap = new HashMap<>();
+    private final Map<Integer, List<Player>> difficultyMap = new HashMap<>();
 
     public Highscore() {
         try {
-            highscoreList = Files.readAllLines(Path.of("assets/highscore/highscore"));
+            Path path = Path.of("assets/highscore/highscore");
+
+            checkIfHighscoreFileExists(path);
+            highscoreList = Files.readAllLines(path);
             generateDifficultyMap();
 
         } catch (IOException ex) {
             System.err.println("Something went wrong with reading the highscore file");
+        }
+    }
+
+    private void checkIfHighscoreFileExists(Path path) throws IOException {
+        String scores = "0,----,";
+
+        if (!Files.exists(path.getParent())) {
+            StringBuilder newScores = new StringBuilder();
+
+            Files.createDirectories(path.getParent());
+
+            for (int i = 0; i < 3; i++) {
+                newScores.append(scores.repeat(10));
+                newScores.append("\n");
+            }
+            Files.writeString(path, newScores);
         }
     }
 
@@ -61,12 +79,12 @@ public class Highscore {
             List<Player> players = generateListOfPlayers(difficulty);
             players.add(player);
 
-            Collections.sort(players, Collections.reverseOrder());
+            players.sort(Collections.reverseOrder());
 
             for (int i = 0; i < 3; i++) {
                 if (i == difficulty - 1) {
                     for (int j = 0; j < 10; j++) {
-                        outputFile.append(players.get(j).getScore() + "," + players.get(j).getName() + ",");
+                        outputFile.append(players.get(j).getScore()).append(",").append(players.get(j).getName()).append(",");
                     }
                     outputFile.append("\n");
                 } else {
@@ -86,7 +104,7 @@ public class Highscore {
         StringBuilder sb = new StringBuilder();
 
         for (Player p : highscore) {
-            sb.append(p.getScore() + ": " + p.getName());
+            sb.append(p.getScore()).append(": ").append(p.getName());
             sb.append("\n");
         }
 
