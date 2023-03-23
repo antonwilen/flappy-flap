@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,23 +18,19 @@ import com.flappy.game.player.Highscore;
 import com.flappy.game.util.ButtonHoverListener;
 import com.flappy.game.util.Settings;
 
-
 public class MainMenuScreen implements Screen {
     final Game game;
-    private Stage stage;
+    private final Stage stage;
     Table table;
     Button playButton;
     Button quitButton;
     Button difficultyButton;
     Skin mySkin;
     Difficulty difficulty;
-    TextureAtlas atlas;
     Image background;
     Image logo;
     Highscore highscore;
     Label difficultyLabel;
-
-
 
     public MainMenuScreen(final Game game){
         this.game = game;
@@ -67,9 +62,8 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+
         playButton.addListener(new ButtonHoverListener(playButton));
-
-
 
         quitButton = new TextButton("Quit",mySkin);
         quitButton.setSize(200,100);
@@ -81,6 +75,7 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
+
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
         difficulty = new Difficulty();
@@ -98,8 +93,8 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
         });
-        difficultyButton.addListener(new ButtonHoverListener(difficultyButton));
 
+        difficultyButton.addListener(new ButtonHoverListener(difficultyButton));
 
         table.add(playButton);
         table.row();
@@ -107,13 +102,11 @@ public class MainMenuScreen implements Screen {
         table.row();
         table.add(quitButton);
 
-
         stage.addActor(table);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -153,17 +146,14 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
