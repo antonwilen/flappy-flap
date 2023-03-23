@@ -75,7 +75,7 @@ public class GameScreen implements Screen {
         popUp.row();
 
         TextField playerNameInput = new TextField("", mySkin);
-        playerNameInput.setText("player");
+        playerNameInput.setText(player.getName());
         playerNameInput.setPosition(25, 75);
         playerNameInput.setSize(90, 30);
         popUp.add(playerNameInput);
@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
 
                 System.out.println(player.getName());
                 highscore.saveHighscore(difficulty.getDifficultyNumber(),player);
-                game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore));
+                game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
                 return true;
             }
         });
@@ -210,7 +210,7 @@ public class GameScreen implements Screen {
 
                 }
                 else{
-                    game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore));
+                    game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
 
                 }
 

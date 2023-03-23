@@ -76,24 +76,34 @@ public class Highscore {
         try {
             StringBuilder outputFile = new StringBuilder();
 
+            List<String> newHighscoreList = new ArrayList<>();
             List<Player> players = generateListOfPlayers(difficulty);
             players.add(player);
 
             players.sort(Collections.reverseOrder());
 
             for (int i = 0; i < 3; i++) {
+                StringBuilder highscores = new StringBuilder();
+
                 if (i == difficulty - 1) {
                     for (int j = 0; j < 10; j++) {
                         outputFile.append(players.get(j).getScore()).append(",").append(players.get(j).getName()).append(",");
+                        highscores.append(players.get(j).getScore()).append(",").append(players.get(j).getName()).append(",");
                     }
                     outputFile.append("\n");
+                    newHighscoreList.add(highscores.toString());
+
                 } else {
                     outputFile.append(highscoreList.get(i));
+                    highscores.append(highscoreList.get(i));
                     outputFile.append("\n");
+
+                    newHighscoreList.add(highscores.toString());
                 }
             }
 
-            System.out.println(players.toString());
+            System.out.println(newHighscoreList.toString());
+            highscoreList = newHighscoreList;
 
             Files.writeString(Path.of("assets/highscore/highscore"), outputFile);
 

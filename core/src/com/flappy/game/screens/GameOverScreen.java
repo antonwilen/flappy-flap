@@ -33,10 +33,13 @@ public class GameOverScreen implements Screen {
     Highscore highscore;
     Image background;
 
+    Player player;
 
-    public GameOverScreen(final Game game, int score, Difficulty difficulty, Highscore highscore) {
+
+    public GameOverScreen(final Game game, int score, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
         this.score = score;
+        this.player = player;
         this.currentDifficulty = difficulty;
         this.highscore = highscore;
 
@@ -121,7 +124,7 @@ public class GameOverScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreen(game, currentDifficulty, highscore, new Player()));
+        game.setScreen(new GameScreen(game, currentDifficulty, highscore, new Player(player.getName())));
     }
 
     @Override
