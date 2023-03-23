@@ -121,7 +121,7 @@ public class GameOverScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreen(game, currentDifficulty, highscore));
+        game.setScreen(new GameScreen(game, currentDifficulty, highscore, new Player()));
     }
 
     @Override

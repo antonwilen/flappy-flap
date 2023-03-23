@@ -56,11 +56,11 @@ public class GameScreen implements Screen {
     Player player;
 
 
-    public GameScreen(final Game game, Difficulty difficulty, Highscore highscore) {
+    public GameScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
         this.difficulty = difficulty;
         this.highscore = highscore;
-        player = new Player();
+        this.player = player;
         Settings.setDifficultySettings(difficulty.getDifficultyNumber());
 
         stage = new Stage(new ScreenViewport());
