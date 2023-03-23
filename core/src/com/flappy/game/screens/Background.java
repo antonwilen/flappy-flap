@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.flappy.game.util.Settings;
 
 public class Background {
-    private Image background1;
-    private Image background2;
+    private final Image background1;
+    private final Image background2;
 
     public Image getBackground1() {
         return background1;

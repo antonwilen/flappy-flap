@@ -83,27 +83,23 @@ public class GameScreen implements Screen {
         popUp.add(playerNameInput);
         popUp.row();
 
-        submitButton = new TextButton("OK",mySkin);
-        submitButton.setSize(popUp.getWidth()/2,popUp.getHeight()/4);
-        submitButton.addListener(new InputListener(){
+        submitButton = new TextButton("OK", mySkin);
+        submitButton.setSize(popUp.getWidth() / 2, popUp.getHeight() / 4);
+        submitButton.addListener(new InputListener() {
             @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 player.setName(playerNameInput.getText());
 
                 System.out.println(player.getName());
-                highscore.saveHighscore(difficulty.getDifficultyNumber(),player);
+                highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
                 game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
                 return true;
             }
         });
+
         popUp.add(submitButton);
-
-
-
-        popUp.setSize(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-        popUp.setPosition(SCREEN_WIDTH/2-popUp.getWidth()/2, SCREEN_HEIGHT/2-popUp.getHeight()/2);
-
-
+        popUp.setSize(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f);
+        popUp.setPosition(SCREEN_WIDTH / 2f - popUp.getWidth() / 2f, SCREEN_HEIGHT / 2f - popUp.getHeight() / 2);
 
         backGround = new Group();
         foreGround = new Group();
@@ -126,10 +122,6 @@ public class GameScreen implements Screen {
         stage.addActor(backGround);
         stage.addActor(foreGround);
 
-
-        //action.setRotation(25);
-        //action.setDuration(2);
-
     }
 
     private void createBackground() {
@@ -137,22 +129,25 @@ public class GameScreen implements Screen {
         backGround.addActor(background.getBackground1());
         backGround.addActor(background.getBackground2());
     }
-    private void initializePipeTextures(){
+
+    private void initializePipeTextures() {
         pipeTopImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_top.png"));
         pipeBottomImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_bottom.png"));
         pipeBodyImage = new Texture(Gdx.files.internal("gfx/pipes/pipe_body.png"));
     }
-    private void initializeSounds(){
+
+    private void initializeSounds() {
         thumpSound = Gdx.audio.newSound(Gdx.files.internal("thump.wav"));
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         plingSound = Gdx.audio.newSound(Gdx.files.internal("sfx/pling.wav"));
     }
-    private void makeScoreLabel(){
+
+    private void makeScoreLabel() {
         BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
         label = new Label(Integer.toString(currentScore), labelStyle);
-        label.setPosition(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HEIGHT - 33);
+        label.setPosition(Settings.SCREEN_WIDTH / 2f, Settings.SCREEN_HEIGHT - 33);
     }
 
     @Override
@@ -172,19 +167,19 @@ public class GameScreen implements Screen {
 
         action = new RotateToAction();
         float actionRotateFactor = 15;
-        if(bird.getVelocity().y > 0){
+        if (bird.getVelocity().y > 0) {
             actionRotateFactor = 10;
         }
-        action.setRotation(bird.getVelocity().y/actionRotateFactor);
-        action.setDuration(actionRotateFactor/20);
+        action.setRotation(bird.getVelocity().y / actionRotateFactor);
+        action.setDuration(actionRotateFactor / 20);
         bird.getBirdActor().addAction(action);
-
 
 
         // "Finalizing"
         stage.act(delta);
         stage.draw();
     }
+
     private void handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             bird.jump();
@@ -193,39 +188,43 @@ public class GameScreen implements Screen {
             bird.jump();
         }
     }
-    private void updatePipes(){
+
+    private void updatePipes() {
         for (Pipe pipe : pipes) {
             updatePipe(pipe);
         }
     }
+
     private void updatePipe(Pipe pipe) {
         pipe.getPipeImage().setWidth(pipe.pipe.width);
         pipe.getPipeImage().setHeight(pipe.pipe.height);
         pipe.getPipeImage().setPosition(pipe.pipe.x, pipe.pipe.y);
     }
-    private void updateBird(){
+
+    private void updateBird() {
         bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
         bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
         bird.update(Gdx.graphics.getDeltaTime(), Settings.SCREEN_HEIGHT);
     }
-    private void newPipe(){
+
+    private void newPipe() {
         if (TimeUtils.nanoTime() - lastPipeImage > Settings.getSpawnTime()) {
             spawnPipe();
         }
     }
-    private void checkCollision(){
+
+    private void checkCollision() {
         for (Pipe pipe : pipes) {
             pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
             if (pipe.pipe.overlaps(bird.getBirdObject())) {
                 player.setScore(currentScore);
-                if(highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(),player)){
+                if (highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(), player)) {
                     stage.addActor(popUp);
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
                     bird.die();
 
-                }
-                else{
+                } else {
                     game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
 
                 }
