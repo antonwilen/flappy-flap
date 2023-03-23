@@ -54,7 +54,7 @@ public class GameOverScreen implements Screen {
 
         playButton = new TextButton("Play", mySkin);
         playButton.setSize(200, 100);
-        playButton.setPosition(Settings.SCREEN_WIDTH / 2 - playButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2 + 50);
+        playButton.setPosition(Settings.SCREEN_WIDTH / 2f - playButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2f + 50);
         playButton.addListener(new InputListener() {
             @Override
 
@@ -67,7 +67,7 @@ public class GameOverScreen implements Screen {
 
         quitButton = new TextButton("Exit", mySkin);
         quitButton.setSize(200, 100);
-        quitButton.setPosition(Settings.SCREEN_WIDTH / 2 - quitButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2 - 50);
+        quitButton.setPosition(Settings.SCREEN_WIDTH / 2f - quitButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2f - 50);
         quitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -79,7 +79,7 @@ public class GameOverScreen implements Screen {
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
         Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
-        highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2 + 40);
+        highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2f + 40);
 
         Label currentScore = new Label("Your score: " + player.getScore(), mySkin);
 

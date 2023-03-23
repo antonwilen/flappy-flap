@@ -92,7 +92,7 @@ public class GameScreen implements Screen {
 
                 System.out.println(player.getName());
                 highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
-                game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
+                game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
                 return true;
             }
         });
@@ -225,7 +225,7 @@ public class GameScreen implements Screen {
                     bird.die();
 
                 } else {
-                    game.setScreen(new GameOverScreen(game, currentScore, difficulty, highscore, player));
+                    game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
 
                 }
 
