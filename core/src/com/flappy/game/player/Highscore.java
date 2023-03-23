@@ -93,6 +93,8 @@ public class Highscore {
                 }
             }
 
+            System.out.println(players.toString());
+
             Files.writeString(Path.of("assets/highscore/highscore"), outputFile);
 
         } catch (IOException ex) {
