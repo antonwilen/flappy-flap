@@ -3,8 +3,10 @@ package com.flappy.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -78,7 +80,12 @@ public class GameOverScreen implements Screen {
 
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
-        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
+        BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.BLACK;
+
+        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), labelStyle);
         highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2f + 40);
 
         Label currentScore = new Label("Your score: " + player.getScore(), mySkin);
