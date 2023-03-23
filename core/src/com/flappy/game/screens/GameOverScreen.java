@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,24 +20,19 @@ import com.flappy.game.util.Settings;
 
 public class GameOverScreen implements Screen {
     final Game game;
-    private int score;
-    private Stage stage;
+    private final Stage stage;
     Table table;
     Table scoreTable;
     Button playButton;
     Button quitButton;
     Skin mySkin;
-    TextureAtlas atlas;
-    private Difficulty currentDifficulty;
+    private final Difficulty currentDifficulty;
     Highscore highscore;
     Image background;
-
     Player player;
 
-
-    public GameOverScreen(final Game game, int score, Difficulty difficulty, Highscore highscore, Player player) {
+    public GameOverScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
-        this.score = score;
         this.player = player;
         this.currentDifficulty = difficulty;
         this.highscore = highscore;
@@ -64,14 +58,12 @@ public class GameOverScreen implements Screen {
         playButton.addListener(new InputListener() {
             @Override
 
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 newGame();
-
                 return true;
             }
         });
         playButton.addListener(new ButtonHoverListener(playButton));
-
 
         quitButton = new TextButton("Exit", mySkin);
         quitButton.setSize(200, 100);
@@ -83,15 +75,13 @@ public class GameOverScreen implements Screen {
                 return true;
             }
         });
+
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
         Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), mySkin);
-        //highScores.setFontScale(1.5f);
         highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2 + 40);
 
-        Label currentScore = new Label("Your score: " + score, mySkin);
-        //currentScore.setFontScale(2f);
-        //currentScore.setPosition(Settings.SCREEN_WIDTH/2-currentScore.getWidth()/2,0);
+        Label currentScore = new Label("Your score: " + player.getScore(), mySkin);
 
         table.add(playButton);
         table.row();
@@ -101,14 +91,12 @@ public class GameOverScreen implements Screen {
         scoreTable.row();
         scoreTable.add(highScores);
 
-
         stage.addActor(table);
         stage.addActor(scoreTable);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -116,14 +104,14 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         background.setWidth(Gdx.graphics.getWidth());
         background.setHeight(Gdx.graphics.getHeight());
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             newGame();
         }
         stage.act(delta);
         stage.draw();
     }
 
-    private void newGame(){
+    private void newGame() {
         game.setScreen(new GameScreen(game, currentDifficulty, highscore, new Player(player.getName())));
     }
 
@@ -132,28 +120,20 @@ public class GameOverScreen implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
-
-
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
         stage.dispose();
     }
-
-
-
 }
