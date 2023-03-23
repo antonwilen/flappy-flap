@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.flappy.game.player.Player;
 import com.flappy.game.util.Difficulty;
 import com.flappy.game.Game;
 import com.flappy.game.player.Highscore;
@@ -62,7 +63,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
-                game.setScreen(new GameScreen(game,difficulty, highscore));
+                newGame();
                 return true;
             }
         });
@@ -123,7 +124,7 @@ public class MainMenuScreen implements Screen {
         background.setHeight(Gdx.graphics.getHeight());
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            game.setScreen(new GameScreen(game,difficulty, highscore));
+            newGame();
         }
 
         // Difficulty
@@ -143,7 +144,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreen(game, difficulty, highscore));
+        game.setScreen(new GameScreen(game, difficulty, highscore, new Player()));
     }
     @Override
     public void resize(int width, int height) {
