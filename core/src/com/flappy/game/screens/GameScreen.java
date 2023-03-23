@@ -218,19 +218,18 @@ public class GameScreen implements Screen {
             pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
             if (pipe.pipe.overlaps(bird.getBirdObject())) {
                 player.setScore(currentScore);
+                if(bird.isAlive()){
+                    thumpSound.play();
+                    backgroundMusic.stop();
+                }
                 if (highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(), player)) {
                     stage.addActor(popUp);
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
                     bird.die();
-
                 } else {
                     game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
-
                 }
-
-                thumpSound.play();
-                backgroundMusic.stop();
             }
             if (pipe.pipe.overlaps(scoreCount) && !(pipe.isScored()) && pipe.pipe.x > Settings.SCORE_COUNT_X) {
                 plingSound.play();
@@ -302,6 +301,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+
     }
 
     @Override
