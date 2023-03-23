@@ -5,31 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.flappy.game.player.Player;
-import com.flappy.game.util.Difficulty;
 import com.flappy.game.Game;
 import com.flappy.game.player.Highscore;
+import com.flappy.game.player.Player;
 import com.flappy.game.util.ButtonHoverListener;
+import com.flappy.game.util.Difficulty;
 import com.flappy.game.util.Settings;
 
 
 public class MainMenuScreen implements Screen {
     final Game game;
-    private Stage stage;
+    private final Stage stage;
     Table table;
     Button playButton;
     Button quitButton;
     Button difficultyButton;
     Skin mySkin;
     Difficulty difficulty;
-    TextureAtlas atlas;
     Image background;
     Image logo;
     Highscore highscore;
@@ -59,7 +57,7 @@ public class MainMenuScreen implements Screen {
 
         playButton = new TextButton("Play",mySkin);
         playButton.setSize(200,100);
-        playButton.setPosition(Settings.SCREEN_WIDTH/2-playButton.getWidth()/2,Settings.SCREEN_HEIGHT/2+50);
+        playButton.setPosition(Settings.SCREEN_WIDTH/2f-playButton.getWidth()/2,Settings.SCREEN_HEIGHT/2f+50);
         playButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
@@ -73,7 +71,7 @@ public class MainMenuScreen implements Screen {
 
         quitButton = new TextButton("Quit",mySkin);
         quitButton.setSize(200,100);
-        quitButton.setPosition(Settings.SCREEN_WIDTH/2-quitButton.getWidth()/2,Settings.SCREEN_HEIGHT/2-50);
+        quitButton.setPosition(Settings.SCREEN_WIDTH/2f-quitButton.getWidth()/2,Settings.SCREEN_HEIGHT/2f-50);
         quitButton.addListener(new InputListener(){
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button){
@@ -86,7 +84,7 @@ public class MainMenuScreen implements Screen {
         difficulty = new Difficulty();
         difficultyButton = new Button(mySkin);
         difficultyButton.setSize(200,100);
-        difficultyButton.setPosition(Settings.SCREEN_WIDTH/2-difficultyButton.getWidth()/2,Settings.SCREEN_HEIGHT/2-150);
+        difficultyButton.setPosition(Settings.SCREEN_WIDTH/2f-difficultyButton.getWidth()/2,Settings.SCREEN_HEIGHT/2f-150);
         difficultyLabel = new Label(difficulty.getDifficulty(),mySkin,"textButton");
 
         difficultyButton.add(difficultyLabel);

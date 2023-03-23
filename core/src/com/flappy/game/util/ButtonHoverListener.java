@@ -7,22 +7,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 public class ButtonHoverListener extends ClickListener { //This is a listener that enlarges buttons on hover
-    private Button button;
+    private final Button button;
 
-    public ButtonHoverListener(Button button){
+    public ButtonHoverListener(Button button) {
         this.button = button;
     }
 
-
     @Override
-    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         button.setTransform(true);
         button.scaleBy(0.075f);
         button.setOrigin(Align.center);
     }
 
     @Override
-    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
         button.setTransform(true);
         button.scaleBy(-0.075f);
         button.setOrigin(Align.center);
