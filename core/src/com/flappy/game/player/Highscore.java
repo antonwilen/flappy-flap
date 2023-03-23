@@ -39,7 +39,6 @@ public class Highscore {
     }
 
     private void generateDifficultyMap() {
-
         for (int i = 0; i < 3; i++) {
             difficultyMap.put(i + 1, generateListOfPlayers(i + 1));
         }
@@ -57,6 +56,7 @@ public class Highscore {
     }
 
     public String getHighscore(int difficulty) {
+        generateDifficultyMap();
         return formatHighscore(difficultyMap.get(difficulty));
     }
 
@@ -102,7 +102,6 @@ public class Highscore {
                 }
             }
 
-            System.out.println(newHighscoreList.toString());
             highscoreList = newHighscoreList;
 
             Files.writeString(Path.of("assets/highscore/highscore"), outputFile);
