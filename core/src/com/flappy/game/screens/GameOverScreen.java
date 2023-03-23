@@ -39,11 +39,6 @@ public class GameOverScreen implements Screen {
         this.score = score;
         this.currentDifficulty = difficulty;
         this.highscore = highscore;
-        Player player = new Player(score, "TEST PLAYER");
-
-        if (highscore.checkIfNewHighscore(currentDifficulty.getDifficultyNumber(), player)) {
-            highscore.saveHighscore(currentDifficulty.getDifficultyNumber(), player);
-        }
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
@@ -126,7 +121,7 @@ public class GameOverScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreen(game, currentDifficulty, highscore));
+        game.setScreen(new GameScreen(game, currentDifficulty, highscore, new Player()));
     }
 
     @Override
