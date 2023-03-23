@@ -74,6 +74,10 @@ public class Bird {
         }
     }
 
+    public boolean isAlive(){
+        return alive;
+    }
+
     public void addToBirdY(float y) {
         position.y += y;
     }
