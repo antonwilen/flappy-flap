@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -54,6 +55,7 @@ public class GameScreen implements Screen {
     Highscore highscore;
     TextButton submitButton;
     Player player;
+    RotateToAction action = new RotateToAction();
 
 
     public GameScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
@@ -123,6 +125,11 @@ public class GameScreen implements Screen {
         foreGround.addActor(label);
         stage.addActor(backGround);
         stage.addActor(foreGround);
+
+
+        //action.setRotation(25);
+        //action.setDuration(2);
+
     }
 
     private void createBackground() {
@@ -163,6 +170,14 @@ public class GameScreen implements Screen {
         checkCollision();
         label.setText(currentScore);
 
+        action = new RotateToAction();
+        float actionRotateFactor = 15;
+        if(bird.getVelocity().y > 0){
+            actionRotateFactor = 10;
+        }
+        action.setRotation(bird.getVelocity().y/actionRotateFactor);
+        action.setDuration(actionRotateFactor/20);
+        bird.getBirdActor().addAction(action);
 
 
 
