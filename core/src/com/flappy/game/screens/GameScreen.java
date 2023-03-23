@@ -222,6 +222,7 @@ public class GameScreen implements Screen {
                     stage.addActor(popUp);
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
+                    bird.die();
 
                 }
                 else{

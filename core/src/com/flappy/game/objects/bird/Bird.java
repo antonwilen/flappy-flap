@@ -21,8 +21,10 @@ public class Bird {
     private final Sprite birdSprite;
     private Image birdActor;
     Rectangle birdObject;
+    boolean alive;
 
     public Bird(){
+        alive = true;
 
         texture = Settings.getBirdTexture();
         birdSprite = new Sprite(texture);
@@ -50,9 +52,12 @@ public class Bird {
         position.add(0, velocity.y);
         velocity.scl(1/dt);
 
-        if(position.y < 0) {
-            position.y = 0;
+        if(alive){
+            if(position.y < 0) {
+                position.y = 0;
+            }
         }
+
 
         if(position.y > screenHeight - texture.getHeight() + 30) {
             position.y = screenHeight - texture.getHeight() + 30;
@@ -65,8 +70,16 @@ public class Bird {
     public Vector2 getVelocity(){
         return velocity;
     }
+
+    public void die(){
+        alive = false;
+        addToBirdY(GRAVITY/2);
+    }
     public void jump() {
-        velocity.y = Settings.BIRDVELOCITY;
+        if(alive){
+            velocity.y = Settings.BIRDVELOCITY;
+        }
+
     }
 
     public void setBirdY(int y){
