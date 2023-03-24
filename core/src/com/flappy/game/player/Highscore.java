@@ -1,5 +1,7 @@
 package com.flappy.game.player;
 
+import com.badlogic.gdx.Gdx;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +13,7 @@ public class Highscore {
 
     public Highscore() {
         try {
-            Path path = Path.of("assets/highscore/highscore");
+            Path path = Path.of(Gdx.files.internal("highscore/highscore").path());
 
             checkIfHighscoreFileExists(path);
             highscoreList = Files.readAllLines(path);
@@ -104,7 +106,8 @@ public class Highscore {
 
             highscoreList = newHighscoreList;
 
-            Files.writeString(Path.of("assets/highscore/highscore"), outputFile);
+            Files.writeString(Path.of(Gdx.files.internal("highscore/highscore").path()), outputFile);
+
 
         } catch (IOException ex) {
             System.err.println("Something went wrong with writing the highscore file");

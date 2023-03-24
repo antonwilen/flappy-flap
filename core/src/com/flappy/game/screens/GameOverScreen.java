@@ -32,6 +32,7 @@ public class GameOverScreen implements Screen {
     Highscore highscore;
     Image background;
     Player player;
+    private float timer;
 
     public GameOverScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
@@ -104,6 +105,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
+        timer = 0;
     }
 
     @Override
@@ -111,11 +113,19 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         background.setWidth(Gdx.graphics.getWidth());
         background.setHeight(Gdx.graphics.getHeight());
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            newGame();
-        }
+
+        // prevents the player from starting the game immediately after dying
+        timer+=delta;
+        checkForInput();
+
         stage.act(delta);
         stage.draw();
+    }
+
+    private void checkForInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timer > 1) {
+            newGame();
+        }
     }
 
     private void newGame() {
