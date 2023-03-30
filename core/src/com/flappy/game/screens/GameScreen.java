@@ -88,7 +88,15 @@ public class GameScreen implements Screen {
         submitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                player.setName(playerNameInput.getText());
+                StringBuilder name = new StringBuilder();
+
+                for (int i = 0; i < playerNameInput.getText().length() && i < 10 ; i++) {
+                    if (Character.isAlphabetic(playerNameInput.getText().charAt(i))) {
+                        name.append(playerNameInput.getText().charAt(i));
+                    }
+                }
+
+                player.setName(name.toString());
 
                 System.out.println(player.getName());
                 highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
