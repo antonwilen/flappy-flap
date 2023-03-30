@@ -28,9 +28,11 @@ public class Highscore {
         String scores = "0,----,";
 
         if (!Files.exists(path.getParent())) {
-            StringBuilder newScores = new StringBuilder();
-
             Files.createDirectories(path.getParent());
+        }
+
+        if (!Files.exists(path)) {
+            StringBuilder newScores = new StringBuilder();
 
             for (int i = 0; i < 3; i++) {
                 newScores.append(scores.repeat(10));
@@ -92,16 +94,12 @@ public class Highscore {
                         outputFile.append(players.get(j).getScore()).append(",").append(players.get(j).getName()).append(",");
                         highscores.append(players.get(j).getScore()).append(",").append(players.get(j).getName()).append(",");
                     }
-                    outputFile.append("\n");
-                    newHighscoreList.add(highscores.toString());
-
                 } else {
                     outputFile.append(highscoreList.get(i));
                     highscores.append(highscoreList.get(i));
-                    outputFile.append("\n");
-
-                    newHighscoreList.add(highscores.toString());
                 }
+                outputFile.append("\n");
+                newHighscoreList.add(highscores.toString());
             }
 
             highscoreList = newHighscoreList;
