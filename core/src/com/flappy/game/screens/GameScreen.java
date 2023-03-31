@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -71,9 +72,14 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
+        BitmapFont font_small = new BitmapFont(Gdx.files.internal("fishfingers_small.fnt"), false);
+        Label.LabelStyle labelStyle_small = new Label.LabelStyle();
+        labelStyle_small.font = font_small;
+        labelStyle_small.fontColor = Color.BLACK;
 
-
-        Label newHighscoreText = new Label("Grattis! Skriv in ditt namn:", mySkin);
+        Label yayText = new Label("Yay!", labelStyle_small);
+        Label newHighscoreText = new Label("You got a new highscore", labelStyle_small);
+        Label enterNameText = new Label("Enter your name:", labelStyle_small);
 
         TextField playerNameInput = new TextField("", mySkin);
         playerNameInput.setText(player.getName());
@@ -81,7 +87,11 @@ public class GameScreen implements Screen {
         playerNameInput.setSize(90, 30);
 
         nameInput = new Table();
+        nameInput.add(yayText);
+        nameInput.row();
         nameInput.add(newHighscoreText);
+        nameInput.row();
+        nameInput.add(enterNameText);
         nameInput.row();
         nameInput.add(playerNameInput);
         nameInput.row();

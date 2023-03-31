@@ -24,7 +24,7 @@ public class GameOverScreen implements Screen {
     final Game game;
     private final Stage stage;
     Table table;
-    Table scoreTable;
+    Table buttonTable;
     Button playButton;
     Button quitButton;
     Skin mySkin;
@@ -45,9 +45,8 @@ public class GameOverScreen implements Screen {
         table = new Table();
         table.setFillParent(true);
         table.center();
-        scoreTable = new Table();
-        scoreTable.setFillParent(true);
-        scoreTable.padLeft(Settings.SCREEN_WIDTH / -2f);
+        buttonTable = new Table();
+        buttonTable.setFillParent(true);
 
         background = new Image(new Texture("gfx/background.png"));
         background.setScaling(Scaling.fill);
@@ -55,7 +54,7 @@ public class GameOverScreen implements Screen {
 
         mySkin = new Skin(Gdx.files.internal("skin/freezing/freezingui/freezing-ui.json"));
 
-        playButton = new TextButton("Play", mySkin);
+        playButton = new TextButton("Play again", mySkin);
         playButton.setSize(200, 100);
         playButton.setPosition(Settings.SCREEN_WIDTH / 2f - playButton.getWidth() / 2, Settings.SCREEN_HEIGHT / 2f + 50);
         playButton.addListener(new InputListener() {
@@ -93,19 +92,23 @@ public class GameOverScreen implements Screen {
         labelStyle_small.font = font_small;
         labelStyle_small.fontColor = Color.BLACK;
 
-        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), labelStyle_small);
+        Label highScores = new Label("Highscores:\n\n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), labelStyle_small);
         highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2f + 40);
 
-        table.add(playButton);
-        table.row();
-        table.add(quitButton);
+        table.add(currentScore).expand().center().left().padLeft(80);
 
-        scoreTable.add(currentScore);
-        scoreTable.row();
-        scoreTable.add(highScores);
+        buttonTable.add(playButton).padBottom(10);
+        buttonTable.row();
+        buttonTable.add(quitButton);
+
+        table.add(highScores).expand().center().right().padRight(80);
+
+        Label instructions = new Label("Press space to play again", labelStyle_small);
+        instructions.setPosition(Settings.SCREEN_WIDTH / 2f - instructions.getWidth() / 2, 10);
 
         stage.addActor(table);
-        stage.addActor(scoreTable);
+        stage.addActor(buttonTable);
+        stage.addActor(instructions);
     }
 
     @Override

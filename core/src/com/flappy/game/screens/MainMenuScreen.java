@@ -3,8 +3,10 @@ package com.flappy.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -78,6 +80,7 @@ public class MainMenuScreen implements Screen {
 
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
+
         difficulty = new Difficulty();
         difficultyButton = new Button(mySkin);
         difficultyButton.setSize(200,100);
@@ -96,11 +99,23 @@ public class MainMenuScreen implements Screen {
 
         difficultyButton.addListener(new ButtonHoverListener(difficultyButton));
 
+        BitmapFont font_small = new BitmapFont(Gdx.files.internal("fishfingers_small.fnt"), false);
+        Label.LabelStyle labelStyle_small = new Label.LabelStyle();
+        labelStyle_small.font = font_small;
+        labelStyle_small.fontColor = Color.BLACK;
+
+        Label difficultyInstructions = new Label("Select difficulty with 1, 2 or 3", labelStyle_small);
+        Label startInstructions = new Label("PRESS SPACE TO START!", labelStyle_small);
+
         table.add(playButton);
         table.row();
         table.add(difficultyButton);
         table.row();
         table.add(quitButton);
+        table.row();
+        table.add(difficultyInstructions).padTop(40);
+        table.row();
+        table.add(startInstructions);
 
         stage.addActor(table);
     }
