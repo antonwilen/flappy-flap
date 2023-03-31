@@ -51,11 +51,12 @@ public class GameScreen implements Screen {
     Label label;
     Group foreGround;
     Group backGround;
-    Window popUp;
     Highscore highscore;
     TextButton submitButton;
     Player player;
     RotateToAction action = new RotateToAction();
+    Table nameInput;
+    Image popupBackground;
 
 
     public GameScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
@@ -70,27 +71,29 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
-        popUp = new Window("Dead", mySkin);
+
 
         Label newHighscoreText = new Label("Grattis! Skriv in ditt namn:", mySkin);
-        popUp.add(newHighscoreText);
-        popUp.row();
 
         TextField playerNameInput = new TextField("", mySkin);
         playerNameInput.setText(player.getName());
         playerNameInput.setPosition(25, 75);
         playerNameInput.setSize(90, 30);
-        popUp.add(playerNameInput);
-        popUp.row();
+
+        nameInput = new Table();
+        nameInput.add(newHighscoreText);
+        nameInput.row();
+        nameInput.add(playerNameInput);
+        nameInput.row();
 
         submitButton = new TextButton("OK", mySkin);
-        submitButton.setSize(popUp.getWidth() / 2, popUp.getHeight() / 4);
+        submitButton.setSize(nameInput.getWidth() / 2, nameInput.getHeight() / 4);
         submitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 StringBuilder name = new StringBuilder();
 
-                for (int i = 0; i < playerNameInput.getText().length() && i < 10 ; i++) {
+                for (int i = 0; i < playerNameInput.getText().length() && i < 10; i++) {
                     if (Character.isAlphabetic(playerNameInput.getText().charAt(i))) {
                         name.append(playerNameInput.getText().charAt(i));
                     }
@@ -105,9 +108,14 @@ public class GameScreen implements Screen {
             }
         });
 
-        popUp.add(submitButton);
-        popUp.setSize(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f);
-        popUp.setPosition(SCREEN_WIDTH / 2f - popUp.getWidth() / 2f, SCREEN_HEIGHT / 2f - popUp.getHeight() / 2);
+        nameInput.add(submitButton);
+        nameInput.setSize(SCREEN_WIDTH / 3f, SCREEN_HEIGHT / 3.5f);
+        nameInput.setPosition(SCREEN_WIDTH / 2f - nameInput.getWidth() / 2f, SCREEN_HEIGHT / 2f - nameInput.getHeight() / 2);
+
+        popupBackground = new Image(new Texture(Gdx.files.internal("gfx/popup_background.png")));
+        popupBackground.setHeight(nameInput.getHeight());
+        popupBackground.setWidth(nameInput.getWidth());
+        popupBackground.setPosition(nameInput.getX(),nameInput.getY());
 
         backGround = new Group();
         foreGround = new Group();
@@ -226,12 +234,14 @@ public class GameScreen implements Screen {
             pipe.pipe.x -= Settings.getSPEED() * Gdx.graphics.getDeltaTime();
             if (pipe.pipe.overlaps(bird.getBirdObject())) {
                 player.setScore(currentScore);
-                if(bird.isAlive()){
+                if (bird.isAlive()) {
                     thumpSound.play();
                     backgroundMusic.stop();
                 }
                 if (highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(), player)) {
-                    stage.addActor(popUp);
+                    stage.addActor(popupBackground);
+                    stage.addActor(nameInput);
+
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
                     bird.die();
