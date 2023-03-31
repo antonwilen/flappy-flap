@@ -81,15 +81,20 @@ public class GameOverScreen implements Screen {
 
         quitButton.addListener(new ButtonHoverListener(quitButton));
 
-        BitmapFont font = new BitmapFont(Gdx.files.internal("8bitfont.fnt"), false);
+        BitmapFont font = new BitmapFont(Gdx.files.internal("fishfingers.fnt"), false);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
-        labelStyle.fontColor = Color.BLACK;
+        labelStyle.fontColor = Color.RED;
 
-        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), labelStyle);
+        Label currentScore = new Label("Your score: " + player.getScore(), labelStyle);
+
+        BitmapFont font_small = new BitmapFont(Gdx.files.internal("fishfingers_small.fnt"), false);
+        Label.LabelStyle labelStyle_small = new Label.LabelStyle();
+        labelStyle_small.font = font_small;
+        labelStyle_small.fontColor = Color.BLACK;
+
+        Label highScores = new Label("Highscores: \n" + highscore.getHighscore(currentDifficulty.getDifficultyNumber()), labelStyle_small);
         highScores.setPosition(0, Settings.SCREEN_HEIGHT / 2f + 40);
-
-        Label currentScore = new Label("Your score: " + player.getScore(), mySkin);
 
         table.add(playButton);
         table.row();

@@ -11,6 +11,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Flappy");
 		config.setWindowedMode(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
+		config.setResizable(false);
+		config.setDecorated(false);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
 		new Lwjgl3Application(new Game(), config);
