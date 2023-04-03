@@ -104,7 +104,7 @@ public class MainMenuScreen implements Screen {
         labelStyle_small.font = font_small;
         labelStyle_small.fontColor = Color.BLACK;
 
-        Label difficultyInstructions = new Label("Select difficulty with 1, 2 or 3", labelStyle_small);
+        Label difficultyInstructions = new Label("SELECT DIFFICULTY WITH 1, 2 OR 3", labelStyle_small);
         Label startInstructions = new Label("PRESS SPACE TO START!", labelStyle_small);
 
         table.add(playButton);
