@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.*;
+import com.flappy.game.objects.Snow;
 import com.flappy.game.objects.bird.Bird;
 import com.flappy.game.objects.Pipe;
 import com.flappy.game.player.Highscore;
@@ -47,11 +48,14 @@ public class GameScreen implements Screen {
     private final OrthographicCamera camera;
     private final Bird bird;
     private final Array<Pipe> pipes;
+    private Array<Snow> snowflakes;
+    private long lastSnowflake;
     private Long lastPipeImage;
     public Rectangle scoreCount;
     private Sound plingSound;
     private int currentScore;
     Background background;
+    Snowground snowground;
     Label label;
     Group foreGround;
     Group backGround;
@@ -146,8 +150,10 @@ public class GameScreen implements Screen {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
+        createSnowground();
         bird = new Bird();
         pipes = new Array<>();
+        snowflakes = new Array<>();
 
         spawnPipe();
         scoreCount();
@@ -164,6 +170,13 @@ public class GameScreen implements Screen {
         background = new Background();
         backGround.addActor(background.getBackground1());
         backGround.addActor(background.getBackground2());
+    }
+
+    private void createSnowground(){
+        snowground = new Snowground();
+        foreGround.addActor(snowground.getSnowground1());
+        foreGround.addActor(snowground.getSnowground2());
+
     }
 
     private void initializePipeTextures() {
@@ -194,11 +207,16 @@ public class GameScreen implements Screen {
 
         // Updating various game objects
         background.update();
+        snowground.update();
         handleInput();
         updatePipes();
         updateBird();
         newPipe();
         checkCollision();
+
+        newSnowflake();
+        updateSnowflakes();
+
         label.setText(currentScore);
 
         action = new RotateToAction();
@@ -237,6 +255,16 @@ public class GameScreen implements Screen {
         pipe.getPipeImage().setPosition(pipe.pipe.x, pipe.pipe.y);
     }
 
+    private void updateSnowflakes(){
+        for (Snow snowflake:snowflakes){
+            updateSnowflake(snowflake);
+        }
+    }
+    private void updateSnowflake(Snow snow){
+        snow.getSnowflake().setX(Settings.getSnowXSpeed() * Gdx.graphics.getDeltaTime());
+        snow.getSnowflake().setY(Settings.getSnowYSpeed() * Gdx.graphics.getDeltaTime());
+    }
+
     private void updateBird() {
         bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
         bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
@@ -246,6 +274,12 @@ public class GameScreen implements Screen {
     private void newPipe() {
         if (TimeUtils.nanoTime() - lastPipeImage > Settings.getSpawnTime()) {
             spawnPipe();
+        }
+    }
+
+    private void newSnowflake(){
+        if(TimeUtils.nanoTime() - lastSnowflake > Settings.getSnowflakeSpawnTime()){
+            spawnSnow();
         }
     }
 
@@ -328,6 +362,14 @@ public class GameScreen implements Screen {
         lastPipeImage = TimeUtils.nanoTime();
     }
 
+    private void spawnSnow(){
+        Snow snowflake = new Snow();
+        snowflake.getSnowflake().setPosition(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+        snowflakes.add(snowflake);
+        foreGround.addActor(snowflake.getSnowflake());
+
+        lastSnowflake = TimeUtils.nanoTime();
+    }
     @Override
     public void show() {
 
