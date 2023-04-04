@@ -18,6 +18,8 @@ public class Snowground {
         return background2;
     }
 
+
+
     public Snowground() {
         background1 = new Image(new Texture("gfx/snow/snow-easy.png"));
         background2 = new Image(new Texture("gfx/snow/snow-easy.png"));
@@ -25,17 +27,17 @@ public class Snowground {
         background2.setScaling(Scaling.fill);
     }
 
-    public void update() {
+    public void update(float speed) {
         background1.setHeight(Gdx.graphics.getHeight());
         background1.setWidth(Gdx.graphics.getWidth());
 
         background2.setHeight(Gdx.graphics.getHeight());
         background2.setWidth(Gdx.graphics.getWidth());
         //background.setPosition(background.getX()*Gdx.graphics.getDeltaTime()*1000000f, background.getY());
-        background1.setPosition(background1.getX() - Settings.BACKGROUND_SPEED * Gdx.graphics.getDeltaTime(), 0f);
-        background2.setPosition(background1.getX() + background2.getWidth(), 0f);
+        background1.setPosition( 0f,background1.getY() - speed * Gdx.graphics.getDeltaTime());
+        background2.setPosition(0f, background1.getY() + background2.getHeight());
 
-        if (background1.getX() < -(background1.getWidth())) {
+        if (background1.getY() < -(background1.getHeight())) {
             background1.setPosition(0f, 0f);
         }
     }

@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
     private int currentScore;
     Background background;
     Snowground snowground;
+    Snowground snowground2;
     Label label;
     Group foreGround;
     Group backGround;
@@ -151,6 +152,7 @@ public class GameScreen implements Screen {
         backgroundMusic.play();
 
         createSnowground();
+        createSnowground2();
         bird = new Bird();
         pipes = new Array<>();
         snowflakes = new Array<>();
@@ -176,7 +178,11 @@ public class GameScreen implements Screen {
         snowground = new Snowground();
         foreGround.addActor(snowground.getSnowground1());
         foreGround.addActor(snowground.getSnowground2());
-
+    }
+    private void createSnowground2(){
+        snowground2 = new Snowground();
+        foreGround.addActor(snowground2.getSnowground1());
+        foreGround.addActor(snowground2.getSnowground2());
     }
 
     private void initializePipeTextures() {
@@ -207,15 +213,14 @@ public class GameScreen implements Screen {
 
         // Updating various game objects
         background.update();
-        snowground.update();
+        snowground.update(250f);
+        snowground2.update(350f);
         handleInput();
         updatePipes();
         updateBird();
         newPipe();
         checkCollision();
 
-        newSnowflake();
-        updateSnowflakes();
 
         label.setText(currentScore);
 
@@ -255,16 +260,6 @@ public class GameScreen implements Screen {
         pipe.getPipeImage().setPosition(pipe.pipe.x, pipe.pipe.y);
     }
 
-    private void updateSnowflakes(){
-        for (Snow snowflake:snowflakes){
-            updateSnowflake(snowflake);
-        }
-    }
-    private void updateSnowflake(Snow snow){
-        snow.getSnowflake().setX(Settings.getSnowXSpeed() * Gdx.graphics.getDeltaTime());
-        snow.getSnowflake().setY(Settings.getSnowYSpeed() * Gdx.graphics.getDeltaTime());
-    }
-
     private void updateBird() {
         bird.getBirdActor().setPosition(bird.getPosition().x, bird.getPosition().y);
         bird.getBirdActor().setDrawable(new TextureRegionDrawable(bird.getBirdImage()));
@@ -277,11 +272,6 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void newSnowflake(){
-        if(TimeUtils.nanoTime() - lastSnowflake > Settings.getSnowflakeSpawnTime()){
-            spawnSnow();
-        }
-    }
 
     private void checkCollision() {
         for (Pipe pipe : pipes) {
@@ -362,14 +352,6 @@ public class GameScreen implements Screen {
         lastPipeImage = TimeUtils.nanoTime();
     }
 
-    private void spawnSnow(){
-        Snow snowflake = new Snow();
-        snowflake.getSnowflake().setPosition(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
-        snowflakes.add(snowflake);
-        foreGround.addActor(snowflake.getSnowflake());
-
-        lastSnowflake = TimeUtils.nanoTime();
-    }
     @Override
     public void show() {
 
