@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -29,7 +32,6 @@ import com.flappy.game.player.Highscore;
 import com.flappy.game.player.Player;
 import com.flappy.game.util.Difficulty;
 import com.flappy.game.util.Settings;
-
 import static com.flappy.game.util.Settings.*;
 
 public class GameScreen implements Screen {
@@ -72,12 +74,17 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
+        BitmapFont font = new BitmapFont(Gdx.files.internal("fishfingers.fnt"), false);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+        labelStyle.fontColor = Color.RED;
+
         BitmapFont font_small = new BitmapFont(Gdx.files.internal("fishfingers_small.fnt"), false);
         Label.LabelStyle labelStyle_small = new Label.LabelStyle();
         labelStyle_small.font = font_small;
         labelStyle_small.fontColor = Color.BLACK;
 
-        Label yayText = new Label("Yay!", labelStyle_small);
+        Label yayText = new Label("Yay!", labelStyle);
         Label newHighscoreText = new Label("You got a new highscore", labelStyle_small);
         Label enterNameText = new Label("Enter your name:", labelStyle_small);
 
@@ -119,7 +126,7 @@ public class GameScreen implements Screen {
         });
 
         nameInput.add(submitButton);
-        nameInput.setSize(SCREEN_WIDTH / 3f, SCREEN_HEIGHT / 3.5f);
+        nameInput.setSize(SCREEN_WIDTH / 2.5f, SCREEN_HEIGHT / 2f);
         nameInput.setPosition(SCREEN_WIDTH / 2f - nameInput.getWidth() / 2f, SCREEN_HEIGHT / 2f - nameInput.getHeight() / 2);
 
         popupBackground = new Image(new Texture(Gdx.files.internal("gfx/popup_background.png")));
