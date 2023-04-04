@@ -27,6 +27,7 @@ import com.flappy.game.objects.bird.Bird;
 import com.flappy.game.objects.Pipe;
 import com.flappy.game.player.Highscore;
 import com.flappy.game.player.Player;
+import com.flappy.game.util.ButtonHoverListener;
 import com.flappy.game.util.Difficulty;
 import com.flappy.game.util.Settings;
 
@@ -98,6 +99,7 @@ public class GameScreen implements Screen {
 
         submitButton = new TextButton("OK", mySkin);
         submitButton.setSize(nameInput.getWidth() / 2, nameInput.getHeight() / 4);
+        submitButton.addListener(new ButtonHoverListener(submitButton));
         submitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -108,6 +110,7 @@ public class GameScreen implements Screen {
                         name.append(playerNameInput.getText().charAt(i));
                     }
                 }
+
 
                 player.setName(name.toString());
 
@@ -125,7 +128,7 @@ public class GameScreen implements Screen {
         popupBackground = new Image(new Texture(Gdx.files.internal("gfx/popup_background.png")));
         popupBackground.setHeight(nameInput.getHeight());
         popupBackground.setWidth(nameInput.getWidth());
-        popupBackground.setPosition(nameInput.getX(),nameInput.getY());
+        popupBackground.setPosition(nameInput.getX(), nameInput.getY());
 
         backGround = new Group();
         foreGround = new Group();
