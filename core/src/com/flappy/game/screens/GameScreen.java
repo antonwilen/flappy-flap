@@ -122,7 +122,7 @@ public class GameScreen implements Screen {
         });
 
         nameInput.add(submitButton);
-        nameInput.setSize(SCREEN_WIDTH / 3f, SCREEN_HEIGHT / 3.5f);
+        nameInput.setSize(SCREEN_WIDTH / 3f, SCREEN_HEIGHT / 3f);
         nameInput.setPosition(SCREEN_WIDTH / 2f - nameInput.getWidth() / 2f, SCREEN_HEIGHT / 2f - nameInput.getHeight() / 2);
 
         popupBackground = new Image(new Texture(Gdx.files.internal("gfx/popup_background.png")));

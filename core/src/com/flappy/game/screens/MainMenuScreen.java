@@ -147,6 +147,10 @@ public class MainMenuScreen implements Screen {
         }
         difficultyLabel.setText(difficulty.getDifficulty());
 
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            Gdx.app.exit();
+        }
+
         stage.act(delta);
         stage.draw();
     }

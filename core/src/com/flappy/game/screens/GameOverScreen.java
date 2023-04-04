@@ -134,6 +134,9 @@ public class GameOverScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timer > 1) {
             newGame();
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     private void newGame() {
