@@ -12,13 +12,27 @@ public class Settings {
     public static int SPEED = 200;
     public static float BACKGROUND_SPEED = 25f;
     public static long SPAWNTIME = 2050000000;
+    public static long SNOWFLAKE_SPAWNTIME = 100;
     public static final int SCREEN_HEIGHT = 600;
     public static final int SCREEN_WIDTH = 800;
     public static int BIRDGRAVITY = -15;
     public static int BIRDVELOCITY = 300;
+    private static float SNOW_X_SPEED = 200;
+    private static float SNOW_Y_SPEED = 10;
     public static final int BIRD_STARTING_POSITION_X = SCREEN_WIDTH / 2 - ((getBirdWidth() / 4) * 3);
     public static final int BIRD_STARTING_POSITION_Y = SCREEN_HEIGHT / 2 - getBirdHeight() / 2;
     public static final int SCORE_COUNT_X = BIRD_STARTING_POSITION_X - getPipeWidth();
+
+    public static long getSnowflakeSpawnTime(){
+        return SNOWFLAKE_SPAWNTIME;
+    }
+    public static float getSnowXSpeed(){
+        return SNOW_X_SPEED;
+    }
+
+    public static float getSnowYSpeed(){
+        return SNOW_Y_SPEED;
+    }
 
     public static int getBirdHeight() {
         return birdTexture.getHeight();
