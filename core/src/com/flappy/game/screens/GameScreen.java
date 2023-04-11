@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.flappy.game.*;
-import com.flappy.game.objects.Snow;
 import com.flappy.game.objects.bird.Bird;
 import com.flappy.game.objects.Pipe;
 import com.flappy.game.player.Highscore;
@@ -48,8 +47,6 @@ public class GameScreen implements Screen {
     private final OrthographicCamera camera;
     private final Bird bird;
     private final Array<Pipe> pipes;
-    private Array<Snow> snowflakes;
-    private long lastSnowflake;
     private Long lastPipeImage;
     public Rectangle scoreCount;
     private Sound plingSound;
@@ -155,7 +152,6 @@ public class GameScreen implements Screen {
         createSnowground2();
         bird = new Bird();
         pipes = new Array<>();
-        snowflakes = new Array<>();
 
         spawnPipe();
         scoreCount();
@@ -175,12 +171,14 @@ public class GameScreen implements Screen {
     }
 
     private void createSnowground(){
-        snowground = new Snowground();
+        //Snow snow = new Snow();
+        snowground = new Snowground(Settings.getSnowground1());
         foreGround.addActor(snowground.getSnowground1());
         foreGround.addActor(snowground.getSnowground2());
     }
     private void createSnowground2(){
-        snowground2 = new Snowground();
+        //Snow snow = new Snow();
+        snowground2 = new Snowground(Settings.getSnowground2());
         foreGround.addActor(snowground2.getSnowground1());
         foreGround.addActor(snowground2.getSnowground2());
     }
@@ -213,8 +211,8 @@ public class GameScreen implements Screen {
 
         // Updating various game objects
         background.update();
-        snowground.update(250f);
-        snowground2.update(350f);
+        snowground.update(Settings.getSnowground1Speed());
+        snowground2.update(Settings.getSnowground2Speed());
         handleInput();
         updatePipes();
         updateBird();

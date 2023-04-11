@@ -17,12 +17,20 @@ public class Settings {
     public static final int SCREEN_WIDTH = 800;
     public static int BIRDGRAVITY = -15;
     public static int BIRDVELOCITY = 300;
+    private static String background1 = "gfx/background.png";
+    private static String background2 = "gfx/background.png";
+    private static String snowground1 = "gfx/snow/snow-easy.png";
+    private static String snowground2 = "gfx/snow/snow-easy.png";
     private static float SNOW_X_SPEED = 200;
     private static float SNOW_Y_SPEED = 10;
+    private static float snowground1Speed = 250f;
+    private static float snowground2Speed = 350f;
     public static final int BIRD_STARTING_POSITION_X = SCREEN_WIDTH / 2 - ((getBirdWidth() / 4) * 3);
     public static final int BIRD_STARTING_POSITION_Y = SCREEN_HEIGHT / 2 - getBirdHeight() / 2;
     public static final int SCORE_COUNT_X = BIRD_STARTING_POSITION_X - getPipeWidth();
 
+    public static String getSnowground1() { return snowground1; }
+    public static String getSnowground2() { return snowground2; }
     public static long getSnowflakeSpawnTime(){
         return SNOWFLAKE_SPAWNTIME;
     }
@@ -33,6 +41,10 @@ public class Settings {
     public static float getSnowYSpeed(){
         return SNOW_Y_SPEED;
     }
+    public static float getSnowground1Speed() { return snowground1Speed; }
+    public static float getSnowground2Speed() { return snowground2Speed; }
+    public static String getBackground1() { return background1; }
+    public static String getBackground2() { return background2; }
 
     public static int getBirdHeight() {
         return birdTexture.getHeight();
@@ -70,13 +82,23 @@ public class Settings {
                 SPAWNTIME = 2050000000;
                 BIRDGRAVITY = -15;
                 BIRDVELOCITY = 300;
+                snowground1Speed = 200f;
+                snowground2Speed = 300f;
+                snowground1 = "gfx/snow/snow-light.png";
+                snowground2 = "gfx/snow/snow-easy.png";
                 break;
             case 2:
-                PIPE_SPACE = 260;
+                PIPE_SPACE = 230;
                 SPEED = 250;
-                SPAWNTIME = 1900000000;
+                SPAWNTIME = 1800000000;
                 BIRDGRAVITY = -17;
                 BIRDVELOCITY = 325;
+                snowground1Speed = 250f;
+                snowground2Speed = 350f;
+                snowground1 = "gfx/snow/snow-easy.png";
+                snowground2 = "gfx/snow/snow-medium.png";
+                background1 = "gfx/background2.png";
+                background2 = "gfx/background2.png";
                 break;
             case 3:
                 PIPE_SPACE = 220;
@@ -84,6 +106,12 @@ public class Settings {
                 SPAWNTIME = 1200000000;
                 BIRDGRAVITY = -20;
                 BIRDVELOCITY = 350;
+                snowground1Speed = 300f;
+                snowground2Speed = 400f;
+                background1 = "gfx/background3.png";
+                background2 = "gfx/background3.png";
+                snowground1 = "gfx/snow/snow-medium.png";
+                snowground2 = "gfx/snow/snow-hard.png";
                 break;
         }
     }
