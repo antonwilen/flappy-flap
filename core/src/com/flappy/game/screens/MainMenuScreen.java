@@ -106,6 +106,7 @@ public class MainMenuScreen implements Screen {
 
         Label difficultyInstructions = new Label("SELECT DIFFICULTY WITH 1, 2 OR 3", labelStyle_small);
         Label startInstructions = new Label("PRESS SPACE TO START!", labelStyle_small);
+        Label quitInstructions = new Label("OR ' Q ' TO QUIT", labelStyle_small);
 
         table.add(playButton);
         table.row();
@@ -116,6 +117,8 @@ public class MainMenuScreen implements Screen {
         table.add(difficultyInstructions).padTop(40);
         table.row();
         table.add(startInstructions);
+        table.row();
+        table.add(quitInstructions).padTop(-20);
 
         stage.addActor(table);
     }

@@ -103,7 +103,7 @@ public class GameOverScreen implements Screen {
 
         table.add(highScores).expand().center().right().padRight(80);
 
-        Label instructions = new Label("Press space to play again", labelStyle_small);
+        Label instructions = new Label("PRESS SPACE TO PLAY AGAIN!             OR ' Q ' TO EXIT", labelStyle_small);
         instructions.setPosition(Settings.SCREEN_WIDTH / 2f - instructions.getWidth() / 2, 10);
 
         stage.addActor(table);

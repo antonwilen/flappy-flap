@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
-import com.flappy.game.util.Settings;
 
 public class Snowground {
     private final Image background1;
@@ -20,9 +19,9 @@ public class Snowground {
 
 
 
-    public Snowground() {
-        background1 = new Image(new Texture("gfx/snow/snow-easy.png"));
-        background2 = new Image(new Texture("gfx/snow/snow-easy.png"));
+    public Snowground(String fileLocation) {
+        background1 = new Image(new Texture(fileLocation));
+        background2 = new Image(new Texture(fileLocation));
         background1.setScaling(Scaling.fill);
         background2.setScaling(Scaling.fill);
     }
