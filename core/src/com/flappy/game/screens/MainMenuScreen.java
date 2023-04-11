@@ -33,9 +33,11 @@ public class MainMenuScreen implements Screen {
     Image logo;
     Highscore highscore;
     Label difficultyLabel;
+    Player player;
 
-    public MainMenuScreen(final Game game){
+    public MainMenuScreen(final Game game, Player player){
         this.game = game;
+        this.player = player;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         table = new com.badlogic.gdx.scenes.scene2d.ui.Table();
@@ -159,7 +161,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void newGame(){
-        game.setScreen(new GameScreen(game, difficulty, highscore, new Player()));
+        game.setScreen(new GameScreen(game, difficulty, highscore, new Player(player.getName())));
     }
     @Override
     public void resize(int width, int height) {

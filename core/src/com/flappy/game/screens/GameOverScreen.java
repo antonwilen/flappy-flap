@@ -73,7 +73,7 @@ public class GameOverScreen implements Screen {
         quitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen(game, new Player(player.getName())));
                 return true;
             }
         });
@@ -135,7 +135,7 @@ public class GameOverScreen implements Screen {
             newGame();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MainMenuScreen(game, new Player(player.getName())));
         }
     }
 

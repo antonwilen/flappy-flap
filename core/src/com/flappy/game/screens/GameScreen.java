@@ -33,6 +33,7 @@ import com.flappy.game.player.Player;
 import com.flappy.game.util.ButtonHoverListener;
 import com.flappy.game.util.Difficulty;
 import com.flappy.game.util.Settings;
+
 import static com.flappy.game.util.Settings.*;
 
 public class GameScreen implements Screen {
@@ -63,7 +64,6 @@ public class GameScreen implements Screen {
     RotateToAction action = new RotateToAction();
     Table nameInput;
     Image popupBackground;
-
 
     public GameScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
@@ -170,13 +170,14 @@ public class GameScreen implements Screen {
         backGround.addActor(background.getBackground2());
     }
 
-    private void createSnowground(){
+    private void createSnowground() {
         //Snow snow = new Snow();
         snowground = new Snowground(Settings.getSnowground1());
         foreGround.addActor(snowground.getSnowground1());
         foreGround.addActor(snowground.getSnowground2());
     }
-    private void createSnowground2(){
+
+    private void createSnowground2() {
         //Snow snow = new Snow();
         snowground2 = new Snowground(Settings.getSnowground2());
         foreGround.addActor(snowground2.getSnowground1());
@@ -287,6 +288,7 @@ public class GameScreen implements Screen {
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
                     bird.die();
+
                 } else {
                     game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
                 }
