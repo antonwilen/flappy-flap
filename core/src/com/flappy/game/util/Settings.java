@@ -102,10 +102,10 @@ public class Settings {
                 break;
             case 3:
                 PIPE_SPACE = 220;
-                SPEED = 300;
-                SPAWNTIME = 1200000000;
-                BIRDGRAVITY = -20;
-                BIRDVELOCITY = 350;
+                SPEED = 280;
+                SPAWNTIME = 1400000000;
+                BIRDGRAVITY = -19;
+                BIRDVELOCITY = 340;
                 snowground1Speed = 300f;
                 snowground2Speed = 400f;
                 background1 = "gfx/background3.png";
