@@ -64,6 +64,7 @@ public class GameScreen implements Screen {
     RotateToAction action = new RotateToAction();
     Table nameInput;
     Image popupBackground;
+    TextField playerNameInput;
 
     public GameScreen(final Game game, Difficulty difficulty, Highscore highscore, Player player) {
         this.game = game;
@@ -91,7 +92,7 @@ public class GameScreen implements Screen {
         Label newHighscoreText = new Label("You got a new highscore", labelStyle_small);
         Label enterNameText = new Label("Enter your name:", labelStyle_small);
 
-        TextField playerNameInput = new TextField("", mySkin);
+        playerNameInput = new TextField("", mySkin);
         playerNameInput.setText(player.getName());
         playerNameInput.setPosition(25, 75);
         playerNameInput.setSize(90, 30);
@@ -112,20 +113,7 @@ public class GameScreen implements Screen {
         submitButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                StringBuilder name = new StringBuilder();
-
-                for (int i = 0; i < playerNameInput.getText().length() && i < 10; i++) {
-                    if (Character.isAlphabetic(playerNameInput.getText().charAt(i))) {
-                        name.append(playerNameInput.getText().charAt(i));
-                    }
-                }
-
-
-                player.setName(name.toString());
-
-                System.out.println(player.getName());
-                highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
-                game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
+                submitHighscore();
                 return true;
             }
         });
@@ -162,6 +150,22 @@ public class GameScreen implements Screen {
         stage.addActor(backGround);
         stage.addActor(foreGround);
 
+    }
+
+    private void submitHighscore() {
+        StringBuilder name = new StringBuilder();
+
+        for (int i = 0; i < playerNameInput.getText().length() && i < 10; i++) {
+            if (Character.isAlphabetic(playerNameInput.getText().charAt(i))) {
+                name.append(playerNameInput.getText().charAt(i));
+            }
+        }
+
+        player.setName(name.toString());
+
+        System.out.println(player.getName());
+        highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
+        game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
     }
 
     private void createBackground() {
@@ -284,6 +288,10 @@ public class GameScreen implements Screen {
                 if (highscore.checkIfNewHighscore(difficulty.getDifficultyNumber(), player)) {
                     stage.addActor(popupBackground);
                     stage.addActor(nameInput);
+                    stage.setKeyboardFocus(playerNameInput);
+                    if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
+                        submitHighscore();
+                    }
 
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
