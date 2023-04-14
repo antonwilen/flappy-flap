@@ -155,6 +155,7 @@ public class MainMenuScreen implements Screen {
         }
         difficultyLabel.setText(difficulty.getDifficulty());
 
+        // Timer on input to avoid "double-q" (exiting the game from the game over screen)
         if(Gdx.input.isKeyPressed(Input.Keys.Q) && timer > Settings.getInputDelay()){
             Gdx.app.exit();
         }

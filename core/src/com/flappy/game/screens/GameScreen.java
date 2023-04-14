@@ -163,7 +163,6 @@ public class GameScreen implements Screen {
 
         player.setName(name.toString());
 
-        System.out.println(player.getName());
         highscore.saveHighscore(difficulty.getDifficultyNumber(), player);
         game.setScreen(new GameOverScreen(game, difficulty, highscore, player));
     }
@@ -223,10 +222,16 @@ public class GameScreen implements Screen {
         updateBird();
         newPipe();
         checkCollision();
-
+        actionAnimation();
 
         label.setText(currentScore);
 
+        // "Finalizing"
+        stage.act(delta);
+        stage.draw();
+    }
+
+    private void actionAnimation() {
         action = new RotateToAction();
         float actionRotateFactor = 15;
         if (bird.getVelocity().y > 0) {
@@ -241,10 +246,6 @@ public class GameScreen implements Screen {
             action.setDuration(0.25f);
             bird.getBirdActor().addAction(action);
         }
-
-        // "Finalizing"
-        stage.act(delta);
-        stage.draw();
     }
 
     private void handleInput() {
@@ -256,7 +257,6 @@ public class GameScreen implements Screen {
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !bird.isAlive()){
             submitHighscore();
-            System.out.println("heyey");
         }
     }
 
@@ -283,7 +283,6 @@ public class GameScreen implements Screen {
             spawnPipe();
         }
     }
-
 
     private void checkCollision() {
         for (Pipe pipe : pipes) {
