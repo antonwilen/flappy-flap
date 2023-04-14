@@ -174,14 +174,12 @@ public class GameScreen implements Screen {
     }
 
     private void createSnowground() {
-        //Snow snow = new Snow();
         snowground = new Snowground(Settings.getSnowground1());
         foreGround.addActor(snowground.getSnowground1());
         foreGround.addActor(snowground.getSnowground2());
     }
 
     private void createSnowground2() {
-        //Snow snow = new Snow();
         snowground2 = new Snowground(Settings.getSnowground2());
         foreGround.addActor(snowground2.getSnowground1());
         foreGround.addActor(snowground2.getSnowground2());
