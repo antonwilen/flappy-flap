@@ -12,7 +12,6 @@ public class Settings {
     public static int SPEED = 200;
     public static float BACKGROUND_SPEED = 25f;
     public static long SPAWNTIME = 2050000000;
-    public static long SNOWFLAKE_SPAWNTIME = 100;
     public static final int SCREEN_HEIGHT = 600;
     public static final int SCREEN_WIDTH = 800;
     public static int BIRDGRAVITY = -15;
@@ -21,25 +20,18 @@ public class Settings {
     private static String background2 = "gfx/background.png";
     private static String snowground1 = "gfx/snow/snow-easy.png";
     private static String snowground2 = "gfx/snow/snow-easy.png";
-    private static float SNOW_X_SPEED = 200;
-    private static float SNOW_Y_SPEED = 10;
     private static float snowground1Speed = 250f;
     private static float snowground2Speed = 350f;
+    private static final float inputDelay = 0.5f;
     public static final int BIRD_STARTING_POSITION_X = SCREEN_WIDTH / 2 - ((getBirdWidth() / 4) * 3);
     public static final int BIRD_STARTING_POSITION_Y = SCREEN_HEIGHT / 2 - getBirdHeight() / 2;
     public static final int SCORE_COUNT_X = BIRD_STARTING_POSITION_X - getPipeWidth();
 
+
     public static String getSnowground1() { return snowground1; }
     public static String getSnowground2() { return snowground2; }
-    public static long getSnowflakeSpawnTime(){
-        return SNOWFLAKE_SPAWNTIME;
-    }
-    public static float getSnowXSpeed(){
-        return SNOW_X_SPEED;
-    }
-
-    public static float getSnowYSpeed(){
-        return SNOW_Y_SPEED;
+    public static float getInputDelay(){
+        return inputDelay;
     }
     public static float getSnowground1Speed() { return snowground1Speed; }
     public static float getSnowground2Speed() { return snowground2Speed; }

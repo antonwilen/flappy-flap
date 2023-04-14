@@ -131,7 +131,7 @@ public class GameOverScreen implements Screen {
     }
 
     private void checkForInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timer > 1) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timer > Settings.getInputDelay()) {
             newGame();
         }
         if(Gdx.input.isKeyPressed(Input.Keys.Q)){
