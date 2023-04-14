@@ -13,7 +13,7 @@ Java 11
 - gradle run
 
 ### Utvecklare
-Anton Wilén
-Daniel Johansson
+Anton Wilén<br>
+Daniel Johansson<br>
 Danilo Schulman
 
