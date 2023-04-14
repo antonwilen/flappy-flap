@@ -236,6 +236,11 @@ public class GameScreen implements Screen {
         action.setDuration(actionRotateFactor / 20);
         bird.getBirdActor().addAction(action);
 
+        if (bird.getPosition().y < 10) {
+            action.setRotation(0f);
+            action.setDuration(0.25f);
+            bird.getBirdActor().addAction(action);
+        }
 
         // "Finalizing"
         stage.act(delta);
