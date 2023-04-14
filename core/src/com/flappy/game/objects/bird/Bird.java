@@ -45,8 +45,8 @@ public class Bird {
         velocity.scl(1 / dt);
 
         if (alive) {
-            if (position.y < 0) {
-                position.y = 0;
+            if (position.y < -7) {
+                position.y = -7;
             }
         }
 
