@@ -76,6 +76,8 @@ public class Settings {
                 BIRDVELOCITY = 300;
                 snowground1Speed = 200f;
                 snowground2Speed = 300f;
+                background1 = "gfx/background.png";
+                background2 = "gfx/background.png";
                 snowground1 = "gfx/snow/snow-light.png";
                 snowground2 = "gfx/snow/snow-easy.png";
                 break;
@@ -87,10 +89,10 @@ public class Settings {
                 BIRDVELOCITY = 325;
                 snowground1Speed = 250f;
                 snowground2Speed = 350f;
-                snowground1 = "gfx/snow/snow-easy.png";
-                snowground2 = "gfx/snow/snow-medium.png";
                 background1 = "gfx/background2.png";
                 background2 = "gfx/background2.png";
+                snowground1 = "gfx/snow/snow-easy.png";
+                snowground2 = "gfx/snow/snow-medium.png";
                 break;
             case 3:
                 PIPE_SPACE = 220;
