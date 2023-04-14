@@ -249,6 +249,10 @@ public class GameScreen implements Screen {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             bird.jump();
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !bird.isAlive()){
+            submitHighscore();
+            System.out.println("heyey");
+        }
     }
 
     private void updatePipes() {
@@ -289,9 +293,8 @@ public class GameScreen implements Screen {
                     stage.addActor(popupBackground);
                     stage.addActor(nameInput);
                     stage.setKeyboardFocus(playerNameInput);
-                    if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-                        submitHighscore();
-                    }
+                    playerNameInput.selectAll();
+
 
                     Settings.BACKGROUND_SPEED = 0;
                     Settings.SPEED = 0;
