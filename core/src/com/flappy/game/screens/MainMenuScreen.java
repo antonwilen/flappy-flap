@@ -34,6 +34,7 @@ public class MainMenuScreen implements Screen {
     Highscore highscore;
     Label difficultyLabel;
     Player player;
+    private float timer;
 
     public MainMenuScreen(final Game game, Player player){
         this.game = game;
@@ -127,6 +128,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        timer = 0;
     }
 
     @Override
@@ -135,6 +137,7 @@ public class MainMenuScreen implements Screen {
 
         background.setWidth(Gdx.graphics.getWidth());
         background.setHeight(Gdx.graphics.getHeight());
+        timer+=delta;
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             newGame();
@@ -152,7 +155,7 @@ public class MainMenuScreen implements Screen {
         }
         difficultyLabel.setText(difficulty.getDifficulty());
 
-        if(Gdx.input.isKeyPressed(Input.Keys.Q)){
+        if(Gdx.input.isKeyPressed(Input.Keys.Q) && timer > Settings.getInputDelay()){
             Gdx.app.exit();
         }
 
