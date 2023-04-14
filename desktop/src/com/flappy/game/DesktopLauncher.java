@@ -9,7 +9,7 @@ import com.flappy.game.util.Settings;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Flappy");
+		config.setTitle("Flappy Flap");
 		config.setWindowedMode(Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT);
 		config.setResizable(false);
 		//config.setDecorated(false);
